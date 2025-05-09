@@ -1,0 +1,145 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * English language strings for local_copilot.
+ *
+ * @package local_copilot
+ * @author Lai Wei <lai.wei@enovation.ie>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright (C) 2024 onwards Microsoft, Inc. (http://microsoft.com/)
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder -- The strings are organised by features.
+// phpcs:disable moodle.Files.LangFilesOrdering.UnexpectedComment -- The strings are organised by features.
+
+// General.
+$string['pluginname'] = 'Microsoft 365 Copilot';
+$string['paginationlimit'] = 'Number of records to return per request';
+$string['paginationlimit_desc'] = 'Number of web service records to return per request.';
+
+// Privacy subsystem.
+$string['privacy:metadata'] = 'This plugin does not store personal information.';
+
+// Capabilities.
+$string['copilot:download_agent'] = 'Configure and download declarative agents';
+
+// Basic configurations.
+$string['settings_feature_description'] = 'This plugin enables Moodle to integrate with Microsoft 365 Copilot by providing declarative agents for teachers and students.<br/>
+This integration allows users to access and interact with Moodle data directly through Microsoft 365 Copilot, enhancing productivity and providing quick access to course information, assignments, and other educational resources.';
+$string['settings_basic_settings'] = 'Basic settings';
+$string['settings_basic_settings_desc'] = '';
+$string['settings_check_settings'] = 'Check required settings';
+$string['settings_check_settings_desc'] = 'This will make sure that:
+<ul>
+<li>Web Service is enabled.</li>
+<li><a href="https://moodle.org/plugins/webservice_restful" target="_blank">RESTful protocol</a> plugin is installed.</li>
+<li>RESTful protocol plugin is enabled.</li>
+<li>RESTful protocol plugin is properly configured.</li>
+<li>Microsoft 365 Copilot Web Services is enabled.</li>
+<li>Authenticated user role has capability to create web service token.</li>
+<li>Authenticated user role has capability to use RESTful protocol.</li>
+<li>There are at least one <a href="{$a}" target="_blank">OAuth2 client</a> configured.</li>
+</ul>';
+$string['settings_check_settings_checking'] = 'Checking...';
+$string['settings_notice_web_service_already_enabled'] = 'Web Service is already enabled.';
+$string['settings_notice_web_service_enabled'] = 'Web Service has been enabled.';
+$string['settings_notice_restful_webservice_already_enabled'] = 'RESTful protocol plugin is already enabled.';
+$string['settings_notice_restful_webservice_enabled'] = 'RESTful protocol plugin has been enabled.';
+$string['settings_notice_error_restful_webservice_not_enabled'] = 'Error occurred when trying to enable RESTful protocol plugin.';
+$string['settings_notice_copilot_webservice_already_enabled'] = 'Microsoft 365 Copilot Web Services is already enabled.';
+$string['settings_notice_copilot_webservice_enabled'] = 'Microsoft 365 Copilot Web Services has been enabled.';
+$string['settings_notice_authenticated_user_already_has_create_token_capability'] = 'Authenticated user role already has capability to create web service token.';
+$string['settings_notice_authenticated_user_assigned_create_token_capability'] = 'Authenticated user role has been assigned the capability to create web service token.';
+$string['settings_notice_error_assigning_create_token_capability'] = 'Error happened when trying to grant authenticated user role the capability to create web service token.';
+$string['settings_notice_error_capability_not_exist'] = 'Capability webservice/restful:use does not exist.';
+$string['settings_error_restful_webservice_not_installed'] = 'RESTful protocol plugin is not installed.';
+$string['settings_notice_authenticated_user_already_has_use_restful_capability'] = 'Authenticated user role already has capability to use RESTful protocol.';
+$string['settings_notice_authenticated_user_assigned_use_restful_capability'] = 'Authenticated user role has been assigned the capability to use RESTful protocol.';
+$string['settings_notice_error_assigning_use_restful_capability'] = 'Error happened when trying to grant authenticated user role the capability to use RESTful protocol.';
+$string['settings_notice_oauth_clients_exist'] = '<a href="{$a}" target="_blank">At least one OAuth clients exist</a>. Make sure it is for Microsoft 365 Copilot.';
+$string['settings_notice_error_no_oauth_clients'] = 'No OAuth clients found. Please <a href="{$a}" target="_blank">add Microsoft 365 Copilot as an OAuth client.</a>';
+$string['settings_oauth_client_ids'] = 'Copilot OAuth clients';
+$string['settings_oauth_client_ids_desc'] = 'Select all the OAuth client IDs for Microsoft 365 Copilot as configured on the <a href="{$a}" target="_blank">OAuth provider settings</a> page.<br/>
+If you have multiple OAuth clients, either for the same tenant or different tenants, select all of them.';
+$string['settings_teacher_oauth_client_id'] = 'Teacher OAuth client ID';
+$string['settings_teacher_oauth_client_id_desc'] = 'Select the OAuth client ID for the teacher app for Microsoft 365 Copilot as configured on the <a href="{$a}" target="_blank">OAuth provider settings</a> page.';
+$string['settings_student_oauth_client_id'] = 'Student OAuth client ID';
+$string['settings_student_oauth_client_id_desc'] = 'Select the OAuth client ID for the student app for Microsoft 365 Copilot as configured on the <a href="{$a}" target="_blank">OAuth provider settings</a> page.';
+
+// Configure teacher and student agents.
+$string['settings_configure_teacher_agent'] = 'Configure teacher agent app';
+$string['settings_configure_student_agent'] = 'Configure student agent app';
+$string['app_external_id'] = 'Agent app external ID';
+$string['app_external_id_help'] = 'Keep default value of <b>{$a->id}</b> unless you have multiple {$a->role} apps in a single tenant.';
+$string['app_short_name'] = 'Agent app short name';
+$string['app_short_name_help'] = 'The short name of the app that is displayed to Microsoft 365 admins when managing apps.';
+$string['app_full_name'] = 'Agent app full name';
+$string['app_full_name_help'] = 'The full name of the app that is displayed to Microsoft 365 admins when managing apps.';
+$string['app_short_description'] = 'Agent app short description';
+$string['app_short_description_help'] = 'The short description of the app that is displayed to Microsoft 365 admins when managing apps.';
+$string['app_full_description'] = 'Agent app full description';
+$string['app_full_description_help'] = 'The full description of the app that is displayed to Microsoft 365 admins when managing apps.';
+$string['app_version'] = 'Agent app version';
+$string['app_version_help'] = ' The version of the app that is displayed to Microsoft 365 admins when managing apps.</br>
+Version needs to be in the format of <b>major.minor.patch</b> (e.g. 1.0.0).</br>
+Version can only be increased.</br>
+The "patch" part is automatically increased when the app settings are updated.</br>
+Teacher app and student app share the same version value.';
+$string['accent_color'] = 'Agent app accent color';
+$string['accent_color_help'] = 'The color that is used as the accent color for the app in Microsoft 365. Use a hexadecimal color code.';
+$string['agent_display_name'] = 'Agent display name';
+$string['agent_display_name_help'] = 'The name that is displayed to users when they access the agent from Microsoft 365 Copilot.';
+$string['agent_description'] = 'Agent description';
+$string['agent_description_help'] = 'The description that is displayed to users when they access the agent from Microsoft 365 Copilot.';
+$string['agent_instructions'] = 'Agent instructions';
+$string['agent_instructions_help'] = 'The instructions are crucial in helping Microsoft 365 Copilot understand the functionality of the agent. The default value should be kept unless you have special requirements.';
+$string['color_icon'] = 'Agent color icon';
+$string['color_icon_help'] = 'A 192px X 192px full color icon in .png format. This is the icon that is displayed to users when they access the agent from Microsoft 365 Copilot.';
+$string['outline_icon'] = 'Agent outline icon';
+$string['outline_icon_help'] = 'A 32px X 32px outline icon in .png format. This is the icon that is displayed to users when they access the agent from Microsoft 365 Copilot.';
+$string['agent_oauth_client_registration_id'] = 'Teams developer portal OAuth client registration ID';
+$string['agent_oauth_client_registration_id_help'] = 'The Moodle OAuth server needs to be registered with the <a href="https://dev.teams.microsoft.com/oauth-configuration" target="_blank">Teams developer portal</a> with following details:
+<ul>
+<li>Registration name: <b>{$a->site_name} local_oauth2 OAuth</b></li>
+<li>Base URL: <b>{$a->wwwroot}</b></li>
+<li>Restrict usage by org: <b>My organization only</b></li>
+<li>Restrict usage by app: <b>Any Teams app</b> (to be fixed later)</li>
+<li>Client ID: <b>{$a->client_id}</b></li>
+<li>Client secret: <b>{$a->client_secret}</b></li>
+<li>Authorization endpoint: <b>{$a->authorization_endpoint}</b></li>
+<li>Token endpoint: <b>{$a->token_endpoint}</b></li>
+<li>Refresh endpoint: <b>{$a->refresh_endpoint}</b></li>
+<li>Scope: <b>{$a->scope}</b></li>
+<li>Enable Proof Key for Code Exchange (PKCE): <b>unchecked</b></li>
+</ul>';
+$string['agent_plugin_name'] = 'Declarative agent plugin name';
+$string['agent_plugin_name_help'] = 'The name that is displayed to users when they access the agent from Microsoft 365 Copilot.';
+$string['agent_plugin_description'] = 'Declarative agent plugin description';
+$string['agent_plugin_description_help'] = 'The description that is displayed to users when they access the agent from Microsoft 365 Copilot.';
+$string['error_invalid_accent_color'] = 'Invalid accent color';
+$string['agent_config_saved'] = 'Agent configuration saved successfully.';
+$string['download_manifest'] = 'Download manifest';
+$string['configure_app_in_teams_dev_portal'] = '<b>After the app is uploaded to Microsoft 365 admin center, please remember to update the application ID in the OAuth client registration in the Teams Developer Portal.</b>';
+$string['error_creating_manifest'] = 'Error occurred while creating manifest';
+$string['error_invalid_color_icon_size'] = 'Invalid color icon size. Color icon must be 192px X 192px.';
+$string['error_invalid_outline_icon_size'] = 'Invalid outline icon size. Outline icon must be 32px X 32px.';
+$string['error_invalid_app_version'] = 'Invalid app version. Version needs to be in the format of major.minor.patch (e.g. 1.0.0).';
+$string['error_decreased_app_version'] = 'Version can only be increased.';
+$string['error_instructions_too_long'] = 'Agent instructions, including the instructions for all API functions, exceed the maximum length of 8,000 characters. Please shorten the instructions.';
+$string['error_invalid_role'] = 'Invalid role';

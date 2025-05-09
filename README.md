@@ -1,33 +1,58 @@
-# Project
+# Local Copilot Plugin for Moodle
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+The **Local Copilot Plugin** is a Moodle plugin that supports integration with Microsoft 365 Copilot to improve teacher and student experience by providing detailed course content, sections, and activities through an API.
 
-As the maintainer of this project, please make a few updates:
+## Features
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+The plugin provides interfaces for site administrators to configure and download Microsoft Teams apps containing agents for teachers and students, and API functions to respond to requests from Microsoft 365 Copilot about courses, activities, as well as grades and progress.
 
-## Contributing
+### API functions
+- `local_copilot_get_courses`: Returns all courses that a user is enrolled in.
+- `local_copilot_get_course_students_for_teacher`: (Disabled) Return all students enrolled in a course for a teacher.
+- `local_copilot_get_course_content_for_teacher`: Returns course details, all sections, and activities in each section for a teacher.
+- `local_copilot_get_course_content_for_student`: Returns course details, all sections, and activities in each section for a student.
+- `local_copilot_get_activities_by_type_for_teacher`: Returns all activities of the given type for a teacher.
+- `local_copilot_get_activities_by_type_for_student`: Returns all activities of the given type for a student.
+- `local_copilot_get_assignment_details_for_teacher`: Returns assignment activity details, list of submissions along with grade details from all students for a teacher.
+- `local_copilot_get_assignment_details_for_student`: Returns assignment activity metadata, submission, and grade details of an assignment for a student.
+- `local_copilot_set_course_image_for_teacher`: (Disabled) Updates course image from URL.
+- `local_copilot_get_self_enrolment_instances_for_student`: Returns self enrolment instances for a student.
+- `local_copilot_create_assignment_for_teacher`: Creates an assignment activity in a given course.
+- `local_copilot_create_announcement_for_teacher`: Creates an announcement post in a given course.
+- `local_copilot_create_forum_for_teacher`: Creates a forum activity in a given course.
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+## Installation
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+1. Clone or download this plugin into the `local/copilot` directory of your Moodle installation
+2. Navigate to your Moodle site's administration area to run the upgrade process
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+## Configuration
 
-## Trademarks
+1. Configure OAuth2 client registrations for teacher and student roles in [Oauth2 Server plugin](https://moodle.org/plugins/local_oauth2)
+2. Complete basic configuration on the plugin settings page.
+3. Configure teacher and student agent settings.
+4. Download teacher and student Microsoft Teams apps containing agents.
+5. Upload the apps to Microsoft Teams, and configure access.
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+## Usage
+
+1. Once the plugin is installed and configured, teachers and students can access the Copilot features through Microsoft Teams.
+2. When the Copilot is invoked, it will retrieve course and activity information from Moodle using the provided API.
+
+## Requirements
+
+- Moodle 4.5 or higher
+- Microsoft 365 Copilot licence to use the Copilot features
+
+## Dependencies
+
+- [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured
+- [RESTful protocol](https://moodle.org/plugins/webservice_restful) plugin installed and enabled
+
+## License
+
+This plugin is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
+
+## Support
+
+For issues, questions, or feature requests, please open an issue in the plugin's repository or contact the development team.
