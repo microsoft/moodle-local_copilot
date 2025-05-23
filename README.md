@@ -56,3 +56,7 @@ This plugin is licensed under the [GNU General Public License v3.0](https://www.
 ## Support
 
 For issues, questions, or feature requests, please open an issue in the plugin's repository or contact the development team.
+
+## Brand
+
+The word Moodle and associated Moodle logos are trademarks or registered trademarks of Moodle Pty Ltd or its related affiliates.
