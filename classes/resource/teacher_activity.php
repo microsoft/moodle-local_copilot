@@ -20,7 +20,7 @@
  * @package local_copilot
  * @author Dorel Manolescu <dorel.manolescu@enovation.ie>
  * @author Lai Wei <lai.wei@enovation.ie>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license https://opensource.org/license/MIT MIT License
  * @copyright (C) 2014 onwards Microsoft, Inc. (http://microsoft.com/)
  */
 

@@ -19,7 +19,7 @@
  *
  * @package local_copilot
  * @author Lai Wei <lai.wei@enovation.ie>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license https://opensource.org/licenses/MIT MIT License
  * @copyright (C) 2024 onwards Microsoft, Inc. (http://microsoft.com/)
  */
 
