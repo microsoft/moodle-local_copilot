@@ -114,6 +114,7 @@ $string['color_icon_help'] = 'A 192px X 192px full color icon in .png format. Th
 $string['outline_icon'] = 'Agent outline icon';
 $string['outline_icon_help'] = 'A 32px X 32px outline icon in .png format. This is the icon that is displayed to users when they access the agent from Microsoft 365 Copilot.';
 $string['agent_oauth_client_registration_id'] = 'Teams developer portal OAuth client registration ID';
+$string['agent_oauth_client_registration_id_steps'] = 'Teams developer portal OAuth client registration steps';
 $string['agent_oauth_client_registration_id_help'] = 'The Moodle OAuth server needs to be registered with the <a href="https://dev.teams.microsoft.com/oauth-configuration" target="_blank">Teams developer portal</a> with following details:
 <ul>
 <li>Registration name: <b>{$a->site_name} local_oauth2 OAuth</b></li>

@@ -219,11 +219,12 @@ class agent_configuration_form extends moodleform {
             'refresh_endpoint' => $refreshendpoint->out(),
             'scope' => $this->role . '.read, ' . $this->role . '.write',
         ];
+        $mform->addElement('static', $this->role . '_oauth_client_registration_id_steps',
+            get_string('agent_oauth_client_registration_id_steps', 'local_copilot'),
+            get_string('agent_oauth_client_registration_id_help', 'local_copilot', $stringparams));
         $mform->addElement('text', $this->role . '_oauth_client_registration_id',
             get_string('agent_oauth_client_registration_id', 'local_copilot'), ['maxlength' => 100, 'size' => 80]);
         $mform->setType($this->role . '_oauth_client_registration_id', PARAM_TEXT);
-        $mform->addElement('static', $this->role . '_oauth_client_registration_id_help', '',
-            get_string('agent_oauth_client_registration_id_help', 'local_copilot', $stringparams));
         $mform->addRule($this->role . '_oauth_client_registration_id', null, 'required', null, 'client');
 
         // Agent plugin name.
