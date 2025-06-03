@@ -32,6 +32,6 @@ $plugin->release = '4.5.0';
 $plugin->component = 'local_copilot';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [
-    'local_oauth2' => 2024100700,
-    'webservice_restful' => 2024050601,
+    'local_oauth2' => 2024100701,
+    'webservice_restful' => 2024050604,
 ];
