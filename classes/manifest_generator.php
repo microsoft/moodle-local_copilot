@@ -297,14 +297,18 @@ class manifest_generator {
         if (get_config('local_copilot', $this->role . '_agent_capability_copilot_connectors')) {
             $graphconnectorcapability = ['name' => 'GraphConnectors'];
             $connectionids = get_config('local_copilot', $this->role . '_agent_copilot_connectors_connection_ids');
-            $connectionids = explode("\n", $connectionids);
             if ($connectionids) {
-                $cleanedconnectionids = [];
-                foreach ($connectionids as $connectionid) {
-                    $cleanedconnectionids[] = ['connection_id' => trim($connectionid)];
-                }
-                if ($cleanedconnectionids) {
-                    $graphconnectorcapability['connections'] = $cleanedconnectionids;
+                $connectionids = explode("\n", $connectionids);
+                if ($connectionids) {
+                    $cleanedconnectionids = [];
+                    foreach ($connectionids as $connectionid) {
+                        if ($connectionid) {
+                            $cleanedconnectionids[] = ['connection_id' => trim($connectionid)];
+                        }
+                    }
+                    if ($cleanedconnectionids) {
+                        $graphconnectorcapability['connections'] = $cleanedconnectionids;
+                    }
                 }
             }
             $capabilities[] = $graphconnectorcapability;
@@ -316,27 +320,33 @@ class manifest_generator {
 
             // Items by SharePoint IDs.
             $itemsbysharepointids = get_config('local_copilot', $this->role . '_agent_sharepoint_items_by_sharepoint_ids');
-            $itemsbysharepointids = explode("\n", $itemsbysharepointids);
             if ($itemsbysharepointids) {
-                $cleaneditemsbysharepointids = [];
-                foreach ($itemsbysharepointids as $itembysharepointid) {
-                    $cleaneditemsbysharepointids[] = json_decode($itembysharepointid, true);
-                }
-                if ($cleaneditemsbysharepointids) {
-                    $sharepointcapability['items_by_sharepoint_ids'] = $cleaneditemsbysharepointids;
+                $itemsbysharepointids = explode("\n", $itemsbysharepointids);
+                if ($itemsbysharepointids) {
+                    $cleaneditemsbysharepointids = [];
+                    foreach ($itemsbysharepointids as $itembysharepointid) {
+                        $cleaneditemsbysharepointids[] = json_decode($itembysharepointid, true);
+                    }
+                    if ($cleaneditemsbysharepointids) {
+                        $sharepointcapability['items_by_sharepoint_ids'] = $cleaneditemsbysharepointids;
+                    }
                 }
             }
 
             // Items by URL.
             $itemsbyurl = get_config('local_copilot', $this->role . '_agent_sharepoint_items_by_url');
-            $itemsbyurl = explode("\n", $itemsbyurl);
             if ($itemsbyurl) {
-                $cleaneditemsbyurl = [];
-                foreach ($itemsbyurl as $itembyurl) {
-                    $cleaneditemsbyurl[] = ['url' => trim($itembyurl)];
-                }
-                if ($cleaneditemsbyurl) {
-                    $sharepointcapability['items_by_url'] = $cleaneditemsbyurl;
+                $itemsbyurl = explode("\n", $itemsbyurl);
+                if ($itemsbyurl) {
+                    $cleaneditemsbyurl = [];
+                    foreach ($itemsbyurl as $itembyurl) {
+                        if ($itembyurl) {
+                            $cleaneditemsbyurl[] = ['url' => trim($itembyurl)];
+                        }
+                    }
+                    if ($cleaneditemsbyurl) {
+                        $sharepointcapability['items_by_url'] = $cleaneditemsbyurl;
+                    }
                 }
             }
 
