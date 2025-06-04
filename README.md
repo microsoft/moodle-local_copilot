@@ -46,8 +46,8 @@ The plugin provides interfaces for site administrators to configure and download
 
 ## Dependencies
 
-- [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured
-- [RESTful protocol](https://moodle.org/plugins/webservice_restful) plugin installed and enabled
+- [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured. The plugin allows Moodle site to be used an OAuth2 server. The plugin is under GNU General Public License v3.0 (GPLv3).
+- [RESTful protocol](https://moodle.org/plugins/webservice_restful) plugin installed and enabled. The plugin adds support for RESTful web services in Moodle. The plugin is under GNU General Public License v3.0 (GPLv3).
 
 ## License
 
