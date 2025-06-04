@@ -313,7 +313,7 @@ class utils {
      * @param string $url The URL to validate
      * @return array Result with 'is_valid', and 'type'
      */
-    public static function is_sharepoint_onedrive_url(string $url): array  {
+    public static function is_sharepoint_onedrive_url(string $url): array {
         if (!is_string($url) || empty($url)) {
             return ['is_valid' => false, 'type' => null];
         }
@@ -353,11 +353,11 @@ class utils {
      * @return bool
      */
     public static function is_onedrive_url(string $host, string $path): bool {
-        // OneDrive personal patterns
+        // OneDrive personal patterns.
         $onedrivepatterns = [
             '/^.*\.onedrive\.live\.com$/',
             '/^onedrive\.live\.com$/',
-            '/^.*-my\.sharepoint\.com$/'  // OneDrive for Business.
+            '/^.*-my\.sharepoint\.com$/',  // OneDrive for Business.
         ];
 
         foreach ($onedrivepatterns as $pattern) {
@@ -366,7 +366,7 @@ class utils {
             }
         }
 
-        // Check for OneDrive path patterns
+        // Check for OneDrive path patterns.
         if (preg_match('/\/personal\/.*\/_layouts\/15\/onedrive\.aspx/', $path)) {
             return true;
         }
@@ -386,7 +386,7 @@ class utils {
         $sharepointpatterns = [
             '/^.*\.sharepoint\.com$/',
             '/^.*\.sharepoint-df\.com$/',  // Dedicated environments.
-            '/^sharepoint\..*\.com$/'
+            '/^sharepoint\..*\.com$/',
         ];
 
         foreach ($sharepointpatterns as $pattern) {
@@ -402,7 +402,7 @@ class utils {
             '/teams/',
             '/Shared%20Documents/',
             '/Forms/',
-            '/Lists/'
+            '/Lists/',
         ];
 
         foreach ($sharepointpaths as $sppath) {

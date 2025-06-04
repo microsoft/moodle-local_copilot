@@ -273,7 +273,7 @@ class agent_configuration_form extends moodleform {
 
         // Copilot connectors connection IDs.
         // TODO v1.4 version of agent supports more parameters in connection object. They need to be added to the configuration.
-        // https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/declarative-agent-manifest-1.4#connection-object
+        // https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/declarative-agent-manifest-1.4#connection-object.
         $mform->addElement('textarea', $this->role . '_agent_copilot_connectors_connection_ids',
             get_string('copilot_connectors_connection_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
         $mform->setType($this->role . '_agent_copilot_connectors_connection_ids', PARAM_TEXT);
