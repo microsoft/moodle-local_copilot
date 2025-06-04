@@ -68,12 +68,18 @@ $string['settings_notice_authenticated_user_already_has_create_token_capability'
 $string['settings_notice_authenticated_user_assigned_create_token_capability'] = 'Authenticated user role has been assigned the capability to create web service token.';
 $string['settings_notice_error_assigning_create_token_capability'] = 'Error happened when trying to grant authenticated user role the capability to create web service token.';
 $string['settings_notice_error_capability_not_exist'] = 'Capability webservice/restful:use does not exist.';
-$string['settings_error_restful_webservice_not_installed'] = 'RESTful protocol plugin is not installed.';
+$string['settings_notice_error_restful_webservice_not_installed'] = 'RESTful protocol plugin is not installed.';
 $string['settings_notice_authenticated_user_already_has_use_restful_capability'] = 'Authenticated user role already has capability to use RESTful protocol.';
 $string['settings_notice_authenticated_user_assigned_use_restful_capability'] = 'Authenticated user role has been assigned the capability to use RESTful protocol.';
 $string['settings_notice_error_assigning_use_restful_capability'] = 'Error happened when trying to grant authenticated user role the capability to use RESTful protocol.';
 $string['settings_notice_oauth_clients_exist'] = '<a href="{$a}" target="_blank">At least one OAuth clients exist</a>. Make sure it is for Microsoft 365 Copilot.';
 $string['settings_notice_error_no_oauth_clients'] = 'No OAuth clients found. Please <a href="{$a}" target="_blank">add Microsoft 365 Copilot as an OAuth client.</a>';
+$string['settings_notice_restful_webservice_accept_header_support_enabled'] = 'RESTful protocol plugin has been configured to support Accept header.';
+$string['settings_notice_error_restful_webservice_accept_header_support_not_enabled'] = 'RESTful protocol plugin has not been configured to support Accept header. Please <a href="{$a}" target="_blank">enable Accept header support</a> in the RESTful protocol plugin settings.';
+$string['settings_notice_restful_webservice_accept_header_support_already_enabled'] = 'RESTful protocol plugin already supports Accept header.';
+$string['settings_notice_restful_webservice_default_accept_header_set'] = 'RESTful protocol plugin has been configured to use "json" as the default Accept header.';
+$string['settings_notice_error_restful_webservice_default_accept_header_not_set'] = 'RESTful protocol plugin has not been configured to use "json" as the default Accept header. Please <a href="{$a}" target="_blank">set "json" as the default Accept header</a> in the RESTful protocol plugin settings.';
+$string['settings_notice_restful_webservice_default_accept_header_already_set'] = 'RESTful protocol plugin already uses "json" as the default Accept header.';
 $string['settings_oauth_client_ids'] = 'Copilot OAuth clients';
 $string['settings_oauth_client_ids_desc'] = 'Select all the OAuth client IDs for Microsoft 365 Copilot as configured on the <a href="{$a}" target="_blank">OAuth provider settings</a> page.<br/>
 If you have multiple OAuth clients, either for the same tenant or different tenants, select all of them.';

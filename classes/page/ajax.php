@@ -69,7 +69,7 @@ class ajax {
      * @param context|null $context
      * @return void
      */
-    public function __construct(string $url, string $title, context|null $context) {
+    public function __construct(string $url, string $title, context|null $context = null) {
         global $PAGE;
 
         if (empty($context)) {
@@ -241,7 +241,7 @@ class ajax {
         // Check if RESTful web service protocol is installed.
         $availablewebservices = core_component::get_plugin_list('webservice');
         if (!array_key_exists('restful', $availablewebservices)) {
-            $data->errormessages[] = get_string('settings_error_restful_webservice_not_installed', 'local_copilot');
+            $data->errormessages[] = get_string('settings_notice_error_restful_webservice_not_installed', 'local_copilot');
             $success = false;
         } else {
             // Check if RESTful web service protocol is enabled.
@@ -264,7 +264,40 @@ class ajax {
                 $data->info[] = get_string('settings_notice_restful_webservice_already_enabled', 'local_copilot');
             }
 
-            // TODO verify RESTful web service settings.
+            // Verify RESTful web service settings - Support default Accept header.
+            $webservicerestfulconfigurl = new moodle_url('/admin/settings.php', ['section' => 'webservice_restful']);
+            $supportdefaultacceptheader = get_config('webservice_restful', 'supportdefaultacceptheader');
+            if (!$supportdefaultacceptheader) {
+                if (set_config('webservice_restful', 'supportdefaultacceptheader', 1)) {
+                    $data->success[] = get_string('settings_notice_restful_webservice_accept_header_support_enabled',
+                        'local_copilot');
+                } else {
+                    $data->errormessages[] = get_string(
+                        'settings_notice_error_restful_webservice_accept_header_support_not_enabled', 'local_copilot',
+                        $webservicerestfulconfigurl->out());
+                    $success = false;
+                }
+            } else {
+                $data->info[] = get_string('settings_notice_restful_webservice_accept_header_support_already_enabled',
+                    'local_copilot');
+            }
+
+            // Verify RESTful web service settings - Default Accept header.
+            $defaultacceptheader = get_config('webservice_restful', 'defaultacceptheader');
+            if ($defaultacceptheader !== 'json') {
+                if (set_config('webservice_restful', 'defaultacceptheader', 'json')) {
+                    $data->success[] = get_string('settings_notice_restful_webservice_default_accept_header_set',
+                        'local_copilot');
+                } else {
+                    $data->errormessages[] = get_string(
+                        'settings_notice_error_restful_webservice_default_accept_header_not_set', 'local_copilot',
+                        $webservicerestfulconfigurl->out());
+                    $success = false;
+                }
+            } else {
+                $data->info[] = get_string('settings_notice_restful_webservice_default_accept_header_already_set',
+                    'local_copilot');
+            }
         }
 
         // Enable Microsoft 365 Copilot Web Services if necessary.
