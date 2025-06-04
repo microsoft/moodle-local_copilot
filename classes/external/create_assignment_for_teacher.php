@@ -54,11 +54,11 @@ class create_assignment_for_teacher extends external_api {
             'course_id' => new external_value(PARAM_INT, 'Moodle course id', VALUE_REQUIRED),
             'assignment_name' => new external_value(PARAM_TEXT, 'Title/name of the activity', VALUE_REQUIRED),
             'section_id' => new external_value(PARAM_INT, 'Section/topic id', VALUE_REQUIRED),
-            'assignment_description' => new external_value(PARAM_RAW, 'Description of the activity', VALUE_OPTIONAL, ''),
+            'assignment_description' => new external_value(PARAM_RAW, 'Description of the activity', VALUE_DEFAULT, ''),
             'allowsubmissionsfromdate' => new external_value(PARAM_TEXT, 'Allow submissions from date in MM/DD/YYYY format',
-                VALUE_OPTIONAL, ''),
-            'due_date' => new external_value(PARAM_TEXT, 'Due date in MM/DD/YYYY format', VALUE_OPTIONAL, ''),
-            'assignment_instructions' => new external_value(PARAM_RAW, 'Cut off date', VALUE_OPTIONAL, ''),
+                VALUE_DEFAULT, ''),
+            'due_date' => new external_value(PARAM_TEXT, 'Due date in MM/DD/YYYY format', VALUE_DEFAULT, ''),
+            'assignment_instructions' => new external_value(PARAM_RAW, 'Cut off date', VALUE_DEFAULT, ''),
         ]);
     }
 

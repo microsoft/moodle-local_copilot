@@ -50,8 +50,8 @@ class get_course_students_for_teacher extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'course_id' => new external_value(PARAM_INT, 'ID of the Moodle course', VALUE_REQUIRED),
-            'limit' => new external_value(PARAM_INT, 'Number of students to return per request', VALUE_OPTIONAL, 10),
-            'offset' => new external_value(PARAM_INT, 'Starting point for fetching the next batch of students', VALUE_OPTIONAL, 0),
+            'limit' => new external_value(PARAM_INT, 'Number of students to return per request', VALUE_DEFAULT, 10),
+            'offset' => new external_value(PARAM_INT, 'Starting point for fetching the next batch of students', VALUE_DEFAULT, 0),
         ]);
     }
 

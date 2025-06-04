@@ -55,9 +55,9 @@ class create_announcement_for_teacher extends external_api {
             'course_id' => new external_value(PARAM_INT, 'Moodle course id', VALUE_REQUIRED),
             'announcement_subject' => new external_value(PARAM_TEXT, 'announcement subject', VALUE_REQUIRED),
             'announcement_message' => new external_value(PARAM_RAW, 'announcement message', VALUE_REQUIRED),
-            'announcement_pinned' => new external_value(PARAM_BOOL, 'Pinned', VALUE_OPTIONAL, false),
-            'announcement_timestart' => new external_value(PARAM_TEXT, 'Display start in MM/DD/YYYY format', VALUE_OPTIONAL, ''),
-            'announcement_timeend' => new external_value(PARAM_TEXT, 'Display end in MM/DD/YYYY format', VALUE_OPTIONAL, ''),
+            'announcement_pinned' => new external_value(PARAM_BOOL, 'Pinned', VALUE_DEFAULT, false),
+            'announcement_timestart' => new external_value(PARAM_TEXT, 'Display start in MM/DD/YYYY format', VALUE_DEFAULT, ''),
+            'announcement_timeend' => new external_value(PARAM_TEXT, 'Display end in MM/DD/YYYY format', VALUE_DEFAULT, ''),
         ]);
     }
 

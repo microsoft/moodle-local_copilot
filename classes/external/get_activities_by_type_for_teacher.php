@@ -53,9 +53,9 @@ class get_activities_by_type_for_teacher extends external_api {
         return new external_function_parameters([
             'activity_type' => new external_value(PARAM_TEXT,
                 'The code name or display name of the activity type, e.g. forum, assignment, quiz, etc. Use singular form.'),
-            'course_id' => new external_value(PARAM_INT, 'Moodle course id', VALUE_OPTIONAL, 0),
-            'limit' => new external_value(PARAM_INT, 'Number of activities to return per request', VALUE_OPTIONAL, 10),
-            'offset' => new external_value(PARAM_INT, 'Starting point for fetching the next batch of activities', VALUE_OPTIONAL,
+            'course_id' => new external_value(PARAM_INT, 'Moodle course id', VALUE_DEFAULT, 0),
+            'limit' => new external_value(PARAM_INT, 'Number of activities to return per request', VALUE_DEFAULT, 10),
+            'offset' => new external_value(PARAM_INT, 'Starting point for fetching the next batch of activities', VALUE_DEFAULT,
                 0),
         ]);
     }

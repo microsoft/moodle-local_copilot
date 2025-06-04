@@ -55,7 +55,7 @@ class create_forum_for_teacher extends external_api {
             'course_id' => new external_value(PARAM_INT, 'Moodle course id', VALUE_REQUIRED),
             'forum_name' => new external_value(PARAM_TEXT, 'Title/name of the forum activity', VALUE_REQUIRED),
             'section_id' => new external_value(PARAM_INT, 'Section/topic id', VALUE_REQUIRED),
-            'forum_description' => new external_value(PARAM_RAW, 'Description of the activity', VALUE_OPTIONAL, ''),
+            'forum_description' => new external_value(PARAM_RAW, 'Description of the activity', VALUE_DEFAULT, ''),
         ]);
     }
 

@@ -38,11 +38,11 @@ class local_copilot_get_activities_by_type_for_teacher extends api_function_base
         parent::__construct();
         $this->path = '/local_copilot_get_activities_by_type_for_teacher';
         $this->method = 'get';
-        $this->summary = 'Return a list of activities in the given type in all courses for teacher.';
+        $this->summary = 'Return a list of activities in the given type for teacher.';
         $this->description = 'This API function looks for the activity type with the name provided, and returns a list of ' .
-            'activities in the given type in all courses for the teacher. The activity details returned include ' .
-            'the activity name, activity ID, link, type, description, instructions, availability, ' .
-            'and the number of students graded and completed. It also includes the course name, ' .
+            'activities in the given type for the teacher. If no course_id parameter is passed, it returns results from all ' .
+            'enrolled courses. The activity details returned include the activity name, activity ID, link, type, description, ' .
+            'instructions, availability, and the number of students graded and completed. It also includes the course name, ' .
             'ID and link that the activity belongs to, as well as the name of the section that the activity is in.';
         $this->operationid = 'getActivitiesByTypeForTeacher';
         $this->scopesuffix = 'read';
