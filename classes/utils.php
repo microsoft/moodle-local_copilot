@@ -54,6 +54,33 @@ class utils {
         'oauth_client_registration_id',
         'agent_plugin_name',
         'agent_plugin_description',
+        'agent_capability_image_generator',
+        'agent_capability_copilot_connectors',
+        'agent_capability_sharepoint_onedrive',
+        'agent_capability_web_search',
+    ];
+
+    /**
+     * @var array App role optional configurations.
+     */
+    const APP_ROLE_OPTIONAL_CONFIGURATIONS = [
+        'agent_copilot_connectors_connection_ids',
+        'agent_sharepoint_items_by_sharepoint_ids',
+        'agent_sharepoint_items_by_url',
+        'agent_scoped_web_search_sites',
+    ];
+
+    /**
+     * @var array SharePoint ID names.
+     */
+    const SHAREPOINT_ID_NAMES = [
+        'site_id',
+        'web_id',
+        'list_id',
+        'unique_id',
+        'search_associated_sites',
+        'part_type',
+        'part_id',
     ];
 
     /**
@@ -216,8 +243,18 @@ class utils {
 
             // All other settings.
             foreach (static::APP_ROLE_CONFIGURATIONS as $configuration) {
+                $configvalue = get_config('local_copilot', $role . '_' . $configuration);
+                if ($configvalue === false) {
+                    $configvalue = null;
+                }
+                $formdata[$role . '_' . $configuration] = $configvalue;
+            }
+
+            foreach (static::APP_ROLE_OPTIONAL_CONFIGURATIONS as $configuration) {
                 if ($configvalue = get_config('local_copilot', $role . '_' . $configuration)) {
                     $formdata[$role . '_' . $configuration] = $configvalue;
+                } else {
+                    $formdata[$role . '_' . $configuration] = null;
                 }
             }
 
@@ -236,13 +273,144 @@ class utils {
      * @param string $role
      * @return bool
      */
-    public static function is_agent_configured(string $role) {
+    public static function is_agent_configured(string $role): bool {
         foreach (static::APP_ROLE_CONFIGURATIONS as $configuration) {
-            if (empty(get_config('local_copilot', $role . '_' . $configuration))) {
+            if (is_null((get_config('local_copilot', $role . '_' . $configuration)))) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * Check if a value is a valid GUID.
+     *
+     * @param string $value The value to check.
+     * @param bool $requirehyphens Whether to require hyphens in the GUID format.
+     * @return bool True if the value is a valid GUID, false otherwise.
+     */
+    public static function is_guid(string $value, bool $requirehyphens = false): bool {
+        if (!is_string($value)) {
+            return false;
+        }
+
+        if ($requirehyphens) {
+            // Strict format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.
+            $pattern = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i';
+        } else {
+            // Allow both with and without hyphens.
+            $normalized = str_replace('-', '', $value);
+            return strlen($normalized) === 32 && ctype_xdigit($normalized);
+        }
+
+        return preg_match($pattern, $value) === 1;
+    }
+
+    /**
+     * Check if URL is a SharePoint or OneDrive item URL
+     *
+     * @param string $url The URL to validate
+     * @return array Result with 'is_valid', and 'type'
+     */
+    public static function is_sharepoint_onedrive_url(string $url): array  {
+        if (!is_string($url) || empty($url)) {
+            return ['is_valid' => false, 'type' => null];
+        }
+
+        $parsed = parse_url($url);
+        if (!$parsed || !isset($parsed['host'])) {
+            return ['is_valid' => false, 'type' => null];
+        }
+
+        $host = strtolower($parsed['host']);
+        $path = $parsed['path'] ?? '';
+
+        // OneDrive patterns.
+        if (static::is_onedrive_url($host, $path)) {
+            return [
+                'is_valid' => true,
+                'type' => 'onedrive',
+            ];
+        }
+
+        // SharePoint patterns.
+        if (static::is_sharepoint_url($host, $path)) {
+            return [
+                'is_valid' => true,
+                'type' => 'sharepoint',
+            ];
+        }
+
+        return ['is_valid' => false, 'type' => null];
+    }
+
+    /**
+     * Check if URL is OneDrive.
+     *
+     * @param string $host
+     * @param string $path
+     * @return bool
+     */
+    public static function is_onedrive_url(string $host, string $path): bool {
+        // OneDrive personal patterns
+        $onedrivepatterns = [
+            '/^.*\.onedrive\.live\.com$/',
+            '/^onedrive\.live\.com$/',
+            '/^.*-my\.sharepoint\.com$/'  // OneDrive for Business.
+        ];
+
+        foreach ($onedrivepatterns as $pattern) {
+            if (preg_match($pattern, $host)) {
+                return true;
+            }
+        }
+
+        // Check for OneDrive path patterns
+        if (preg_match('/\/personal\/.*\/_layouts\/15\/onedrive\.aspx/', $path)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if URL is SharePoint.
+     *
+     * @param string $host
+     * @param string $path
+     * @return bool
+     */
+    public static function is_sharepoint_url(string $host, string $path): bool {
+        // SharePoint patterns.
+        $sharepointpatterns = [
+            '/^.*\.sharepoint\.com$/',
+            '/^.*\.sharepoint-df\.com$/',  // Dedicated environments.
+            '/^sharepoint\..*\.com$/'
+        ];
+
+        foreach ($sharepointpatterns as $pattern) {
+            if (preg_match($pattern, $host)) {
+                return true;
+            }
+        }
+
+        // Check for SharePoint path patterns.
+        $sharepointpaths = [
+            '/_layouts/',
+            '/sites/',
+            '/teams/',
+            '/Shared%20Documents/',
+            '/Forms/',
+            '/Lists/'
+        ];
+
+        foreach ($sharepointpaths as $sppath) {
+            if (strpos($path, $sppath) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

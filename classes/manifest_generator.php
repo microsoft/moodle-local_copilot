@@ -65,11 +65,11 @@ class manifest_generator {
     /**
      * @var string Agent manifest schema.
      */
-    const AGENT_MANIFEST_SCHEMA = 'https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.2/schema.json';
+    const AGENT_MANIFEST_SCHEMA = 'https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.4/schema.json';
     /**
      * @var string Agent manifest version.
      */
-    const AGENT_MANIFEST_VERSION = 'v1.2';
+    const AGENT_MANIFEST_VERSION = 'v1.4';
     /**
      * @var string Plugin manifest schema.
      */
@@ -282,6 +282,84 @@ class manifest_generator {
      * @return string
      */
     private function get_agent_manifest_content(): string {
+        // Prepare capabilities.
+        // Code Interpreter is always enabled.
+        $capabilities = [
+            ['name' => 'CodeInterpreter'],
+        ];
+
+        // Image generator capability.
+        if (get_config('local_copilot', $this->role . '_agent_capability_image_generator')) {
+            $capabilities[] = ['name' => 'GraphicArt'];
+        }
+
+        // Copilot connectors capability.
+        if (get_config('local_copilot', $this->role . '_agent_capability_copilot_connectors')) {
+            $graphconnectorcapability = ['name' => 'GraphConnectors'];
+            $connectionids = get_config('local_copilot', $this->role . '_agent_copilot_connectors_connection_ids');
+            $connectionids = explode("\n", $connectionids);
+            if ($connectionids) {
+                $cleanedconnectionids = [];
+                foreach ($connectionids as $connectionid) {
+                    $cleanedconnectionids[] = ['connection_id' => trim($connectionid)];
+                }
+                if ($cleanedconnectionids) {
+                    $graphconnectorcapability['connections'] = $cleanedconnectionids;
+                }
+            }
+            $capabilities[] = $graphconnectorcapability;
+        }
+
+        // OneDrive and SharePoint capability.
+        if (get_config('local_copilot', $this->role . '_agent_capability_sharepoint_onedrive')) {
+            $sharepointcapability = ['name' => 'OneDriveAndSharePoint'];
+
+            // Items by SharePoint IDs.
+            $itemsbysharepointids = get_config('local_copilot', $this->role . '_agent_sharepoint_items_by_sharepoint_ids');
+            $itemsbysharepointids = explode("\n", $itemsbysharepointids);
+            if ($itemsbysharepointids) {
+                $cleaneditemsbysharepointids = [];
+                foreach ($itemsbysharepointids as $itembysharepointid) {
+                    $cleaneditemsbysharepointids[] = json_decode($itembysharepointid, true);
+                }
+                if ($cleaneditemsbysharepointids) {
+                    $sharepointcapability['items_by_sharepoint_ids'] = $cleaneditemsbysharepointids;
+                }
+            }
+
+            // Items by URL.
+            $itemsbyurl = get_config('local_copilot', $this->role . '_agent_sharepoint_items_by_url');
+            $itemsbyurl = explode("\n", $itemsbyurl);
+            if ($itemsbyurl) {
+                $cleaneditemsbyurl = [];
+                foreach ($itemsbyurl as $itembyurl) {
+                    $cleaneditemsbyurl[] = ['url' => trim($itembyurl)];
+                }
+                if ($cleaneditemsbyurl) {
+                    $sharepointcapability['items_by_url'] = $cleaneditemsbyurl;
+                }
+            }
+
+            $capabilities[] = $sharepointcapability;
+        }
+
+        // Web search capability.
+        if (get_config('local_copilot', $this->role . '_agent_capability_web_search')) {
+            $websearchcapability = ['name' => 'WebSearch'];
+            $websearchsites = get_config('local_copilot', $this->role . '_agent_scoped_web_search_sites');
+            $websearchsites = explode("\n", $websearchsites);
+            if ($websearchsites) {
+                $cleanedwebsearchsites = [];
+                foreach ($websearchsites as $websearchsite) {
+                    $cleanedwebsearchsites[] = ['url' => $websearchsite];
+                }
+                if ($cleanedwebsearchsites) {
+                    $websearchcapability['sites'] = $cleanedwebsearchsites;
+                }
+            }
+            $capabilities[] = $websearchcapability;
+        }
+
         $agentmanifest = [
             '$schema' => static::AGENT_MANIFEST_SCHEMA,
             'version' => static::AGENT_MANIFEST_VERSION,
@@ -295,10 +373,7 @@ class manifest_generator {
                     'file' => 'moodle' . ucfirst($this->role) . 'Plugin.json',
                 ],
             ],
-            'capabilities' => [
-                ['name' => 'CodeInterpreter'],
-                ['name' => 'GraphicArt'],
-            ],
+            'capabilities' => $capabilities,
         ];
 
         return json_encode($agentmanifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

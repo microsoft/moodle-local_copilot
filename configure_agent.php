@@ -67,6 +67,7 @@ if ($form->is_cancelled()) {
     redirect(new moodle_url('/local/copilot/configure_agent.php', ['role' => $role]));
 } else if ($data = $form->get_data()) {
     $settingsupdated = false;
+
     // Save the data.
     foreach (utils::APP_ROLE_CONFIGURATIONS as $configname) {
         $fullconfigname = $role . '_' . $configname;
@@ -74,6 +75,20 @@ if ($form->is_cancelled()) {
             $settingsupdated = true;
         }
         set_config($fullconfigname, $data->$fullconfigname, 'local_copilot');
+    }
+
+    foreach (utils::APP_ROLE_OPTIONAL_CONFIGURATIONS as $configname) {
+        $fullconfigname = $role . '_' . $configname;
+        $newconfigdata = empty($data->$fullconfigname) ? null : $data->$fullconfigname;
+        $existingconfigdata = get_config('local_copilot', $fullconfigname);
+        if (empty($existingconfigdata)) {
+            $existingconfigdata = null;
+        }
+
+        if ($newconfigdata !== $existingconfigdata) {
+            $settingsupdated = true;
+        }
+        set_config($fullconfigname, $newconfigdata, 'local_copilot');
     }
 
     // Save icons.

@@ -247,6 +247,86 @@ class agent_configuration_form extends moodleform {
             get_string('agent_plugin_description_help', 'local_copilot'));
         $mform->addRule($this->role . '_agent_plugin_description', null, 'required', null, 'client');
 
+        // Capabilities and knowledge sources settings.
+        $mform->addElement('header', 'capabilities_and_knowledge_sources_settings',
+            get_string('settings_capabilities_and_knowledge_sources', 'local_copilot'));
+        $mform->setExpanded('capabilities_and_knowledge_sources_settings');
+
+        // Capabilities and knowledge sources description.
+        $mform->addElement('static', 'capabilities_and_knowledge_sources_description', '',
+            get_string('settings_capabilities_and_knowledge_sources_desc', 'local_copilot'));
+
+        // Code interpreter.
+        $mform->addElement('advcheckbox', $this->role . '_agent_capability_code_interpreter',
+            get_string('enable_code_interpreter', 'local_copilot'), null, ['group' => 1, 'disabled' => true], [0, 1]);
+        $mform->setDefault($this->role . '_agent_capability_code_interpreter', 1);
+
+        // Image generator.
+        $mform->addElement('advcheckbox', $this->role . '_agent_capability_image_generator',
+            get_string('enable_image_generator', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->setDefault($this->role . '_agent_capability_image_generator', 1);
+
+        // Copilot connectors.
+        $mform->addElement('advcheckbox', $this->role . '_agent_capability_copilot_connectors',
+            get_string('enable_copilot_connectors', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->setDefault($this->role . '_agent_capability_copilot_connectors', 0);
+
+        // Copilot connectors connection IDs.
+        // TODO v1.4 version of agent supports more parameters in connection object. They need to be added to the configuration.
+        // https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/declarative-agent-manifest-1.4#connection-object
+        $mform->addElement('textarea', $this->role . '_agent_copilot_connectors_connection_ids',
+            get_string('copilot_connectors_connection_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
+        $mform->setType($this->role . '_agent_copilot_connectors_connection_ids', PARAM_TEXT);
+        $mform->hideIf($this->role . '_agent_copilot_connectors_connection_ids',
+            $this->role . '_agent_capability_copilot_connectors', 'unchecked');
+        $mform->addElement('static', $this->role . '_agent_copilot_connectors_connection_ids_help', '',
+            get_string('copilot_connectors_connection_ids_help', 'local_copilot'));
+        $mform->hideIf($this->role . '_agent_copilot_connectors_connection_ids_help',
+            $this->role . '_agent_capability_copilot_connectors', 'unchecked');
+
+        // SharePoint and OneDrive.
+        $mform->addElement('advcheckbox', $this->role . '_agent_capability_sharepoint_onedrive',
+            get_string('enable_sharepoint_onedrive', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->setDefault($this->role . '_agent_capability_sharepoint_onedrive', 0);
+
+        // Items by SharePoint IDs.
+        $mform->addElement('textarea', $this->role . '_agent_sharepoint_items_by_sharepoint_ids',
+            get_string('sharepoint_items_by_sharepoint_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
+        $mform->setType($this->role . '_agent_sharepoint_items_by_sharepoint_ids', PARAM_TEXT);
+        $mform->hideIf($this->role . '_agent_sharepoint_items_by_sharepoint_ids',
+            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+        $mform->addElement('static', $this->role . '_agent_sharepoint_items_by_sharepoint_ids_help', '',
+            get_string('sharepoint_items_by_sharepoint_ids_help', 'local_copilot'));
+        $mform->hideIf($this->role . '_agent_sharepoint_items_by_sharepoint_ids_help',
+            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+
+        // Items by URL.
+        $mform->addElement('textarea', $this->role . '_agent_sharepoint_items_by_url',
+            get_string('sharepoint_items_by_url', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
+        $mform->setType($this->role . '_agent_sharepoint_items_by_url', PARAM_TEXT);
+        $mform->hideIf($this->role . '_agent_sharepoint_items_by_url',
+            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+        $mform->addElement('static', $this->role . '_agent_sharepoint_items_by_url_help', '',
+            get_string('sharepoint_items_by_url_help', 'local_copilot'));
+        $mform->hideIf($this->role . '_agent_sharepoint_items_by_url_help',
+            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+
+        // Web search.
+        $mform->addElement('advcheckbox', $this->role . '_agent_capability_web_search',
+            get_string('enable_web_search', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->setDefault($this->role . '_agent_capability_web_search', 0);
+
+        // Scoped web search.
+        $mform->addElement('textarea', $this->role . '_agent_scoped_web_search_sites',
+            get_string('scoped_web_search_sites', 'local_copilot'), ['rows' => 4, 'cols' => 80, 'maxlength' => 2048]);
+        $mform->setType($this->role . '_agent_scoped_web_search_sites', PARAM_TEXT);
+        $mform->hideIf($this->role . '_agent_scoped_web_search_sites', $this->role . '_agent_capability_web_search',
+            'unchecked');
+        $mform->addElement('static', $this->role . '_agent_scoped_web_search_sites_help', '',
+            get_string('scoped_web_search_sites_help', 'local_copilot'));
+        $mform->hideIf($this->role . '_agent_scoped_web_search_sites_help',
+            $this->role . '_agent_capability_web_search', 'unchecked');
+
         // Buttons.
         $this->add_action_buttons();
 
@@ -325,6 +405,203 @@ class agent_configuration_form extends moodleform {
             $errors[$this->role . '_agent_instructions'] = get_string('error_instructions_too_long', 'local_copilot');
         }
 
+        // Validate OneDrive and SharePoint items by IDs.
+        if ($data[$this->role . '_agent_capability_sharepoint_onedrive'] &&
+            !empty($data[$this->role . '_agent_sharepoint_items_by_sharepoint_ids'])) {
+            $items = explode("\n", $data[$this->role . '_agent_sharepoint_items_by_sharepoint_ids']);
+            $sharepointiderrors = [];
+            foreach ($items as $line => $item) {
+                $item = trim($item);
+                if (!$item) {
+                    continue; // Skip empty lines.
+                }
+                if ($itemcontent = json_decode($item, true)) {
+                    if (!is_array($itemcontent)) {
+                        $sharepointiderrors[] = get_string('error_invalid_json_format', 'local_copilot', ['line' => $line + 1]);
+                        continue;
+                    }
+                    foreach ($itemcontent as $key => $value) {
+                        if (!in_array($key, utils::SHAREPOINT_ID_NAMES)) {
+                            $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_name', 'local_copilot',
+                                ['name' => $key, 'line' => $line + 1]);
+                        }
+
+                        switch ($key) {
+                            case 'search_associated_sites':
+                                if (!is_bool($value)) {
+                                    $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                }
+                                break;
+                            case 'part_type':
+                                if ($value !== 'OneNotePart') {
+                                    $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                }
+                                break;
+                            default:
+                                // For other keys, we expect a GUID value.
+                                if (!utils::is_guid($value)) {
+                                    $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                }
+                        }
+                        if (!utils::is_guid($value)) {
+                            $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
+                                ['name' => $key, 'line' => $line + 1]);
+                        }
+                    }
+                }
+            }
+
+            if ($sharepointiderrors) {
+                $errors[$this->role . '_agent_sharepoint_items_by_sharepoint_ids'] = implode('<br>', $sharepointiderrors);
+            }
+        }
+
+        // Validate items by URL.
+        if ($data[$this->role . '_agent_capability_sharepoint_onedrive'] &&
+            !empty($data[$this->role . '_agent_sharepoint_items_by_url'])) {
+            $items = explode("\n", $data[$this->role . '_agent_sharepoint_items_by_url']);
+            $sharepointurlerrors = [];
+            foreach ($items as $line => $item) {
+                $item = trim($item);
+                if (!$item) {
+                    continue; // Skip empty lines.
+                }
+                if (!filter_var($item, FILTER_VALIDATE_URL)) {
+                    $sharepointurlerrors[] = get_string('error_invalid_sharepoint_item_url', 'local_copilot',
+                        ['line' => $line + 1]);
+                } else {
+                    $validationresult = utils::is_sharepoint_onedrive_url($item);
+                    if (!$validationresult['is_valid']) {
+                        $sharepointurlerrors[] = get_string('error_not_sharepoint_onedrive_url', 'local_copilot',
+                            ['url' => $item, 'line' => $line + 1]);
+                    }
+                }
+            }
+
+            if ($sharepointurlerrors) {
+                $errors[$this->role . '_agent_sharepoint_items_by_url'] = implode('<br>', $sharepointurlerrors);
+            }
+        }
+
+        // Validate scoped web search sites.
+        if ($data[$this->role . '_agent_capability_web_search'] && !empty($data[$this->role . '_agent_scoped_web_search_sites'])) {
+            $sites = explode("\n", $data[$this->role . '_agent_scoped_web_search_sites']);
+            if (count($sites) > 4) {
+                $errors[$this->role . '_agent_scoped_web_search_sites'] = get_string('error_too_many_scoped_web_search_sites',
+                    'local_copilot');
+            } else {
+                foreach ($sites as $site) {
+                    $site = trim($site);
+                    if (!empty($site) && !filter_var($site, FILTER_VALIDATE_URL)) {
+                        $errors[$this->role . '_agent_scoped_web_search_sites'] = get_string('error_invalid_scoped_web_search_site',
+                            'local_copilot');
+                        break;
+                    } else {
+                        $parsedurl = parse_url($site);
+                        // Ensure the URL doesn't have query parameters.
+                        if (isset($parsedurl['query']) && !empty($parsedurl['query'])) {
+                            $errors[$this->role . '_agent_scoped_web_search_sites'] =
+                                get_string('error_scoped_web_search_site_query_params', 'local_copilot');
+                            break;
+                        } else {
+                            // Ensure the URL doesn't have more than two path segments.
+                            if (isset($parsedurl['path']) && !empty($parsedurl['path'])) {
+                                $pathsegments = explode('/', trim($parsedurl['path'], '/'));
+                                if (count($pathsegments) > 2) {
+                                    $errors[$this->role . '_agent_scoped_web_search_sites'] =
+                                        get_string('error_scoped_web_search_site_path_segments', 'local_copilot');
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         return $errors;
+    }
+
+    /**
+     * Get the form data.
+     * This function contains custom logic to ensure that certain fields are formatted correctly.
+     *
+     * @return object|null
+     */
+    public function get_data() {
+        $data = parent::get_data();
+        if ($data) {
+            // Ensure the accent color is always in lowercase.
+            $data->{$this->role . '_agent_accent_color'} = strtolower($data->{$this->role . '_agent_accent_color'});
+
+            // Ensure agent_copilot_connectors_connection_ids is only set if copilot connectors capability is enabled.
+            if (empty($data->{$this->role . '_agent_capability_copilot_connectors'})) {
+                $data->{$this->role . '_agent_copilot_connectors_connection_ids'} = null;
+            } else {
+                // Clean up the copilot connectors connection IDs.
+                $connectionids = explode("\n", $data->{$this->role . '_agent_copilot_connectors_connection_ids'});
+                $cleanedids = [];
+                foreach ($connectionids as $id) {
+                    $id = trim($id);
+                    if ($id) {
+                        $cleanedids[] = $id;
+                    }
+                }
+                $data->{$this->role . '_agent_copilot_connectors_connection_ids'} = implode("\n", $cleanedids);
+            }
+
+            // Ensure agent_sharepoint_items_by_sharepoint_ids is only set if SharePoint/OneDrive capability is enabled.
+            if (empty($data->{$this->role . '_agent_capability_sharepoint_onedrive'})) {
+                $data->{$this->role . '_agent_sharepoint_items_by_sharepoint_ids'} = null;
+            } else {
+                // Clean up the SharePoint items by IDs.
+                $items = explode("\n", $data->{$this->role . '_agent_sharepoint_items_by_sharepoint_ids'});
+                $cleaneditems = [];
+                foreach ($items as $item) {
+                    $item = trim($item);
+                    if ($item) {
+                        $cleaneditems[] = $item;
+                    }
+                }
+                $data->{$this->role . '_agent_sharepoint_items_by_sharepoint_ids'} = implode("\n", $cleaneditems);
+            }
+
+            // Ensure agent_sharepoint_items_by_url is only set if SharePoint/OneDrive capability is enabled.
+            if (empty($data->{$this->role . '_agent_capability_sharepoint_onedrive'})) {
+                $data->{$this->role . '_agent_sharepoint_items_by_url'} = null;
+            } else {
+                // Clean up the SharePoint items by URL.
+                $items = explode("\n", $data->{$this->role . '_agent_sharepoint_items_by_url'});
+                $cleaneditems = [];
+                foreach ($items as $item) {
+                    $item = trim($item);
+                    if ($item) {
+                        $cleaneditems[] = $item;
+                    }
+                }
+                $data->{$this->role . '_agent_sharepoint_items_by_url'} = implode("\n", $cleaneditems);
+            }
+
+            // Ensure agent_scoped_web_search_sites is only set if web search capability is enabled.
+            if (empty($data->{$this->role . '_agent_capability_web_search'})) {
+                $data->{$this->role . '_agent_scoped_web_search_sites'} = null;
+            } else {
+                // Clean up the scoped web search sites.
+                $sites = explode("\n", $data->{$this->role . '_agent_scoped_web_search_sites'});
+                $cleanedsites = [];
+                foreach ($sites as $site) {
+                    $site = trim($site);
+                    if ($site) {
+                        $cleanedsites[] = $site;
+                    }
+                }
+                $data->{$this->role . '_agent_scoped_web_search_sites'} = implode("\n", $cleanedsites);
+            }
+        }
+
+        return $data;
     }
 }

@@ -133,6 +133,50 @@ $string['agent_plugin_name'] = 'Declarative agent plugin name';
 $string['agent_plugin_name_help'] = 'The name that is displayed to users when they access the agent from Microsoft 365 Copilot.';
 $string['agent_plugin_description'] = 'Declarative agent plugin description';
 $string['agent_plugin_description_help'] = 'The description that is displayed to users when they access the agent from Microsoft 365 Copilot.';
+$string['settings_capabilities_and_knowledge_sources'] = 'Capability and knowledge sources';
+$string['settings_capabilities_and_knowledge_sources_desc'] = '<ul>
+<li>Some capabilities and knowledge sources require a M365 Copilot license or metered usage.</li>
+<li>For more information, please check <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/knowledge-sources" target="_blank">Add knowledge sources to your declarative agent | Microsoft Learn</a></li>
+</ul>';
+$string['enable_code_interpreter'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/code-interpreter" target="_blank">code interpreter capability</a>';
+$string['enable_image_generator'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/image-generator" target=_blank">image generator capability</a>';
+$string['enable_copilot_connectors'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/knowledge-sources#copilot-connectors" target="_blank">copilot connectors capability</a>';
+$string['copilot_connectors_connection_ids'] = 'Copilot connectors connection IDs';
+$string['copilot_connectors_connection_ids_help'] = 'Optional.<br/>
+A list of IDs of Copilot connectors available to the declarative agent, one per line.<br/>
+If this is not provided, all Copilot connectors in the organization are available to the declarative agent.';
+$string['enable_sharepoint_onedrive'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/knowledge-sources#sharepoint-and-onedrive" target="_blank">SharePoint and OneDrive capability</a>';
+$string['sharepoint_items_by_sharepoint_ids'] = 'SharePoint items by SharePoint IDs';
+$string['sharepoint_items_by_sharepoint_ids_help'] = 'Optional.<br/>
+This setting contains a list of objects that identify SharePoint or OneDrive sources using IDs. Each item contains the following properties:
+<ul>
+<li><b>site_id</b>: String, optional. A unique GUID identifier for a SharePoint or OneDrive site.</li>
+<li><b>web_id</b>: String, optional. A unique GUID identifier for a specific web within a SharePoint or OneDrive site.</li>
+<li><b>list_id</b>: String, optional. A unique GUID identifier for a list within a SharePoint or OneDrive site.</li>
+<li><b>unique_id</b>: String, optional. A unique GUID identifier used to represent a specific entity or resource.</li>
+<li><b>search_associated_sites</b>: Boolean, optional. Indicates whether to enable searching associated sites. This value is only applicable when the site_id value references a SharePoint HubSite.</li>
+<li><b>part_type</b>: String, optional. Indicates the type of part part_id refers to. This value is only applicable when the part_id value is present. Possible values are: OneNotePart.</li>
+<li><b>part_id</b>: String, optional. A unique GUID identifier used to represent part of a SharePoint item such as a OneNote page.</li>
+</ul>
+Each item should be provided in JSON format, one per line. For example:
+<pre>
+{"site_id": "00000000-0000-0000-0000-000000000000", "web_id": "00000000-0000-0000-0000-000000000001", "list_id": "00000000-0000-0000-0000-000000000002", "unique_id": "00000000-0000-0000-0000-000000000003"}
+{"site_id": "11111111-1111-1111-1111-111111111111"}
+{"web_id": "22222222-2222-2222-2222-222222222222", "list_id": "33333333-3333-3333-3333-333333333333"}
+{"unique_id": "44444444-4444-4444-4444-444444444444"}
+</pre>';
+$string['sharepoint_items_by_url'] = 'SharePoint items by URL';
+$string['sharepoint_items_by_url_help'] = 'Optional.<br/>
+This setting contains a list of absolute URLs to the SharePoint or OneDrive resource, one per line.';
+$string['enable_web_search'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/knowledge-sources#web-and-scoped-web-search" target="_blank">web and scoped web search capability</a>';
+$string['scoped_web_search_sites'] = 'Scoped web search sites';
+$string['scoped_web_search_sites_help'] = 'Optional.<br/>
+Provide up to 4 site URLs, one per line, to limit the web search capability to these sites.<br/>
+If not provided, the web search capability will use any web data.<br/>
+The following limitations apply to the URLs provided:<ul>
+<li>The URL MUST NOT contain more than two path segments, although search results include data from additional path segments.</li>
+<li>The URL MUST NOT contain any query parameters.</li>
+</ul>';
 $string['error_invalid_accent_color'] = 'Invalid accent color';
 $string['agent_config_saved'] = 'Agent configuration saved successfully.';
 $string['download_manifest'] = 'Download manifest';
@@ -144,3 +188,12 @@ $string['error_invalid_app_version'] = 'Invalid app version. Version needs to be
 $string['error_decreased_app_version'] = 'Version can only be increased.';
 $string['error_instructions_too_long'] = 'Agent instructions, including the instructions for all API functions, exceed the maximum length of 8,000 characters. Please shorten the instructions.';
 $string['error_invalid_role'] = 'Invalid role';
+$string['error_invalid_sharepoint_id_name'] = 'Line {$a->line}: Invalid SharePoint ID name {$a->name}.';
+$string['error_invalid_sharepoint_id_value'] = 'Line {$a->line}: Invalid SharePoint ID value for field {$a->name}.';
+$string['error_invalid_json_format'] = 'Line {$a->line}: Invalid JSON value.';
+$string['error_invalid_sharepoint_item_url'] = 'Line {$a->line}: Invalid URL.';
+$string['error_not_sharepoint_onedrive_url'] = 'Line {$a->line}: The URL is not a valid SharePoint or OneDrive URL.';
+$string['error_too_many_scoped_web_search_sites'] = 'Too many scoped web search sites. Please provide up to 4 site URLs, one per line.';
+$string['error_invalid_scoped_web_search_site'] = 'Invalid scoped web search site URL.';
+$string['error_scoped_web_search_site_query_params'] = 'Invalid scoped web search site URL. The URL MUST NOT contain any query parameters.';
+$string['error_scoped_web_search_site_path_segments'] = 'Invalid scoped web search site URL. The URL MUST NOT contain more than two path segments.';
