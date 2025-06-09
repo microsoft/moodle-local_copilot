@@ -1,8 +1,12 @@
-# Microsoft 365 Copilot Plugin for Moodle
+# Copilot Plugin and Agent Samples for Moodle
 
 ## Overview
 
+This repository contains Moodle plugin and agent samples for Education to be used with [Microsoft 365 Copilot](https://www.microsoft.com/en-us/microsoft-365/copilot) and Microsoft 365 [Copilot Chat](https://www.microsoft.com/en-us/microsoft-365/copilot/try-copilot-chat). These agents are provided as [M365 Copilot extensibility](https://aka.ms/extend-copilot) and therefore should be used with its existing customer-facing documentation.
+
 The Microsoft 365 Copilot plugin (local_copilot) enables Moodle to integrate with Microsoft 365 Copilot and Copilot Chat by providing declarative agents for teachers and students. This integration allows users to access and interact with Moodle data directly through Copilot across multiple M365 apps, enhancing productivity and providing quick access to course information, assignments, and other educational resources.
+
+The samples demonstrate how customers can create or customize their own declarative agents for M365 Copilot that connect to the Moodle LMS. Creation, customization, deployment, administration, support, and maintenance of any declarative agent for M365 Copilot based on these samples is at the discretion of the customer, and the responsibility of the customer.
 
 ## Features
 
