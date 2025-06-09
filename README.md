@@ -195,7 +195,7 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 - Limited to English (EN-US)
 - Limited to return only 10 items from endpoint, plans to add pagination in the future
 - Limited to return only info about the authenticated user, not bringing anything from any other user. For example, this first version won’t give teachers visibility on student information
-- No capabilities or knowledge sources have been enabled in this sample
+- Only `image generator` and `code interpreter`capabilities have been enabled in this sample. Other knowledge sources need to be configured.
 - OpenAPI limitations for API plugins [listed here](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/known-issues#some-openapi-features-arent-supported)
 
 ## Troubleshooting
