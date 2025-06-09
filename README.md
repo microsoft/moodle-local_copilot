@@ -153,11 +153,19 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 
 ## Deploying Agents in Microsoft 365
 
-1. Log in to the [Microsoft Teams admin center](https://admin.teams.microsoft.com)
-2. Navigate to **Teams apps > Manage apps**
-3. Click on **Upload new app**
-4. Upload the downloaded `apppackage.zip` file for teacher and student agents
-5. Configure permissions and availability as needed
+### From the M365 Admin Center
+  
+1. Log in to the [Microsoft 365 Admin Center](https://admin.microsoft.com)
+2. Navigate to `Settings` , select `Integrate apps`, and select `Upload custom apps`
+3. Define which users or groups will have access to the agent, accept permissions and deploy
+4. Learn more at [Manage Office Add-ins through Integrated Apps](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/test-and-deploy-microsoft-365-apps)
+
+### From the Teams Admin Center
+  
+1. Log in to the [Microsoft Teams Admin Center](https://admin.teams.microsoft.com)
+2. Navigate to `Teams apps`, select `Manage apps`, and `Upload A custom app`
+3. Define which users or groups will have access to the agent, accept permissions and deploy
+4. Learn more at [Manage custom apps in Microsoft Teams admin center](https://learn.microsoft.com/en-us/microsoftteams/teams-custom-app-policies-and-settings)
 
 ![Upload app in Teams admin center](/pix/screenshot_upload_custom_app.png)
 
