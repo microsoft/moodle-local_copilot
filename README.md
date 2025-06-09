@@ -4,7 +4,7 @@
 
 This repository contains Moodle plugin and agent samples for Education to be used with [Microsoft 365 Copilot](https://www.microsoft.com/en-us/microsoft-365/copilot) and Microsoft 365 [Copilot Chat](https://www.microsoft.com/en-us/microsoft-365/copilot/try-copilot-chat). These agents are provided as [M365 Copilot extensibility](https://aka.ms/extend-copilot) and therefore should be used with its existing customer-facing documentation.
 
-The Microsoft 365 Copilot plugin (local_copilot) enables Moodle to integrate with Microsoft 365 Copilot and Copilot Chat by providing declarative agents for teachers and students. This integration allows users to access and interact with Moodle data directly through Copilot across multiple M365 apps, enhancing productivity and providing quick access to course information, assignments, and other educational resources.
+The M365 Copilot plugin (local_copilot) enables Moodle to integrate with M365 Copilot and Copilot Chat by providing declarative agents for teachers and students. This integration allows users to access and interact with Moodle data directly through Copilot across multiple M365 apps, enhancing productivity and providing quick access to course information, assignments, and other educational resources.
 
 The samples demonstrate how customers can create or customize their own declarative agents for M365 Copilot that connect to the Moodle LMS. Creation, customization, deployment, administration, support, and maintenance of any declarative agent for M365 Copilot based on these samples is at the discretion of the customer, and the responsibility of the customer.
 
@@ -45,8 +45,7 @@ The features provided by the declarative agents may be extended in future releas
 - PHP 8.1 or higher
 - [local_oauth2 plugin](https://moodle.org/plugins/local_oauth2) installed and configured
 - [webservice_restful plugin](https://moodle.org/plugins/webservice_restful) installed and enabled
-- Administrative access to both Moodle and Microsoft 365 tenant
-- The Microsoft 365 tenant has M365 Copilot license or Copilot Chat consumption plan
+- Admin permissions in Moodle
 
 ### Microsoft
 - Microsoft 365 A1, A3, or A5 license
@@ -58,11 +57,11 @@ The features provided by the declarative agents may be extended in future releas
 
 ## Plugin Installation
 
-1. Download and install required Moodle plugins (local_oauth2 and webservice_restful) if they are not installed already.
-2. Download the plugin local_copilot from [GitHub](https://github.com/microsoft/moodle-local_copilot) or [Moodle plugin directory](https://moodle.org/plugins/local_copilot).
-3. Extract the plugin into the `local/copilot` directory of your Moodle installation.
-4. Log in as an administrator and navigate to **Site Administration > Notifications** to complete the installation.
-5. Follow the configuration steps outlined below.
+1. Download and install required Moodle plugins (local_oauth2 and webservice_restful) if they are not installed already
+2. Download the plugin local_copilot from [GitHub](https://github.com/microsoft/moodle-local_copilot) or [Moodle plugin directory](https://moodle.org/plugins/local_copilot)
+3. Extract the plugin into the `local/copilot` directory of your Moodle installation
+4. Log in as an administrator and navigate to **Site Administration > Notifications** to complete the installation
+5. Follow the plugin configuration steps outlined below
 
 ## Plugin Configuration
 
@@ -160,6 +159,8 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 3. Define which users or groups will have access to the agent, accept permissions and deploy
 4. Learn more at [Manage Office Add-ins through Integrated Apps](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/test-and-deploy-microsoft-365-apps)
 
+![Upload app in Microsoft 365 admin center](https://github.com/microsoft/moodle-local_copilot/blob/Final-doc-review/pix/screenshot_upload_custom_app_mac.png)
+
 ### From the Teams Admin Center
   
 1. Log in to the [Microsoft Teams Admin Center](https://admin.teams.microsoft.com)
@@ -234,9 +235,22 @@ The plugin implements a RESTful API with endpoints for both teacher and student 
 - [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured. The plugin allows Moodle to act as an OAuth 2.0 provider, enabling secure authentication for the Copilot integration. The plugin is under GNU General Public License v3.0 (GPLv3).
 - [RESTful protocol](https://moodle.org/plugins/webservice_restful) plugin installed and enabled. The plugin adds restful web service support to Moodle, allowing external applications to interact with Moodle data using standard HTTP methods. The plugin is under GNU General Public License v3.0 (GPLv3).
 
-## Privacy and Security
+## Data Privacy and Security
 
-The plugin follows Moodle's privacy API requirements and does not store personal data beyond standard Moodle operations. It utilizes OAuth 2.0 for secure authentication and respects Moodle's role-based permission system to ensure that users can only access data they have permissions for.
+- The plugin follows Moodle's privacy API requirements and does not store personal data beyond standard Moodle operations. It utilizes OAuth 2.0 for secure authentication and respects Moodle's role-based permission system to ensure that users can only access data they have permissions for.
+- This agent can access and retrieve Moodle data about
+    - Courses
+    - Sections
+    - Assignments
+    - Forums
+- This agent requires user authentication and respects user permissions in Moodle
+- The agent uses Moodle information as an input to Copilot across M365 apps
+
+## Evaluation
+
+- All response generation features of this agent were tested, measured, and validated internally
+- [How declarative agents are evaluated?](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/transparency-faq-declarative-agent#how-were-declarative-agents-evaluated-what-metrics-are-used-to-measure-performance)
+- It's important to keep in mind that the output this agent provides can be inaccurate, incorrect, or out of date
 
 ## Credits
 
