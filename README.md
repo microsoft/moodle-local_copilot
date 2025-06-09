@@ -148,14 +148,6 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 
 ![Upload app in Teams admin center](/pix/screenshot_upload_custom_app.png)
 
-### Update Teams OAuth Client Settings
-
-1. After the agents are uploaded to Microsoft 365, get their application IDs (Need to find out how)
-2. Go to the [Microsoft Teams Developer Portal](https://dev.teams.microsoft.com)
-3. Navigate to **Tools > OAuth client registration** and open the settings for the OAuth registration for teacher
-4. In the **Restrict usage by app** setting, choose **Existing Teams app**, and set it to be the application ID for the teacher agent
-5. Repeat these steps for the OAuth registration for student
-
 ## Using the Integration
 
 ### For Teachers
