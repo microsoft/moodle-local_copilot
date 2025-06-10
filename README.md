@@ -159,7 +159,7 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 3. Define which users or groups will have access to the agent, accept permissions and deploy
 4. Learn more at [Manage Office Add-ins through Integrated Apps](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/test-and-deploy-microsoft-365-apps)
 
-![Upload app in Microsoft 365 admin center](https://github.com/microsoft/moodle-local_copilot/blob/Final-doc-review/pix/screenshot_upload_custom_app_mac.png)
+![Upload app in Microsoft 365 admin center](pix/screenshot_upload_custom_app_mac.png)
 
 ### From the Teams Admin Center
   
