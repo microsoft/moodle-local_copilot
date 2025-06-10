@@ -29,6 +29,9 @@ use local_copilot\utils;
 defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
+    // Load jquery library because it's used in the check_settings admin setting.
+    $PAGE->requires->jquery();
+
     // Add a section for the plugin configurations in the "Local plugins" section.
     $ADMIN->add('localplugins', new admin_category('local_copilot', get_string('pluginname', 'local_copilot')));
 
