@@ -147,14 +147,52 @@ $string['settings_capabilities_and_knowledge_sources_desc'] = '<ul>
 $string['enable_code_interpreter'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/code-interpreter" target="_blank">code interpreter capability</a>';
 $string['enable_image_generator'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/image-generator" target=_blank">image generator capability</a>';
 $string['enable_copilot_connectors'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/knowledge-sources#copilot-connectors" target="_blank">copilot connectors capability</a>';
-$string['copilot_connectors_connection_ids'] = 'Copilot connectors connection IDs';
+$string['copilot_connectors_connection_ids'] = 'Copilot connectors';
 $string['copilot_connectors_connection_ids_help'] = 'Optional.<br/>
-A list of IDs of Copilot connectors available to the declarative agent, one per line.<br/>
-If this is not provided, all Copilot connectors in the organization are available to the declarative agent.';
+This setting contains a list of objects that identify the Copilot connectors available to the declarative agent.<br/>
+If this setting is omitted, all Copilot connectors in the organization are available to the declarative agent.<br/>
+Each item contains the following properties:
+<ul>
+<li><b>connection_id</b>: String, required. The unique identifier of the Copilot connector.</li>
+<li><b>additional_search_terms</b>: String, optional. A Keyword Query Language (KQL) query to filter items based on fields in the connection\'s schema.</li>
+<li><b>items_by_external_id</b>: Array of Item identify object, optional. Specifies specific items by ID in the Copilot connector that are available to the agent. Each item in the array contains the following properties:
+<ul>
+<li><b>item_id</b>: String, required. The unique identifier of the external item.</li>
+</ul>
+</li>
+<li><b>items_by_path</b>: Array of Path object, optional. Filters the items available to the agent by item paths (the itemPath semantic label on items). Each item in the array contains the following properties:
+<ul>
+<li><b>path</b>: String, required. The path (itemPath semantic label value) of the external item.</li>
+</ul>
+</li>
+<li><b>items_by_container_name</b>: Array of Container name object, optional. Filters the items available to the agent by container name (the containerName semantic label on items). Each item in the array contains the following properties:
+<ul>
+<li><b>container_name</b>: String, required. The name of the container (containerName semantic label value) of the external item.</li>
+</ul>
+</li>
+<li><b>items_by_container_url</b>: Array of Container URL object, optional. Filters the items available to the agent by container URL (the containerUrl semantic label on items). Each item in the array contains the following properties:
+<ul>
+<li><b>container_url</b>: String required. The URL of the container (containerUrl semantic label value) of the external item.</li>
+</ul>
+</li>
+</ul>
+Each item should be provided in JSON format, one per line. For example:
+<pre>
+{"connection_id": "00000000-0000-0000-0000-000000000000", "additional_search_terms": "field1:value1 AND field2:value2"}
+{"connection_id": "11111111-1111-1111-1111-111111111111", "items_by_external_id": [{"item_id": "22222222-2222-2222-2222-222222222222"}]}
+{"connection_id": "33333333-3333-3333-3333-333333333333", "items_by_path": [{"path": "/path/to/item"}]}
+{"connection_id": "44444444-4444-4444-4444-444444444444", "items_by_container_name": [{"container_name": "Container Name"}]}
+{"connection_id": "55555555-5555-5555-5555-555555555555", "items_by_container_url": [{"container_url": "https://example.com/container"}]}
+{"connection_id": "66666666-6666-6666-6666-666666666666", "items_by_external_id": [{"item_id": "77777777-7777-7777-7777-777777777777"}], "items_by_path": [{"path": "/another/path/to/item"}]}
+{"connection_id": "88888888-8888-8888-8888-888888888888", "items_by_container_name": [{"container_name": "Another Container Name"}], "items_by_container_url": [{"container_url": "https://example.com/another/container"}]}
+{"connection_id": "99999999-9999-9999-9999-999999999999"}
+</pre>';
 $string['enable_sharepoint_onedrive'] = 'Enable <a href="https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/knowledge-sources#sharepoint-and-onedrive" target="_blank">SharePoint and OneDrive capability</a>';
+$string['enable_sharepoint_onedrive_help'] = 'Access to SharePoint and OneDrive data can optionally be restricted by SharePoint IDs and/or URLs using the two respective settings below. If both settings are omitted, all OneDrive and Sharepoint sources in the organization are available to the declarative agent.';
 $string['sharepoint_items_by_sharepoint_ids'] = 'SharePoint items by SharePoint IDs';
 $string['sharepoint_items_by_sharepoint_ids_help'] = 'Optional.<br/>
-This setting contains a list of objects that identify SharePoint or OneDrive sources using IDs. Each item contains the following properties:
+This setting contains a list of objects that identify SharePoint or OneDrive sources using IDs.<br/>
+Each item contains the following properties:
 <ul>
 <li><b>site_id</b>: String, optional. A unique GUID identifier for a SharePoint or OneDrive site.</li>
 <li><b>web_id</b>: String, optional. A unique GUID identifier for a specific web within a SharePoint or OneDrive site.</li>
@@ -194,7 +232,9 @@ $string['error_invalid_app_version'] = 'Invalid app version. Version needs to be
 $string['error_decreased_app_version'] = 'Version can only be increased.';
 $string['error_instructions_too_long'] = 'Agent instructions, including the instructions for all API functions, exceed the maximum length of 8,000 characters. Please shorten the instructions.';
 $string['error_invalid_role'] = 'Invalid role';
-$string['error_invalid_sharepoint_id_name'] = 'Line {$a->line}: Invalid SharePoint ID name {$a->name}.';
+$string['error_invalid_copilot_connector_id_property'] = 'Line {$a->line}: Invalid Copilot connector ID property {$a->name}.';
+$string['error_invalid_copilot_connector_id_value'] = 'Line {$a->line}: Invalid Copilot connector ID value for field {$a->name}.';
+$string['error_invalid_sharepoint_id_property'] = 'Line {$a->line}: Invalid SharePoint ID property {$a->name}.';
 $string['error_invalid_sharepoint_id_value'] = 'Line {$a->line}: Invalid SharePoint ID value for field {$a->name}.';
 $string['error_invalid_json_format'] = 'Line {$a->line}: Invalid JSON value.';
 $string['error_invalid_sharepoint_item_url'] = 'Line {$a->line}: Invalid URL.';

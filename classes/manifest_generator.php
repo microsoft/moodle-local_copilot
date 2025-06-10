@@ -303,7 +303,7 @@ class manifest_generator {
                     $cleanedconnectionids = [];
                     foreach ($connectionids as $connectionid) {
                         if ($connectionid) {
-                            $cleanedconnectionids[] = ['connection_id' => trim($connectionid)];
+                            $cleanedconnectionids[] = json_decode(trim($connectionid), true);
                         }
                     }
                     if ($cleanedconnectionids) {
@@ -325,7 +325,7 @@ class manifest_generator {
                 if ($itemsbysharepointids) {
                     $cleaneditemsbysharepointids = [];
                     foreach ($itemsbysharepointids as $itembysharepointid) {
-                        $cleaneditemsbysharepointids[] = json_decode($itembysharepointid, true);
+                        $cleaneditemsbysharepointids[] = json_decode(trim($itembysharepointid), true);
                     }
                     if ($cleaneditemsbysharepointids) {
                         $sharepointcapability['items_by_sharepoint_ids'] = $cleaneditemsbysharepointids;

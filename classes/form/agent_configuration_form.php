@@ -66,7 +66,9 @@ class agent_configuration_form extends moodleform {
      * Form definition.
      */
     protected function definition() {
-        global $CFG, $DB;
+        global $CFG, $DB, $PAGE;
+
+        $PAGE->requires->css('/local/copilot/styles.css');
 
         $mform =& $this->_form;
 
@@ -272,10 +274,8 @@ class agent_configuration_form extends moodleform {
         $mform->setDefault($this->role . '_agent_capability_copilot_connectors', 0);
 
         // Copilot connectors connection IDs.
-        // TODO v1.4 version of agent supports more parameters in connection object. They need to be added to the configuration.
-        // https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/declarative-agent-manifest-1.4#connection-object.
         $mform->addElement('textarea', $this->role . '_agent_copilot_connectors_connection_ids',
-            get_string('copilot_connectors_connection_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
+            get_string('copilot_connectors_connection_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80]);
         $mform->setType($this->role . '_agent_copilot_connectors_connection_ids', PARAM_TEXT);
         $mform->hideIf($this->role . '_agent_copilot_connectors_connection_ids',
             $this->role . '_agent_capability_copilot_connectors', 'unchecked');
@@ -289,6 +289,12 @@ class agent_configuration_form extends moodleform {
             get_string('enable_sharepoint_onedrive', 'local_copilot'), null, ['group' => 1], [0, 1]);
         $mform->setDefault($this->role . '_agent_capability_sharepoint_onedrive', 0);
 
+        // SharePoint and OneDrive help text.
+        $mform->addElement('static', $this->role . '_agent_capability_sharepoint_onedrive_help', '',
+            get_string('enable_sharepoint_onedrive_help', 'local_copilot'));
+        $mform->hideIf($this->role . '_agent_capability_sharepoint_onedrive_help',
+            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+
         // Items by SharePoint IDs.
         $mform->addElement('textarea', $this->role . '_agent_sharepoint_items_by_sharepoint_ids',
             get_string('sharepoint_items_by_sharepoint_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
@@ -296,7 +302,7 @@ class agent_configuration_form extends moodleform {
         $mform->hideIf($this->role . '_agent_sharepoint_items_by_sharepoint_ids',
             $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
         $mform->addElement('static', $this->role . '_agent_sharepoint_items_by_sharepoint_ids_help', '',
-            get_string('sharepoint_items_by_sharepoint_ids_help', 'local_copilot'));
+            get_string('sharepoint_items_by_sharepoint_ids_help', 'local_copilot'), ['style' => 'width: 100%']);
         $mform->hideIf($this->role . '_agent_sharepoint_items_by_sharepoint_ids_help',
             $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
 
@@ -405,6 +411,116 @@ class agent_configuration_form extends moodleform {
             $errors[$this->role . '_agent_instructions'] = get_string('error_instructions_too_long', 'local_copilot');
         }
 
+        // Validate Copilot connectors connection IDs.
+        if ($data[$this->role . '_agent_capability_copilot_connectors'] &&
+            !empty($data[$this->role . '_agent_copilot_connectors_connection_ids'])) {
+            $connectionids = explode("\n", $data[$this->role . '_agent_copilot_connectors_connection_ids']);
+            $connectioniderrors = [];
+            foreach ($connectionids as $line => $id) {
+                $id = trim($id);
+                if (!$id) {
+                    continue; // Skip empty lines.
+                }
+                if ($itemcontent = json_decode($id, true)) {
+                    if (!is_array($itemcontent)) {
+                        $connectioniderrors[] = get_string('error_invalid_json_format', 'local_copilot', ['line' => $line + 1]);
+                        continue;
+                    }
+                    foreach ($itemcontent as $key => $value) {
+                        if (!in_array($key, utils::COPILOT_CONNECTOR_ID_ATTRIBUTES)) {
+                            $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_property', 'local_copilot',
+                                ['name' => $key, 'line' => $line + 1]);
+                            continue;
+                        }
+
+                        switch ($key) {
+                            case 'connection_id':
+                                if (!$value) {
+                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                }
+                                break;
+                            case 'additional_search_term':
+                                if (!is_string($value)) {
+                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                }
+                                break;
+                            case 'items_by_external_id':
+                                if (!is_array($value)) {
+                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                } else {
+                                    foreach ($value as $valueitem) {
+                                        foreach ($valueitem as $itemkey => $externalid) {
+                                            if ($itemkey !== 'item_id' || !utils::is_guid($externalid)) {
+                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
+                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                                continue 2;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'items_by_path':
+                                if (!is_array($value)) {
+                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                } else {
+                                    foreach ($value as $valueitem) {
+                                        foreach ($valueitem as $itemkey => $path) {
+                                            if ($itemkey !== 'path' || !$path) {
+                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
+                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                                continue 2;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'items_by_container_name':
+                                if (!is_array($value)) {
+                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                } else {
+                                    foreach ($value as $valueitem) {
+                                        foreach ($valueitem as $itemkey => $containername) {
+                                            if ($itemkey !== 'container_name' || !$containername) {
+                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
+                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                                continue 2;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case 'items_by_container_url':
+                                if (!is_array($value)) {
+                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
+                                        ['name' => $key, 'line' => $line + 1]);
+                                } else {
+                                    foreach ($value as $valueitem) {
+                                        foreach ($valueitem as $itemkey => $containerurl) {
+                                            if ($itemkey !== 'container_url' || !$containerurl || !filter_var($containerurl,
+                                                    FILTER_VALIDATE_URL)) {
+                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
+                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                                continue 2;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+
+            if ($connectioniderrors) {
+                $errors[$this->role . '_agent_copilot_connectors_connection_ids'] = implode('<br>', $connectioniderrors);
+            }
+        }
+
         // Validate OneDrive and SharePoint items by IDs.
         if ($data[$this->role . '_agent_capability_sharepoint_onedrive'] &&
             !empty($data[$this->role . '_agent_sharepoint_items_by_sharepoint_ids'])) {
@@ -421,9 +537,10 @@ class agent_configuration_form extends moodleform {
                         continue;
                     }
                     foreach ($itemcontent as $key => $value) {
-                        if (!in_array($key, utils::SHAREPOINT_ID_NAMES)) {
-                            $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_name', 'local_copilot',
+                        if (!in_array($key, utils::SHAREPOINT_ID_PROPERTIES)) {
+                            $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_property', 'local_copilot',
                                 ['name' => $key, 'line' => $line + 1]);
+                            continue;
                         }
 
                         switch ($key) {

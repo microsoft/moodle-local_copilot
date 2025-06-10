@@ -1,0 +1,6 @@
+div[data-name="teacher_agent_copilot_connectors_connection_ids_help"],
+div[data-name="student_agent_copilot_connectors_connection_ids_help"],
+div[data-name="teacher_agent_sharepoint_items_by_sharepoint_ids_help"],
+div[data-name="student_agent_sharepoint_items_by_sharepoint_ids_help"] {
+    width: 100%;
+}

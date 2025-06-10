@@ -71,9 +71,9 @@ class utils {
     ];
 
     /**
-     * @var array SharePoint ID names.
+     * @var array SharePoint ID properties.
      */
-    const SHAREPOINT_ID_NAMES = [
+    const SHAREPOINT_ID_PROPERTIES = [
         'site_id',
         'web_id',
         'list_id',
@@ -81,6 +81,18 @@ class utils {
         'search_associated_sites',
         'part_type',
         'part_id',
+    ];
+
+    /**
+     * @var array Copilot connector ID attributes.
+     */
+    const COPILOT_CONNECTOR_ID_ATTRIBUTES = [
+        'connection_id',
+        'additional_search_terms',
+        'items_by_external_id',
+        'items_by_path',
+        'items_by_container_name',
+        'items_by_container_url',
     ];
 
     /**
