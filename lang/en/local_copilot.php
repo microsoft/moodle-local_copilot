@@ -126,7 +126,7 @@ $string['agent_oauth_client_registration_id_help'] = 'The Moodle OAuth server ne
 <li>Registration name: <b>{$a->site_name} local_oauth2 OAuth</b></li>
 <li>Base URL: <b>{$a->wwwroot}</b></li>
 <li>Restrict usage by org: <b>My organization only</b></li>
-<li>Restrict usage by app: <b>Any Teams app</b> (to be fixed later)</li>
+<li>Restrict usage by app: <b>Any Teams app</b></li>
 <li>Client ID: <b>{$a->client_id}</b></li>
 <li>Client secret: <b>{$a->client_secret}</b></li>
 <li>Authorization endpoint: <b>{$a->authorization_endpoint}</b></li>
