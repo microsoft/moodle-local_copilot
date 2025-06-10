@@ -36,7 +36,7 @@ Allows students to:
 
 The features provided by the declarative agents may be extended in future releases.
 
-![Teacher agent](/pix/screenshot_teacher_agent.png)
+![Teacher agent](pix/screenshot_teacher_agent.png)
 
 ## Requirements
 
@@ -69,7 +69,7 @@ The features provided by the declarative agents may be extended in future releas
 
 1. Navigate to **Site Administration > Server > OAuth2 Server > Manage OAuth clients**
 
-![OAuth2 server configuration](/pix/screenshot_oauth2_server_configuration.png)
+![OAuth2 server configuration](pix/screenshot_oauth2_server_configuration.png)
 
 2. Click **Add OAuth client** button to create OAuth client for teacher. Following instructions on the page:
     - **Client ID** needs to be a string without space
@@ -77,19 +77,19 @@ The features provided by the declarative agents may be extended in future releas
     - **Scope**: Use default value provided
     - After saving the changes, a **Client secret** will be generated for the OAuth client
 
-![Add OAuth client](/pix/screenshot_add_oauth_client.png)
+![Add OAuth client](pix/screenshot_add_oauth_client.png)
 
 3. Do the same to create an OAuth client for student
 4. There should be 2 clients for teacher and student separately after these steps
 
-![OAuth clients list](/pix/screenshot_oauth2_client_list.png)
+![OAuth clients list](pix/screenshot_oauth2_client_list.png)
 
 ### 2. Register OAuth Client on Microsoft Teams Developer Portal
 
 1. Go to [Microsoft Teams Developer Portal](https://dev.teams.microsoft.com), login as a Teams admin user when asked
 2. In the **Tools** menu, go to **OAuth client registration**
 
-![Teams developer portal](/pix/screenshot_teams_developer_portal.png)
+![Teams developer portal](pix/screenshot_teams_developer_portal.png)
 
 3. Click **New OAuth client registration** button or **Register client** button. You will need to create two OAuth client registrations, for teacher and student agents respectively
 4. Fill in OAuth client details on the page:
@@ -106,7 +106,7 @@ The features provided by the declarative agents may be extended in future releas
     - **Enable Proof Key for Code Exchange (PKCE)**: unchecked
 5. After saving the changes, an **OAuth client registration ID** will be created. Note its value
 
-![Teams OAuth client registration](/pix/screenshot_teams_oauth_client_registration_id.png)
+![Teams OAuth client registration](pix/screenshot_teams_oauth_client_registration_id.png)
 
 6. Repeat the steps to create OAuth client registration ID for student
 
@@ -123,7 +123,7 @@ The features provided by the declarative agents may be extended in future releas
 5. After changes in the **Copilot OAuth clients** setting are saved, select the OAuth client to be used by teacher and students for authentication in the **Teacher OAuth client ID** and **Student OAuth client ID** settings
 6. Save changes
 
-![Copilot plugin basic settings](/pix/screenshot_local_copilot_basic_settings.png)
+![Copilot plugin basic settings](pix/screenshot_local_copilot_basic_settings.png)
 
 ## Agent Configuration in Moodle
 
@@ -144,7 +144,7 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 
 Save the configuration. Download the manifest file (app package zip file).
 
-![Downlod manifest file](/pix/screenshot_download_manifest_file.png)
+![Downlod manifest file](pix/screenshot_download_manifest_file.png)
 
 ### 2. Moodle Student agent
 
@@ -168,7 +168,7 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 3. Define which users or groups will have access to the agent, accept permissions and deploy
 4. Learn more at [Manage custom apps in Microsoft Teams admin center](https://learn.microsoft.com/en-us/microsoftteams/teams-custom-app-policies-and-settings)
 
-![Upload app in Teams admin center](/pix/screenshot_upload_custom_app.png)
+![Upload app in Teams admin center](pix/screenshot_upload_custom_app.png)
 
 ## Using the Integration
 
@@ -195,7 +195,7 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
     - "Show me grade details in [course name] course"
     - "Find all overdue assignments"
 
-![Student agent](/pix/screenshot_student_agent.png)
+![Student agent](pix/screenshot_student_agent.png)
 
 
   ## Known limitations
