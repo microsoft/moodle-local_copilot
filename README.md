@@ -164,11 +164,12 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 ### From the Teams Admin Center
   
 1. Log in to the [Microsoft Teams Admin Center](https://admin.teams.microsoft.com)
-2. Navigate to `Teams apps`, select `Manage apps`, and `Upload A custom app`
-3. Define which users or groups will have access to the agent, accept permissions and deploy
-4. Learn more at [Manage custom apps in Microsoft Teams admin center](https://learn.microsoft.com/en-us/microsoftteams/teams-custom-app-policies-and-settings)
+2. Navigate to `Teams apps`, select `Manage apps`.
+3. Click the `Actions` dropdown button on the right side and select `Upload new app`
+4. Define which users or groups will have access to the agent, accept permissions and deploy
+5. Learn more at [Manage custom apps in Microsoft Teams admin center](https://learn.microsoft.com/en-us/microsoftteams/teams-custom-app-policies-and-settings)
 
-![Upload app in Teams admin center](pix/screenshot_upload_custom_app.png)
+![Upload app in Teams admin center](pix/screenshot_upload_custom_app_teams_admin_center.png)
 
 ## Using the Integration
 
