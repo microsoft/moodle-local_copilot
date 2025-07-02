@@ -48,8 +48,9 @@ The features provided by the declarative agents may be extended in future releas
 - Admin permissions in Moodle
 
 ### Microsoft
+- Microsoft 365 tenant with [custom app upload enabled](https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/prepare-your-o365-tenant#enable-custom-teams-apps-and-turn-on-custom-app-uploading)
 - Microsoft 365 A1, A3, or A5 license
-- Microsoft 365 Copilot license or Copilot Chat consumption plan
+- Agents work in Copilot Chat (both metered/no metered usage) and M365 Copilot, [learn more](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/prerequisites#agent-capabilities-for-microsoft-365-users)
 - Admin permissions in the Microsoft 365 Admin Center or Teams Admin Center
 - A [Microsoft 365 account for development](https://learn.microsoft.com/en-us/microsoftteams/platform/toolkit/tools-prerequisites#create-a-free-microsoft-365-developer-account)
 
