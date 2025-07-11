@@ -84,13 +84,13 @@ if ($hassiteconfig) {
             null,
             $oauthclientoptions));
 
-        if (get_config('local_copilot', 'teacher_oauth_client_id') && get_config('local_copilot', 'access_token_timeout')) {
+        if (get_config('local_copilot', 'teacher_oauth_client_id')) {
             // Teacher agent page.
             $ADMIN->add('local_copilot', new admin_externalpage('local_copilot/configure_teacher_agent',
                 get_string('settings_configure_teacher_agent', 'local_copilot'),
                 new moodle_url('/local/copilot/configure_agent.php', ['role' => 'teacher'])));
         }
-        if (get_config('local_copilot', 'student_oauth_client_id') && get_config('local_copilot', 'access_token_timeout')) {
+        if (get_config('local_copilot', 'student_oauth_client_id')) {
             // Student agent page.
             $ADMIN->add('local_copilot', new admin_externalpage('local_copilot/configure_student_agent',
                 get_string('settings_configure_student_agent', 'local_copilot'),
