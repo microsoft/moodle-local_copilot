@@ -493,7 +493,7 @@ class manifest_generator {
                     ],
                     [
                         'title' => 'Grade Information',
-                        'text' => 'Show me grade details in for ',
+                        'text' => 'Show me grade details for ',
                     ],
                     [
                         'title' => 'Overdue Assignments',
