@@ -157,6 +157,7 @@ class utils {
     public static function get_oauth_client_options(): array {
         global $DB;
 
+        $options = [];
         $oauthclientrecords = $DB->get_records('local_oauth2_client');
         foreach ($oauthclientrecords as $oauthclientrecord) {
             $options[$oauthclientrecord->id] = $oauthclientrecord->client_id;
