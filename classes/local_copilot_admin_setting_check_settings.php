@@ -23,7 +23,7 @@
  * @copyright (C) 2024 onwards Microsoft, Inc. (http://microsoft.com/)
  */
 
-namespace local_copilot\local\adminsetting;
+namespace local_copilot;
 
 use admin_setting;
 use html_writer;
@@ -36,7 +36,7 @@ require_once($CFG->dirroot . '/lib/adminlib.php');
 /**
  * Admin setting to detect and set required settings in Moodle.
  */
-class check_settings extends admin_setting {
+class local_copilot_admin_setting_check_settings extends admin_setting {
     /**
      * Constructor.
      *
@@ -77,7 +77,7 @@ class check_settings extends admin_setting {
      * @return string
      */
     public function output_html($data, $query = '') {
-        global $OUTPUT;
+        global $OUTPUT, $PAGE;
 
         $html = '';
 
@@ -88,26 +88,19 @@ class check_settings extends admin_setting {
         // Check settings results.
         $html .= html_writer::tag('div', '', ['id' => 'check-settings-results']);
 
-        // Add the JavaScript file.
-        $scripturl = new moodle_url('/local/copilot/classes/local/adminsetting/check_settings.js');
-        $html .= html_writer::tag('script', '', ['src' => $scripturl]);
-
         // Ajax request to check the settings.
         $ajaxurl = new moodle_url('/local/copilot/ajax.php');
-        $html .= '
-<script>
-    $(function() {
-        var opts = {
-            url: "' . $ajaxurl->out() . '",
-            iconsuccess: "' . addslashes($OUTPUT->pix_icon('t/check', 'success', 'moodle')) . '",
-            iconinfo: "' . addslashes($OUTPUT->pix_icon('i/info', 'information', 'moodle')) . '",
-            iconerror: "' . addslashes($OUTPUT->pix_icon('t/delete', 'error', 'moodle')) . '",
-            strcheck: "' . addslashes(get_string('settings_check_settings', 'local_copilot')) . '",
-            strchecking: "' . addslashes(get_string('settings_check_settings_checking', 'local_copilot')) . '",
-        };
-        $("#admin-' . $this->name . '").check_settings(opts);
-    });
-</script>';
+        $PAGE->requires->js_call_amd('local_copilot/check_settings', 'init', [
+            [
+                'url' => $ajaxurl->out(),
+                'iconsuccess' => $OUTPUT->pix_icon('t/check', 'success', 'moodle'),
+                'iconinfo' => $OUTPUT->pix_icon('i/info', 'information', 'moodle'),
+                'iconerror' => $OUTPUT->pix_icon('t/delete', 'error', 'moodle'),
+                'strcheck' => addslashes(get_string('settings_check_settings', 'local_copilot')),
+                'strchecking' => addslashes(get_string('settings_check_settings_checking', 'local_copilot')),
+                'elementid' => 'admin-' . $this->name,
+            ],
+        ]);
 
         return format_admin_setting($this, $this->visiblename, $html, $this->description, true, '', null, $query);
     }

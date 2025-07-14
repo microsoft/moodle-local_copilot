@@ -23,15 +23,12 @@
  * @copyright (C) 2024 onwards Microsoft, Inc. (http://microsoft.com/)
  */
 
-use local_copilot\local\adminsetting\check_settings;
+use local_copilot\local_copilot_admin_setting_check_settings;
 use local_copilot\utils;
 
 defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
-    // Load jquery library because it's used in the check_settings admin setting.
-    $PAGE->requires->jquery();
-
     // Add a section for the plugin configurations in the "Local plugins" section.
     $ADMIN->add('localplugins', new admin_category('local_copilot', get_string('pluginname', 'local_copilot')));
 
@@ -47,13 +44,14 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_heading('local_copilot/basic_settings', get_string('settings_basic_settings', 'local_copilot'),
         get_string('settings_basic_settings_desc', 'local_copilot')));
 
+    // Pagination limit.
     $settings->add(new admin_setting_configtext('local_copilot/paginationlimit',
         get_string('paginationlimit', 'local_copilot'),
         get_string('paginationlimit_desc', 'local_copilot'), 10, PARAM_INT));
 
     // Button to check settings.
     $oauthclientconfigurationurl = new moodle_url('/local/oauth2/manage_oauth_clients.php');
-    $settings->add(new check_settings('local_copilot/check_settings',
+    $settings->add(new local_copilot_admin_setting_check_settings('local_copilot/check_settings',
         get_string('settings_check_settings', 'local_copilot'),
         get_string('settings_check_settings_desc', 'local_copilot', $oauthclientconfigurationurl->out()), null));
 
