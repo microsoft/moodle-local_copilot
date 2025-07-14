@@ -66,9 +66,7 @@ class agent_configuration_form extends moodleform {
      * Form definition.
      */
     protected function definition() {
-        global $CFG, $DB, $PAGE;
-
-        $PAGE->requires->css('/local/copilot/styles.css');
+        global $CFG, $DB;
 
         $mform =& $this->_form;
 
