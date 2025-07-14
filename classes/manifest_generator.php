@@ -149,11 +149,7 @@ class manifest_generator {
         global $CFG;
 
         // Step 1: create temporary manifest folder.
-        $pathtomanifestfolder = $CFG->dataroot . '/temp/copilot/' . $this->role . '/manifest/' . time() . '_' . random_string(6);
-        if (file_exists($pathtomanifestfolder)) {
-            $this->rm_dir($pathtomanifestfolder);
-        }
-        mkdir($pathtomanifestfolder, 0777, true);
+        $pathtomanifestfolder = make_request_directory();
 
         // Step 2: create app manifest.
         $appmanifestcontent = $this->get_app_manifest_content();
