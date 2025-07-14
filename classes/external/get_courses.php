@@ -28,6 +28,7 @@ namespace local_copilot\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+use context_system;
 use external_api;
 use external_value;
 use external_function_parameters;
@@ -87,9 +88,17 @@ class get_courses extends external_api {
             $moodlelimit = $microconfig->paginationlimit;
         }
 
-        // Validate input.
+        // Validate parameters.
+        $params = self::validate_parameters(self::execute_parameters(), ['limit' => $limit, 'offset' => $offset]);
+        $limit = $params['limit'];
         $limit = (!empty($limit) && is_numeric($limit)) ? intval($limit) : $moodlelimit;
+        $offset = $params['offset'];
         $offset = (!empty($offset) && is_numeric($offset)) ? intval($offset) : 0;
+
+        // Perform security checks.
+        $context = context_system::instance();
+        self::validate_context($context);
+
         // Get the courses where the user is enrolled.
         $courses = enrol_get_users_courses($USER->id, true, ['enddate']);
 

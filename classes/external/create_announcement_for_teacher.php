@@ -84,11 +84,9 @@ class create_announcement_for_teacher extends external_api {
      * @param string|null $announcementtimestart
      * @param string|null $announcementtimeend
      * @return array|null
-     * @throws \coding_exception
      */
     public static function execute(int $announcementcourseid, string $announcementsubject, string $announcementmessage,
-                                   ?int $announcementpinned = null, ?string $announcementtimestart = null,
-                                   ?string $announcementtimeend = null): ?array {
+        ?int $announcementpinned = null, ?string $announcementtimestart = null, ?string $announcementtimeend = null): ?array {
         global $DB;
 
         // Convert date strings to Unix timestamps.
@@ -99,6 +97,7 @@ class create_announcement_for_teacher extends external_api {
             return ['success' => false, 'id' => 0, 'error' => 'Invalid date format. Use MM/DD/YYYY.'];
         }
 
+        // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $announcementcourseid, 'announcement_subject' => $announcementsubject,
             'announcement_message' => $announcementmessage, 'announcement_pinned' => $announcementpinned,
@@ -118,7 +117,9 @@ class create_announcement_for_teacher extends external_api {
             die;
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($courseid);
+        self::validate_context($coursecontext);
         // Check if user has course update capability.
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have course update capability');

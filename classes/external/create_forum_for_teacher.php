@@ -85,10 +85,10 @@ class create_forum_for_teacher extends external_api {
                                    ?string $forumdescription = null): ?array {
         global $DB;
 
+        // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $forumcourseid, 'forum_name' => $forumname, 'section_id' => $sectionid,
             'forum_description' => $forumdescription]);
-
         $courseid = $params['course_id'];
         $title = $params['forum_name'];
         $section = $params['section_id'];
@@ -100,7 +100,9 @@ class create_forum_for_teacher extends external_api {
             die;
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($courseid);
+        self::validate_context($coursecontext);
         if (!has_capability('mod/forum:addinstance', $coursecontext)) {
             header('HTTP/1.0 403 user does not have forum add instance capability');
             die;

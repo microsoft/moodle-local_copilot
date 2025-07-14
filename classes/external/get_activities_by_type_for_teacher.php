@@ -29,6 +29,7 @@ namespace local_copilot\external;
 defined('MOODLE_INTERNAL') || die();
 
 use context_course;
+use context_system;
 use external_api;
 use external_function_parameters;
 use external_multiple_structure;
@@ -110,6 +111,10 @@ class get_activities_by_type_for_teacher extends external_api {
         $offset = $params['offset'];
         $offset = (!empty($offset) && is_numeric($offset)) ? $offset : 0;
         $courseid = $params['course_id'];
+
+        // Perform security checks.
+        $context = context_system::instance();
+        self::validate_context($context);
 
         // Check if activity type exists in modules table.
         $module = $DB->get_record('modules', ['name' => $activitytype]);

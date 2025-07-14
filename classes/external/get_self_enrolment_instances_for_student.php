@@ -29,6 +29,7 @@ namespace local_copilot\external;
 defined('MOODLE_INTERNAL') || die();
 
 use context_course;
+use context_system;
 use core_enrol_external;
 use external_api;
 use external_function_parameters;
@@ -80,6 +81,10 @@ class get_self_enrolment_instances_for_student extends external_api {
         $limit = (!empty($limit) && is_numeric($limit)) ? $limit : $moodlelimit;
         $offset = $params['offset'];
         $offset = (!empty($offset) && is_numeric($offset)) ? $offset : 0;
+
+        // Perform security checks.
+        $context = context_system::instance();
+        self::validate_context($context);
 
         $enrolmentmethodsdata = [];
 

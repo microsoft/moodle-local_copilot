@@ -78,6 +78,7 @@ class get_assignment_details_for_teacher extends external_api {
     public static function execute(int $activityid): array {
         global $DB;
 
+        // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(), ['activity_id' => $activityid]);
         $assignmentid = $params['activity_id'];
 
@@ -93,7 +94,9 @@ class get_assignment_details_for_teacher extends external_api {
             }
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($assignment->course);
+        self::validate_context($coursecontext);
         // Check if user has course update capability.
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have course update capability');
