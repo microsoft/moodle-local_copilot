@@ -34,8 +34,8 @@ use external_api;
 use external_function_parameters;
 use external_single_structure;
 use core_external\external_value;
-use local_copilot\resource\base_assignment_activity;
-use local_copilot\resource\student_assignment_activity;
+use local_copilot\local\resource\base_assignment_activity;
+use local_copilot\local\resource\student_assignment_activity;
 
 require_once($CFG->libdir . '/externallib.php');
 
@@ -73,6 +73,7 @@ class get_assignment_details_for_student extends external_api {
      *
      * @param int $activityid
      * @return array
+     * @uses die
      */
     public static function execute(int $activityid): array {
         global $DB, $USER;
@@ -88,7 +89,7 @@ class get_assignment_details_for_student extends external_api {
                 $assignment = $DB->get_record('assign', ['id' => $cm->instance]);
             } else {
                 header('HTTP/1.0 404 assignment not found');
-                die;
+                die();
             }
         }
 
@@ -98,14 +99,14 @@ class get_assignment_details_for_student extends external_api {
         // Check if user has access to the assignment and can submit mod/assign:submit.
         if (!has_capability('mod/assign:submit', context_module::instance($cm->id))) {
             header('HTTP/1.0 403 user does not have access to the assignment');
-            die;
+            die();
         }
 
         // Check if user is enrolled in the course.
         $roles = get_user_roles($coursecontext);
         if (!$roles) {
             header('HTTP/1.0 403 user is not enrolled');
-            die;
+            die();
         }
 
         // Check if user is student.
@@ -119,7 +120,7 @@ class get_assignment_details_for_student extends external_api {
 
         if (!$isstudent) {
             header('HTTP/1.0 403 user is not a student');
-            die;
+            die();
         }
 
         $coursedata = $DB->get_record('course', ['id' => $assignment->course], 'id, fullname', MUST_EXIST);

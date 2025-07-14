@@ -84,11 +84,10 @@ class create_announcement_for_teacher extends external_api {
      * @param string|null $announcementtimestart
      * @param string|null $announcementtimeend
      * @return array|null
-     * @throws \coding_exception
+     * @uses die
      */
     public static function execute(int $announcementcourseid, string $announcementsubject, string $announcementmessage,
-                                   ?int $announcementpinned = null, ?string $announcementtimestart = null,
-                                   ?string $announcementtimeend = null): ?array {
+        ?int $announcementpinned = null, ?string $announcementtimestart = null, ?string $announcementtimeend = null): ?array {
         global $DB;
 
         // Convert date strings to Unix timestamps.
@@ -115,26 +114,26 @@ class create_announcement_for_teacher extends external_api {
         $course = $DB->get_record('course', ['id' => $courseid]);
         if (!$course) {
             header('HTTP/1.0 404 course not found');
-            die;
+            die();
         }
 
         $coursecontext = context_course::instance($courseid);
         // Check if user has course update capability.
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have course update capability');
-            die;
+            die();
         }
 
         if (!has_capability('mod/forum:addinstance', $coursecontext)) {
             header('HTTP/1.0 403 user does not have forum add instance capability');
-            die;
+            die();
         }
 
         // Check if there is an announcement forum in the course.
         $announcementforum = $DB->get_record('forum', ['course' => $courseid, 'type' => 'news']);
         if (!$announcementforum) {
             header('HTTP/1.0 404 announcement forum not found');
-            die;
+            die();
         }
 
         // Create the discussion in the announcement forum.

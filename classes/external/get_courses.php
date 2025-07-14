@@ -33,7 +33,7 @@ use external_value;
 use external_function_parameters;
 use external_multiple_structure;
 use external_single_structure;
-use local_copilot\resource\base_course;
+use local_copilot\local\resource\base_course;
 
 require_once($CFG->libdir . '/externallib.php');
 
@@ -91,7 +91,7 @@ class get_courses extends external_api {
         $limit = (!empty($limit) && is_numeric($limit)) ? intval($limit) : $moodlelimit;
         $offset = (!empty($offset) && is_numeric($offset)) ? intval($offset) : 0;
         // Get the courses where the user is enrolled.
-        $courses = enrol_get_users_courses($USER->id, true, ['enddate']);
+        $courses = enrol_get_users_courses($USER->id, true, ['enddate', 'summary', 'enablecompletion']);
 
         $coursedata = [];
         $totalcourses = count($courses);

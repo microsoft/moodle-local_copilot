@@ -31,8 +31,8 @@ use core_external\external_value;
 use external_api;
 use external_function_parameters;
 use external_single_structure;
-use local_copilot\resource\base_assignment_activity;
-use local_copilot\resource\teacher_assignment_activity;
+use local_copilot\local\resource\base_assignment_activity;
+use local_copilot\local\resource\teacher_assignment_activity;
 use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
@@ -74,6 +74,7 @@ class get_assignment_details_for_teacher extends external_api {
      *
      * @param int $activityid
      * @return array
+     * @uses die
      */
     public static function execute(int $activityid): array {
         global $DB;
@@ -89,7 +90,7 @@ class get_assignment_details_for_teacher extends external_api {
                 $assignment = $DB->get_record('assign', ['id' => $cm->instance]);
             } else {
                 header('HTTP/1.0 404 assignment not found');
-                die;
+                die();
             }
         }
 
@@ -97,13 +98,13 @@ class get_assignment_details_for_teacher extends external_api {
         // Check if user has course update capability.
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have course update capability');
-            die;
+            die();
         }
         $cm = get_coursemodule_from_instance('assign', $assignment->id, $assignment->course);
 
         if (!$cm) {
             header('HTTP/1.0 404 assignment not found');
-            die;
+            die();
         }
 
         $coursedata = $DB->get_record('course', ['id' => $assignment->course], 'id, fullname', MUST_EXIST);

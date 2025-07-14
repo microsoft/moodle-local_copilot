@@ -115,13 +115,13 @@ class manifest_generator {
 
         $functions = [];
 
-        $apifunctionsdir = $CFG->dirroot . '/local/copilot/classes/api_functions';
+        $apifunctionsdir = $CFG->dirroot . '/local/copilot/classes/local/api_functions';
 
         $directoryiterator = new RecursiveDirectoryIterator($apifunctionsdir);
         $iterator = new RecursiveIteratorIterator($directoryiterator);
         foreach ($iterator as $file) {
             if ($file->isFile() && $file->getExtension() === 'php') {
-                $classname = 'local_copilot\\api_functions\\' . $file->getBasename('.php');
+                $classname = 'local_copilot\\local\\api_functions\\' . $file->getBasename('.php');
                 $reflection = new ReflectionClass($classname);
                 if ($reflection->getMethod('check_applicable_role_type')->invoke(null, $this->role)) {
                     $function = $reflection->newInstance();

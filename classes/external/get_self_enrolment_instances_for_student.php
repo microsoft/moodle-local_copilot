@@ -35,7 +35,7 @@ use external_function_parameters;
 use external_multiple_structure;
 use external_single_structure;
 use external_value;
-use local_copilot\resource\self_enrolment_method;
+use local_copilot\local\resource\self_enrolment_method;
 
 require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->dirroot . '/enrol/externallib.php');

@@ -71,6 +71,7 @@ class set_course_image_for_teacher extends external_api {
      * @param int $courseid
      * @param string $imageurl
      * @return array
+     * @uses die
      */
     public static function execute(int $courseid, string $imageurl): array {
         global $DB, $CFG;
@@ -84,13 +85,13 @@ class set_course_image_for_teacher extends external_api {
 
         if (!$course = $DB->get_record('course', ['id' => $courseid])) {
             header('HTTP/1.0 404 course not found');
-            die;
+            die();
         }
 
         $coursecontext = context_course::instance($courseid);
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have capability to update course');
-            die;
+            die();
         }
 
         // Download the image.

@@ -82,6 +82,7 @@ class get_course_students_for_teacher extends external_api {
      * @param int $limit
      * @param int $offset
      * @return array|null
+     * @uses die
      */
     public static function execute(int $courseid, int $limit = 10, int $offset = 0): ?array {
         global $DB;
@@ -106,14 +107,14 @@ class get_course_students_for_teacher extends external_api {
         $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
         if (!$course) {
             header('HTTP/1.0 404 course not found');
-            die;
+            die();
         }
 
         $coursecontext = context_course::instance($courseid);
         // Check if the user is a teacher.
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 the user is not a teacher');
-            die;
+            die();
         }
 
         $enrolledusers = get_enrolled_users($coursecontext, '', 0, 'u.*', null, 0, 0, true);
