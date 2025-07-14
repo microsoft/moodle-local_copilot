@@ -92,6 +92,7 @@ class get_course_students_for_teacher extends external_api {
             $moodlelimit = $microconfig->paginationlimit;
         }
 
+        // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(),
             ['course_id' => $courseid, 'limit' => $limit, 'offset' => $offset]);
         $courseid = $params['course_id'];
@@ -109,10 +110,12 @@ class get_course_students_for_teacher extends external_api {
             die;
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($courseid);
+        self::validate_context($coursecontext);
         // Check if the user is a teacher.
-        if (!has_capability('moodle/course:update', $coursecontext)) {
-            header('HTTP/1.0 403 the user is not a teacher');
+        if (!has_capability('moodle/course:viewparticipants', $coursecontext)) {
+            header('HTTP/1.0 403 the user cannot view participants in this course');
             die;
         }
 

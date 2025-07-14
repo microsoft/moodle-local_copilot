@@ -38,6 +38,7 @@ $functions = [
         'description' => 'Returns all students enrolled in a course for a teacher.',
         'type' => 'read',
         'ajax' => true,
+        'capabilities' => 'moodle/course:update, mod/course:viewparticipants',
         'services' => ['local_copilot'],
     ],
     'local_copilot_get_course_content_for_teacher' => [

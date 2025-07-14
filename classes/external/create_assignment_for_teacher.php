@@ -100,6 +100,7 @@ class create_assignment_for_teacher extends external_api {
             return ['success' => false, 'id' => 0, 'error' => 'Invalid date format. Use MM/DD/YYYY.'];
         }
 
+        // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $assignmentcourseid, 'assignment_name' => $assignmentname, 'section_id' => $sectionid,
             'assignment_description' => $assignmentdescription, 'allowsubmissionsfromdate' => $allowsubmissionsfromdate,
@@ -119,7 +120,9 @@ class create_assignment_for_teacher extends external_api {
             die;
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($courseid);
+        self::validate_context($coursecontext);
         if (!has_capability('mod/assign:addinstance', $coursecontext)) {
             header('HTTP/1.0 403 user does not have assign add instance capability');
             die;

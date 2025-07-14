@@ -75,6 +75,7 @@ class set_course_image_for_teacher extends external_api {
     public static function execute(int $courseid, string $imageurl): array {
         global $DB, $CFG;
 
+        // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(), [
             'course_id' => $courseid,
             'image_url' => $imageurl,
@@ -87,7 +88,9 @@ class set_course_image_for_teacher extends external_api {
             die;
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($courseid);
+        self::validate_context($coursecontext);
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have capability to update course');
             die;

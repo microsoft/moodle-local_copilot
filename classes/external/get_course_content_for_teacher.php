@@ -106,12 +106,15 @@ class get_course_content_for_teacher extends external_api {
             die;
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($courseid);
+        self::validate_context($coursecontext);
         // Check if user has course update capability.
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have teacher role');
             die;
         }
+
         $returnvalue = base_course::extract_course_data($course, $USER->id);
         $returnvalue += teacher_course::extract_course_data($course);
         $returnvalue['sections'] = [];

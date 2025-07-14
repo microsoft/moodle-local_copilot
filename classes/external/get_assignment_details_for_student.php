@@ -77,6 +77,7 @@ class get_assignment_details_for_student extends external_api {
     public static function execute(int $activityid): array {
         global $DB, $USER;
 
+        // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(), ['activity_id' => $activityid]);
         $assignmentid = $params['activity_id'];
 
@@ -95,8 +96,11 @@ class get_assignment_details_for_student extends external_api {
         $coursecontext = context_course::instance($assignment->course);
         $cm = get_coursemodule_from_instance('assign', $assignment->id, $assignment->course);
 
+        // Perform security checks.
+        $coursemodulecontext = context_module::instance($cm->id);
+        self::validate_context($coursemodulecontext);
         // Check if user has access to the assignment and can submit mod/assign:submit.
-        if (!has_capability('mod/assign:submit', context_module::instance($cm->id))) {
+        if (!has_capability('mod/assign:submit', $coursemodulecontext)) {
             header('HTTP/1.0 403 user does not have access to the assignment');
             die;
         }

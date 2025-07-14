@@ -106,7 +106,9 @@ class get_course_content_for_student extends external_api {
             die;
         }
 
+        // Perform security checks.
         $coursecontext = context_course::instance($courseid);
+        self::validate_context($coursecontext);
         // Check if user is enrolled in the course.
         $roles = get_user_roles($coursecontext);
         if (!$roles) {
