@@ -34,11 +34,11 @@ use external_function_parameters;
 use external_multiple_structure;
 use external_single_structure;
 use core_external\external_value;
-use local_copilot\resource\base_activity;
-use local_copilot\resource\base_course;
-use local_copilot\resource\course_section;
-use local_copilot\resource\student_activity;
-use local_copilot\resource\student_course;
+use local_copilot\local\resource\base_activity;
+use local_copilot\local\resource\base_course;
+use local_copilot\local\resource\course_section;
+use local_copilot\local\resource\student_activity;
+use local_copilot\local\resource\student_course;
 
 require_once($CFG->libdir . '/externallib.php');
 
@@ -92,6 +92,7 @@ class get_course_content_for_student extends external_api {
      *
      * @param int $courseid
      * @return array|null
+     * @uses die
      */
     public static function execute(int $courseid): ?array {
         global $DB, $USER;
@@ -103,7 +104,7 @@ class get_course_content_for_student extends external_api {
 
         if (!$course) {
             header('HTTP/1.0 404 course not found');
-            die;
+            die();
         }
 
         // Perform security checks.
@@ -113,7 +114,7 @@ class get_course_content_for_student extends external_api {
         $roles = get_user_roles($coursecontext);
         if (!$roles) {
             header('HTTP/1.0 403 user does not have access to the course content');
-            die;
+            die();
         }
 
         $returnvalue = base_course::extract_course_data($course, $USER->id);

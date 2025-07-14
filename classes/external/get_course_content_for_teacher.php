@@ -34,11 +34,11 @@ use external_function_parameters;
 use external_multiple_structure;
 use external_single_structure;
 use core_external\external_value;
-use local_copilot\resource\base_activity;
-use local_copilot\resource\base_course;
-use local_copilot\resource\course_section;
-use local_copilot\resource\teacher_activity;
-use local_copilot\resource\teacher_course;
+use local_copilot\local\resource\base_activity;
+use local_copilot\local\resource\base_course;
+use local_copilot\local\resource\course_section;
+use local_copilot\local\resource\teacher_activity;
+use local_copilot\local\resource\teacher_course;
 
 require_once($CFG->libdir . '/externallib.php');
 
@@ -93,6 +93,7 @@ class get_course_content_for_teacher extends external_api {
      *
      * @param int $courseid
      * @return array|null
+     * @uses die
      */
     public static function execute(int $courseid): ?array {
         global $DB, $USER;
@@ -103,7 +104,7 @@ class get_course_content_for_teacher extends external_api {
         $course = $DB->get_record('course', ['id' => $courseid]);
         if (!$course) {
             header('HTTP/1.0 404 course not found');
-            die;
+            die();
         }
 
         // Perform security checks.
@@ -112,7 +113,7 @@ class get_course_content_for_teacher extends external_api {
         // Check if user has course update capability.
         if (!has_capability('moodle/course:update', $coursecontext)) {
             header('HTTP/1.0 403 user does not have teacher role');
-            die;
+            die();
         }
 
         $returnvalue = base_course::extract_course_data($course, $USER->id);

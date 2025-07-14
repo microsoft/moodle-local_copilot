@@ -86,6 +86,7 @@ class create_assignment_for_teacher extends external_api {
      * @param string|null $assignmentduedate
      * @param string|null $assignmentinstructions
      * @return array|null
+     * @uses die
      */
     public static function execute(int $assignmentcourseid, string $assignmentname, int $sectionid,
         ?string $assignmentdescription = null, ?string $allowsubmissionsfromdate = null, ?string $assignmentduedate = null,
@@ -117,7 +118,7 @@ class create_assignment_for_teacher extends external_api {
         $course = $DB->get_record('course', ['id' => $courseid]);
         if (!$course) {
             header('HTTP/1.0 404 course not found');
-            die;
+            die();
         }
 
         // Perform security checks.
@@ -125,7 +126,7 @@ class create_assignment_for_teacher extends external_api {
         self::validate_context($coursecontext);
         if (!has_capability('mod/assign:addinstance', $coursecontext)) {
             header('HTTP/1.0 403 user does not have assign add instance capability');
-            die;
+            die();
         }
 
         // From: mod/assign/tests/generator/lib.php.

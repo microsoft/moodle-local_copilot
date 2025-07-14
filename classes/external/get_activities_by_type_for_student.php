@@ -35,9 +35,9 @@ use external_function_parameters;
 use external_multiple_structure;
 use external_single_structure;
 use core_external\external_value;
-use local_copilot\resource\base_activity;
-use local_copilot\resource\student_activity;
-use local_copilot\resource\base_activity_course;
+use local_copilot\local\resource\base_activity;
+use local_copilot\local\resource\student_activity;
+use local_copilot\local\resource\base_activity_course;
 
 require_once($CFG->libdir . '/externallib.php');
 
@@ -87,6 +87,7 @@ class get_activities_by_type_for_student extends external_api {
      * @param int $limit
      * @param int $offset
      * @return array|null
+     * @uses die
      */
     public static function execute(string $activitytype, int $limit = 10, int $offset = 0): ?array {
         global $DB, $USER;
@@ -125,7 +126,7 @@ class get_activities_by_type_for_student extends external_api {
 
             if (!$module) {
                 header('HTTP/1.0 404 activity not found');
-                die;
+                die();
             }
         }
 

@@ -15,24 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page processes ajax requests.
+ * Resource type interface for web service return data in local_copilot.
  *
  * @package local_copilot
- * @author Lai Wei <lai.wei@enovation.ie>
- * @license https://opensource.org/licenses/MIT MIT License
- * @copyright (C) 2024 onwards Microsoft, Inc. (http://microsoft.com/)
+ * @author Lai Wei <lai.wei@enovation.ie
+ * @license https://opensource.org/license/MIT MIT License
+ * @copyright (C) 2014 onwards Microsoft, Inc. (http://microsoft.com/)
  */
 
-use local_copilot\local\page\ajax;
+namespace local_copilot\local\resource;
 
-define('AJAX_SCRIPT', true);
-
-require_once(__DIR__ . '/../../config.php');
-
-require_login();
-$mode = required_param('mode', PARAM_TEXT);
-require_capability('moodle/site:config', context_system::instance());
-
-$url = '/local/copilot/ajax.php';
-$page = new ajax($url, '');
-$page->run($mode);
+/**
+ * Interface for resource types in local_copilot.
+ *
+ * @package local_copilot
+ * @license https://opensource.org/license/MIT MIT License
+ */
+interface resource_type {
+    /**
+     * Get the resource return structure.
+     *
+     * @return array
+     */
+    public static function get_return_structure(): array;
+}

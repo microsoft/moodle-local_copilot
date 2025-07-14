@@ -23,7 +23,7 @@
  * @copyright (C) 2024 onwards Microsoft, Inc. (http://microsoft.com/)
  */
 
-use local_copilot\adminsetting\check_settings;
+use local_copilot\local\adminsetting\check_settings;
 use local_copilot\utils;
 
 defined('MOODLE_INTERNAL') || die();

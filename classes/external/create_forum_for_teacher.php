@@ -80,9 +80,10 @@ class create_forum_for_teacher extends external_api {
      * @param int $sectionid
      * @param string|null $forumdescription
      * @return array|null
+     * @uses die
      */
     public static function execute(int $forumcourseid, string $forumname, int $sectionid,
-                                   ?string $forumdescription = null): ?array {
+        ?string $forumdescription = null): ?array {
         global $DB;
 
         // Validate parameters.
@@ -97,7 +98,7 @@ class create_forum_for_teacher extends external_api {
         $course = $DB->get_record('course', ['id' => $courseid]);
         if (!$course) {
             header('HTTP/1.0 404 course not found');
-            die;
+            die();
         }
 
         // Perform security checks.
@@ -105,7 +106,7 @@ class create_forum_for_teacher extends external_api {
         self::validate_context($coursecontext);
         if (!has_capability('mod/forum:addinstance', $coursecontext)) {
             header('HTTP/1.0 403 user does not have forum add instance capability');
-            die;
+            die();
         }
 
         // From: mod/forum/tests/generator/lib.php.
