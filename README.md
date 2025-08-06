@@ -260,7 +260,7 @@ Developed by Microsoft Education and Enovation Solutions.
 
 ## License
 
-This plugin is licensed under the MIT License. See [LICENSE](LICENSE).
+This plugin is licensed under the GNU GPL v3.0 License. See [LICENSE](LICENSE).
 
 ## Support
 
