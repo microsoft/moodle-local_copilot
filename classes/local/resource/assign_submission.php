@@ -83,17 +83,33 @@ class assign_submission implements resource_type {
 
         $submissiondatetime = 0;
         $finalgrade = -1;
-        if ($submissionstatus['data']['lastattempt']['submission']['status'] == 'submitted') {
-            $submissiondatetime = $submissionstatus['data']['lastattempt']['submission']['timemodified'];
-            if (grade_is_user_graded_in_activity($cm, $record->userid)) {
-                $grade = grade_get_grades(
-                    $record->courseid,
-                    'mod',
-                    'assign',
-                    $record->id,
-                    $record->userid
-                );
-                $finalgrade = $grade->items[0]->grades[$record->userid]->grade;
+        $submissionstatusvalue = 'new';
+
+        // Check if the call was successful and data exists.
+        if (!empty($submissionstatus['error']) || !isset($submissionstatus['data'])) {
+            // If there's an error or no data, use default values.
+            $submissionstatusvalue = 'new';
+        } else {
+            $data = $submissionstatus['data'];
+
+            // Safely extract submission status and datetime.
+            if (isset($data['lastattempt']['submission']['status'])) {
+                $submissionstatusvalue = $data['lastattempt']['submission']['status'];
+
+                if ($submissionstatusvalue == 'submitted') {
+                    $submissiondatetime = $data['lastattempt']['submission']['timemodified'] ?? 0;
+
+                    if (grade_is_user_graded_in_activity($cm, $record->userid)) {
+                        $grade = grade_get_grades(
+                            $record->courseid,
+                            'mod',
+                            'assign',
+                            $record->id,
+                            $record->userid
+                        );
+                        $finalgrade = $grade->items[0]->grades[$record->userid]->grade;
+                    }
+                }
             }
         }
 
@@ -114,7 +130,7 @@ class assign_submission implements resource_type {
             'student_full_name' => $record->fullname,
             */
             'student_user_id' => $record->userid,
-            'submitted' => $submissionstatus['data']['lastattempt']['submission']['status'],
+            'submitted' => $submissionstatusvalue,
             'submission_datetime' => $submissiondatetime,
             'activity_grade' => $finalgrade,
             'completed' => $completionstatus->completionstate == 1,

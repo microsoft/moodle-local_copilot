@@ -91,18 +91,30 @@ class student_assignment_activity implements resource_type {
         $submitted = false;
         $submitteddatetime = 0;
         $finalgrade = -1;
-        if ($submissionstatus['data']['lastattempt']['submission']['status'] == 'submitted') {
-            $submitted = true;
-            $submitteddatetime = $submissionstatus['data']['lastattempt']['submission']['timemodified'];
-            if (grade_is_user_graded_in_activity($cm, $assignmentactivity->userid)) {
-                $grade = grade_get_grades(
-                    $assignmentactivity->courseid,
-                    'mod',
-                    'assign',
-                    $assignmentactivity->id,
-                    $assignmentactivity->userid
-                );
-                $finalgrade = $grade->items[0]->grades[$assignmentactivity->userid]->grade;
+
+        // Check if the call was successful and data exists.
+        if (empty($submissionstatus['error']) && isset($submissionstatus['data'])) {
+            $data = $submissionstatus['data'];
+
+            // Safely extract submission status and datetime.
+            if (isset($data['lastattempt']['submission']['status'])) {
+                $submissionstatusvalue = $data['lastattempt']['submission']['status'];
+
+                if ($submissionstatusvalue == 'submitted') {
+                    $submitted = true;
+                    $submitteddatetime = $data['lastattempt']['submission']['timemodified'] ?? 0;
+
+                    if (grade_is_user_graded_in_activity($cm, $assignmentactivity->userid)) {
+                        $grade = grade_get_grades(
+                            $assignmentactivity->courseid,
+                            'mod',
+                            'assign',
+                            $assignmentactivity->id,
+                            $assignmentactivity->userid
+                        );
+                        $finalgrade = $grade->items[0]->grades[$assignmentactivity->userid]->grade;
+                    }
+                }
             }
         }
 

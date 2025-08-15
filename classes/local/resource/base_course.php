@@ -32,6 +32,7 @@ use external_value;
 use moodle_url;
 use stdClass;
 
+global $CFG;
 require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/accesslib.php');
 

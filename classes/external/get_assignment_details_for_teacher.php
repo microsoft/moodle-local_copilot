@@ -37,6 +37,8 @@ use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+
 require_once($CFG->dirroot . '/course/format/lib.php');
 require_once($CFG->libdir . '/externallib.php');
 

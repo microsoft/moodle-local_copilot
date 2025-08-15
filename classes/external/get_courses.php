@@ -28,6 +28,8 @@ namespace local_copilot\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+
 use context_system;
 use external_api;
 use external_value;
