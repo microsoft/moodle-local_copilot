@@ -54,6 +54,7 @@ if ($action == 'download') {
         header('Pragma: no-cache');
         header('Expires: 0');
         readfile($manifestfilepath);
+        exit;
     } else {
         throw new moodle_exception($errorcode, 'local_copilot');
     }
