@@ -256,5 +256,22 @@ function xmldb_local_copilot_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024042147, 'local', 'copilot');
     }
 
+    if ($oldversion < 2024100705.01) {
+        // Make sure that supportdefaultacceptheader setting in webservice_restful is set.
+        $supportdefaultacceptheader = get_config('webservice_restful', 'supportdefaultacceptheader');
+        if (empty($supportdefaultacceptheader)) {
+            set_config('supportdefaultacceptheader', 1, 'webservice_restful');
+        }
+
+        // Make sure that defaultacceptheader setting in webservice_restful is set.
+        $defaultacceptheader = get_config('webservice_restful', 'defaultacceptheader');
+        if (empty($defaultacceptheader)) {
+            set_config('defaultacceptheader', 'json', 'webservice_restful');
+        }
+
+        // Copilot savepoint reached.
+        upgrade_plugin_savepoint(true, 2024100705.01, 'local', 'copilot');
+    }
+
     return true;
 }
