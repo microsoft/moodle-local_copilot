@@ -75,131 +75,250 @@ class agent_configuration_form extends moodleform {
         $mform->setType('role', PARAM_ALPHA);
 
         // Agent details header.
-        $mform->addElement('header', $this->role . '_agent_details',
-            get_string('settings_configure_' . $this->role . '_agent', 'local_copilot'));
+        $mform->addElement(
+            'header',
+            $this->role . '_agent_details',
+            get_string('settings_configure_' . $this->role . '_agent', 'local_copilot')
+        );
         $mform->setExpanded($this->role . '_agent_details');
 
         // Agent app external ID.
-        $mform->addElement('text', $this->role . '_agent_app_external_id', get_string('app_external_id', 'local_copilot'),
-            ['maxlength' => 36, 'size' => 36]);
+        $mform->addElement(
+            'text',
+            $this->role . '_agent_app_external_id',
+            get_string('app_external_id', 'local_copilot'),
+            ['maxlength' => 36, 'size' => 36]
+        );
         $mform->setType($this->role . '_agent_app_external_id', PARAM_TEXT);
         $defaultexternalid = $this->role == manifest_generator::ROLE_TYPE_TEACHER ?
             static::TEACHER_APP_DEFAULT_EXTERNAL_ID : static::STUDENT_APP_DEFAULT_EXTERNAL_ID;
         $mform->setDefault($this->role . '_agent_app_external_id', $defaultexternalid);
-        $mform->addElement('static', $this->role . '_agent_app_external_id_help', '',
-            get_string('app_external_id_help', 'local_copilot', ['role' => $this->role, 'id' => $defaultexternalid]));
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_app_external_id_help',
+            '',
+            get_string('app_external_id_help', 'local_copilot', ['role' => $this->role, 'id' => $defaultexternalid])
+        );
         $mform->addRule($this->role . '_agent_app_external_id', null, 'required', null, 'client');
 
         // Agent app short name.
-        $mform->addElement('text', $this->role . '_agent_app_short_name', get_string('app_short_name', 'local_copilot'),
-            ['maxlength' => 30, 'size' => 30]);
+        $mform->addElement(
+            'text',
+            $this->role . '_agent_app_short_name',
+            get_string('app_short_name', 'local_copilot'),
+            ['maxlength' => 30, 'size' => 30]
+        );
         $mform->setType($this->role . '_agent_app_short_name', PARAM_TEXT);
         $mform->setDefault($this->role . '_agent_app_short_name', 'Moodle ' . ucfirst($this->role));
-        $mform->addElement('static', $this->role . '_agent_app_short_name_help', '',
-            get_string('app_short_name_help', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_app_short_name_help',
+            '',
+            get_string('app_short_name_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_app_short_name', null, 'required', null, 'client');
 
         // Agent app full name.
-        $mform->addElement('text', $this->role . '_agent_app_full_name', get_string('app_full_name', 'local_copilot'),
-            ['maxlength' => 100, 'size' => 80]);
+        $mform->addElement(
+            'text',
+            $this->role . '_agent_app_full_name',
+            get_string('app_full_name', 'local_copilot'),
+            ['maxlength' => 100, 'size' => 80]
+        );
         $mform->setType($this->role . '_agent_app_full_name', PARAM_TEXT);
-        $mform->setDefault($this->role . '_agent_app_full_name', 'Moodle ' . ucfirst($this->role) .
-            ' app for Microsoft 365 Copilot');
-        $mform->addElement('static', $this->role . '_agent_app_full_name_help', '',
-            get_string('app_full_name_help', 'local_copilot'));
+        $mform->setDefault(
+            $this->role . '_agent_app_full_name',
+            'Moodle ' . ucfirst($this->role) . ' app for Microsoft 365 Copilot'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_app_full_name_help',
+            '',
+            get_string('app_full_name_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_app_full_name', null, 'required', null, 'client');
 
         // App version.
-        $mform->addElement('text', 'app_version', get_string('app_version', 'local_copilot'),
-            ['maxlength' => 10, 'size' => 10]);
+        $mform->addElement(
+            'text',
+            'app_version',
+            get_string('app_version', 'local_copilot'),
+            ['maxlength' => 10, 'size' => 10]
+        );
         $mform->setType('app_version', PARAM_TEXT);
         $mform->setDefault('app_version', '1.0.0');
         $mform->addElement('static', 'app_version_help', '', get_string('app_version_help', 'local_copilot'));
         $mform->addRule('app_version', null, 'required', null, 'client');
 
         // Agent app short description.
-        $mform->addElement('text', $this->role . '_agent_app_short_description',
-            get_string('app_short_description', 'local_copilot'), ['maxlength' => 80, 'size' => 80]);
+        $mform->addElement(
+            'text',
+            $this->role . '_agent_app_short_description',
+            get_string('app_short_description', 'local_copilot'),
+            ['maxlength' => 80, 'size' => 80]
+        );
         $mform->setType($this->role . '_agent_app_short_description', PARAM_TEXT);
-        $mform->setDefault($this->role . '_agent_app_short_description', 'A declarative agent for Moodle ' . $this->role .
-            's');
-        $mform->addElement('static', $this->role . '_agent_app_short_description_help', '',
-            get_string('app_short_description_help', 'local_copilot'));
+        $mform->setDefault(
+            $this->role . '_agent_app_short_description',
+            'A declarative agent for Moodle ' . $this->role . 's'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_app_short_description_help',
+            '',
+            get_string('app_short_description_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_app_short_description', null, 'required', null, 'client');
 
         // Agent app full description.
-        $mform->addElement('textarea', $this->role . '_agent_app_full_description',
-            get_string('app_full_description', 'local_copilot'), ['rows' => 5, 'cols' => 80, 'maxlength' => 400]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_app_full_description',
+            get_string('app_full_description', 'local_copilot'),
+            ['rows' => 5, 'cols' => 80, 'maxlength' => 400]
+        );
         $mform->setType($this->role . '_agent_app_full_description', PARAM_TEXT);
         switch ($this->role) {
             case manifest_generator::ROLE_TYPE_TEACHER:
-                $mform->setDefault($this->role . '_agent_app_full_description',
+                $mform->setDefault(
+                    $this->role . '_agent_app_full_description',
                     'This agent provides a set of functions to help teachers interact with Moodle data in Microsoft 365 Copilot.' .
-                    ' It provides functions to list courses, find course content, and get assignment details.');
+                    ' It provides functions to list courses, find course content, and get assignment details.'
+                );
                 break;
             case manifest_generator::ROLE_TYPE_STUDENT:
-                $mform->setDefault($this->role . '_agent_app_full_description',
+                $mform->setDefault(
+                    $this->role . '_agent_app_full_description',
                     'This agent provides a set of functions to help students interact with Moodle data in Microsoft 365 Copilot. ' .
-                    'It provides functions to list courses, find course content, find activities, and get assignment details.');
+                    'It provides functions to list courses, find course content, find activities, and get assignment details.'
+                );
                 break;
         }
-        $mform->addElement('static', $this->role . '_agent_app_full_description_help', '',
-            get_string('app_full_description_help', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_app_full_description_help',
+            '',
+            get_string('app_full_description_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_app_full_description', null, 'required', null, 'client');
 
         // Accent color.
-        $mform->addElement('text', $this->role . '_agent_accent_color', get_string('accent_color', 'local_copilot'),
-            ['maxlength' => 7, 'size' => 7]);
+        $mform->addElement(
+            'text',
+            $this->role . '_agent_accent_color',
+            get_string('accent_color', 'local_copilot'),
+            ['maxlength' => 7, 'size' => 7]
+        );
         $mform->setType($this->role . '_agent_accent_color', PARAM_TEXT);
         $mform->setDefault($this->role . '_agent_accent_color', '#FFFFFF');
-        $mform->addElement('static', $this->role . '_agent_accent_color_help', '',
-            get_string('accent_color_help', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_accent_color_help',
+            '',
+            get_string('accent_color_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_accent_color', null, 'required', null, 'client');
 
         // Agent display name.
-        $mform->addElement('text', $this->role . '_agent_display_name', get_string('agent_display_name', 'local_copilot'),
-            ['maxlength' => 100, 'size' => 80]);
+        $mform->addElement(
+            'text',
+            $this->role . '_agent_display_name',
+            get_string('agent_display_name', 'local_copilot'),
+            ['maxlength' => 100, 'size' => 80]
+        );
         $mform->setType($this->role . '_agent_display_name', PARAM_TEXT);
         $mform->setDefault($this->role . '_agent_display_name', 'Moodle ' . ucfirst($this->role));
-        $mform->addElement('static', $this->role . '_agent_display_name_help', '',
-            get_string('agent_display_name_help', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_display_name_help',
+            '',
+            get_string('agent_display_name_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_display_name', null, 'required', null, 'client');
 
         // Agent description.
-        $mform->addElement('textarea', $this->role . '_agent_description', get_string('agent_description', 'local_copilot'),
-            ['rows' => 5, 'cols' => 80, 'maxlength' => 1000]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_description',
+            get_string('agent_description', 'local_copilot'),
+            ['rows' => 5, 'cols' => 80, 'maxlength' => 1000]
+        );
         $mform->setType($this->role . '_agent_description', PARAM_TEXT);
-        $mform->setDefault($this->role . '_agent_description', 'An agent that can answer questions to ' . $this->role .
-            's using Moodle data.');
-        $mform->addElement('static', $this->role . '_agent_description_help', '',
-            get_string('agent_description_help', 'local_copilot'));
+        $mform->setDefault(
+            $this->role . '_agent_description',
+            'An agent that can answer questions to ' . $this->role . 's using Moodle data.'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_description_help',
+            '',
+            get_string('agent_description_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_description', null, 'required', null, 'client');
 
         // Agent instructions.
-        $mform->addElement('textarea', $this->role . '_agent_instructions', get_string('agent_instructions', 'local_copilot'),
-            ['rows' => 16, 'cols' => 80, 'maxlength' => 8000]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_instructions',
+            get_string('agent_instructions', 'local_copilot'),
+            ['rows' => 16, 'cols' => 80, 'maxlength' => 8000]
+        );
         $mform->setType($this->role . '_agent_instructions', PARAM_TEXT);
         $instructionfile = $CFG->dirroot . '/local/copilot/manifest_resource/instructions/' . $this->role . '.txt';
         $instructions = file_get_contents($instructionfile);
         $mform->setDefault($this->role . '_agent_instructions', $instructions);
-        $mform->addElement('static', $this->role . '_agent_instructions_help', '',
-            get_string('agent_instructions_help', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_instructions_help',
+            '',
+            get_string('agent_instructions_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_instructions', null, 'required', null, 'client');
 
         // Color icon.
-        $mform->addElement('filemanager', $this->role . '_agent_color_icon', get_string('color_icon', 'local_copilot'), null,
-            ['subdirs' => 0, 'accepted_types' => ['.png'], 'maxbytes' => utils::MAX_ICON_SIZE,
-                'areamaxbytes' => utils::MAX_ICON_SIZE, 'maxfiles' => 1]);
-        $mform->addElement('static', $this->role . '_agent_color_icon_help', '', get_string('color_icon_help', 'local_copilot'),
-            '');
+        $mform->addElement(
+            'filemanager',
+            $this->role . '_agent_color_icon',
+            get_string('color_icon', 'local_copilot'),
+            null,
+            [
+                'subdirs' => 0,
+                'accepted_types' => ['.png'],
+                'maxbytes' => utils::MAX_ICON_SIZE,
+                'areamaxbytes' => utils::MAX_ICON_SIZE,
+                'maxfiles' => 1,
+            ]
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_color_icon_help',
+            '',
+            get_string('color_icon_help', 'local_copilot'),
+            ''
+        );
         $mform->addRule($this->role . '_agent_color_icon', null, 'required', null, 'client');
 
         // Outline icon.
-        $mform->addElement('filemanager', $this->role . '_agent_outline_icon', get_string('outline_icon', 'local_copilot'), null,
-            ['subdirs' => 0, 'accepted_types' => ['.png'], 'maxbytes' => utils::MAX_ICON_SIZE,
-                'areamaxbytes' => utils::MAX_ICON_SIZE, 'maxfiles' => 1]);
-        $mform->addElement('static', $this->role . '_agent_outline_icon_help', '', get_string('outline_icon_help', 'local_copilot'),
-            '');
+        $mform->addElement(
+            'filemanager',
+            $this->role . '_agent_outline_icon',
+            get_string('outline_icon', 'local_copilot'),
+            null,
+            [
+                'subdirs' => 0,
+                'accepted_types' => ['.png'],
+                'maxbytes' => utils::MAX_ICON_SIZE,
+                'areamaxbytes' => utils::MAX_ICON_SIZE,
+                'maxfiles' => 1,
+            ]
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_outline_icon_help',
+            '',
+            get_string('outline_icon_help', 'local_copilot'),
+            ''
+        );
         $mform->addRule($this->role . '_agent_outline_icon', null, 'required', null, 'client');
 
         // Teams developer portal OAuth client registration ID.
@@ -219,117 +338,243 @@ class agent_configuration_form extends moodleform {
             'refresh_endpoint' => $refreshendpoint->out(),
             'scope' => $this->role . '.read, ' . $this->role . '.write',
         ];
-        $mform->addElement('static', $this->role . '_oauth_client_registration_id_steps',
+        $mform->addElement(
+            'static',
+            $this->role . '_oauth_client_registration_id_steps',
             get_string('agent_oauth_client_registration_id_steps', 'local_copilot'),
-            get_string('agent_oauth_client_registration_id_help', 'local_copilot', $stringparams));
-        $mform->addElement('text', $this->role . '_oauth_client_registration_id',
-            get_string('agent_oauth_client_registration_id', 'local_copilot'), ['maxlength' => 100, 'size' => 80]);
+            get_string('agent_oauth_client_registration_id_help', 'local_copilot', $stringparams)
+        );
+        $mform->addElement(
+            'text',
+            $this->role . '_oauth_client_registration_id',
+            get_string('agent_oauth_client_registration_id', 'local_copilot'),
+            ['maxlength' => 100, 'size' => 80]
+        );
         $mform->setType($this->role . '_oauth_client_registration_id', PARAM_TEXT);
         $mform->addRule($this->role . '_oauth_client_registration_id', null, 'required', null, 'client');
 
         // Agent plugin name.
-        $mform->addElement('text', $this->role . '_agent_plugin_name', get_string('agent_plugin_name', 'local_copilot'),
-            ['maxlength' => 20, 'size' => 20]);
+        $mform->addElement(
+            'text',
+            $this->role . '_agent_plugin_name',
+            get_string('agent_plugin_name', 'local_copilot'),
+            ['maxlength' => 20, 'size' => 20]
+        );
         $mform->setType($this->role . '_agent_plugin_name', PARAM_TEXT);
         $mform->setDefault($this->role . '_agent_plugin_name', 'Moodle ' . ucfirst($this->role) . ' API');
-        $mform->addElement('static', $this->role . '_agent_plugin_name_help', '',
-            get_string('agent_plugin_name_help', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_plugin_name_help',
+            '',
+            get_string('agent_plugin_name_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_plugin_name', null, 'required', null, 'client');
 
         // Agent plugin description.
-        $mform->addElement('textarea', $this->role . '_agent_plugin_description',
-            get_string('agent_plugin_description', 'local_copilot'), ['rows' => 5, 'cols' => 80, 'maxlength' => 2048]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_plugin_description',
+            get_string('agent_plugin_description', 'local_copilot'),
+            ['rows' => 5, 'cols' => 80, 'maxlength' => 2048]
+        );
         $mform->setType($this->role . '_agent_plugin_description', PARAM_TEXT);
-        $mform->setDefault($this->role . '_agent_plugin_description',
+        $mform->setDefault(
+            $this->role . '_agent_plugin_description',
             'This API plugin provides access to Moodle data for Microsoft 365 Copilot. ' .
-            'It contains functions specifically for ' . $this->role . 's.');
-        $mform->addElement('static', $this->role . '_agent_plugin_description_help', '',
-            get_string('agent_plugin_description_help', 'local_copilot'));
+            'It contains functions specifically for ' . $this->role . 's.'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_plugin_description_help',
+            '',
+            get_string('agent_plugin_description_help', 'local_copilot')
+        );
         $mform->addRule($this->role . '_agent_plugin_description', null, 'required', null, 'client');
 
         // Capabilities and knowledge sources settings.
-        $mform->addElement('header', 'capabilities_and_knowledge_sources_settings',
-            get_string('settings_capabilities_and_knowledge_sources', 'local_copilot'));
+        $mform->addElement(
+            'header',
+            'capabilities_and_knowledge_sources_settings',
+            get_string('settings_capabilities_and_knowledge_sources', 'local_copilot')
+        );
         $mform->setExpanded('capabilities_and_knowledge_sources_settings');
 
         // Capabilities and knowledge sources description.
-        $mform->addElement('static', 'capabilities_and_knowledge_sources_description', '',
-            get_string('settings_capabilities_and_knowledge_sources_desc', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            'capabilities_and_knowledge_sources_description',
+            '',
+            get_string('settings_capabilities_and_knowledge_sources_desc', 'local_copilot')
+        );
 
         // Code interpreter.
-        $mform->addElement('advcheckbox', $this->role . '_agent_capability_code_interpreter',
-            get_string('enable_code_interpreter', 'local_copilot'), null, ['group' => 1, 'disabled' => true], [0, 1]);
+        $mform->addElement(
+            'advcheckbox',
+            $this->role . '_agent_capability_code_interpreter',
+            get_string('enable_code_interpreter', 'local_copilot'),
+            null,
+            ['group' => 1, 'disabled' => true],
+            [0, 1]
+        );
         $mform->setDefault($this->role . '_agent_capability_code_interpreter', 1);
 
         // Image generator.
-        $mform->addElement('advcheckbox', $this->role . '_agent_capability_image_generator',
-            get_string('enable_image_generator', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->addElement(
+            'advcheckbox',
+            $this->role . '_agent_capability_image_generator',
+            get_string('enable_image_generator', 'local_copilot'),
+            null,
+            ['group' => 1],
+            [0, 1]
+        );
         $mform->setDefault($this->role . '_agent_capability_image_generator', 1);
 
         // Copilot connectors.
-        $mform->addElement('advcheckbox', $this->role . '_agent_capability_copilot_connectors',
-            get_string('enable_copilot_connectors', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->addElement(
+            'advcheckbox',
+            $this->role . '_agent_capability_copilot_connectors',
+            get_string('enable_copilot_connectors', 'local_copilot'),
+            null,
+            ['group' => 1],
+            [0, 1]
+        );
         $mform->setDefault($this->role . '_agent_capability_copilot_connectors', 0);
 
         // Copilot connectors connection IDs.
-        $mform->addElement('textarea', $this->role . '_agent_copilot_connectors_connection_ids',
-            get_string('copilot_connectors_connection_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_copilot_connectors_connection_ids',
+            get_string('copilot_connectors_connection_ids', 'local_copilot'),
+            ['rows' => 8, 'cols' => 80]
+        );
         $mform->setType($this->role . '_agent_copilot_connectors_connection_ids', PARAM_TEXT);
-        $mform->hideIf($this->role . '_agent_copilot_connectors_connection_ids',
-            $this->role . '_agent_capability_copilot_connectors', 'unchecked');
-        $mform->addElement('static', $this->role . '_agent_copilot_connectors_connection_ids_help', '',
-            get_string('copilot_connectors_connection_ids_help', 'local_copilot'));
-        $mform->hideIf($this->role . '_agent_copilot_connectors_connection_ids_help',
-            $this->role . '_agent_capability_copilot_connectors', 'unchecked');
+        $mform->hideIf(
+            $this->role . '_agent_copilot_connectors_connection_ids',
+            $this->role . '_agent_capability_copilot_connectors',
+            'unchecked'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_copilot_connectors_connection_ids_help',
+            '',
+            get_string('copilot_connectors_connection_ids_help', 'local_copilot')
+        );
+        $mform->hideIf(
+            $this->role . '_agent_copilot_connectors_connection_ids_help',
+            $this->role . '_agent_capability_copilot_connectors',
+            'unchecked'
+        );
 
         // SharePoint and OneDrive.
-        $mform->addElement('advcheckbox', $this->role . '_agent_capability_sharepoint_onedrive',
-            get_string('enable_sharepoint_onedrive', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->addElement(
+            'advcheckbox',
+            $this->role . '_agent_capability_sharepoint_onedrive',
+            get_string('enable_sharepoint_onedrive', 'local_copilot'),
+            null,
+            ['group' => 1],
+            [0, 1]
+        );
         $mform->setDefault($this->role . '_agent_capability_sharepoint_onedrive', 0);
 
         // SharePoint and OneDrive help text.
-        $mform->addElement('static', $this->role . '_agent_capability_sharepoint_onedrive_help', '',
-            get_string('enable_sharepoint_onedrive_help', 'local_copilot'));
-        $mform->hideIf($this->role . '_agent_capability_sharepoint_onedrive_help',
-            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_capability_sharepoint_onedrive_help',
+            '',
+            get_string('enable_sharepoint_onedrive_help', 'local_copilot')
+        );
+        $mform->hideIf(
+            $this->role . '_agent_capability_sharepoint_onedrive_help',
+            $this->role . '_agent_capability_sharepoint_onedrive',
+            'unchecked'
+        );
 
         // Items by SharePoint IDs.
-        $mform->addElement('textarea', $this->role . '_agent_sharepoint_items_by_sharepoint_ids',
-            get_string('sharepoint_items_by_sharepoint_ids', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_sharepoint_items_by_sharepoint_ids',
+            get_string('sharepoint_items_by_sharepoint_ids', 'local_copilot'),
+            ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]
+        );
         $mform->setType($this->role . '_agent_sharepoint_items_by_sharepoint_ids', PARAM_TEXT);
-        $mform->hideIf($this->role . '_agent_sharepoint_items_by_sharepoint_ids',
-            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
-        $mform->addElement('static', $this->role . '_agent_sharepoint_items_by_sharepoint_ids_help', '',
-            get_string('sharepoint_items_by_sharepoint_ids_help', 'local_copilot'), ['style' => 'width: 100%']);
-        $mform->hideIf($this->role . '_agent_sharepoint_items_by_sharepoint_ids_help',
-            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+        $mform->hideIf(
+            $this->role . '_agent_sharepoint_items_by_sharepoint_ids',
+            $this->role . '_agent_capability_sharepoint_onedrive',
+            'unchecked'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_sharepoint_items_by_sharepoint_ids_help',
+            '',
+            get_string('sharepoint_items_by_sharepoint_ids_help', 'local_copilot'),
+            ['style' => 'width: 100%']
+        );
+        $mform->hideIf(
+            $this->role . '_agent_sharepoint_items_by_sharepoint_ids_help',
+            $this->role . '_agent_capability_sharepoint_onedrive',
+            'unchecked'
+        );
 
         // Items by URL.
-        $mform->addElement('textarea', $this->role . '_agent_sharepoint_items_by_url',
-            get_string('sharepoint_items_by_url', 'local_copilot'), ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_sharepoint_items_by_url',
+            get_string('sharepoint_items_by_url', 'local_copilot'),
+            ['rows' => 8, 'cols' => 80, 'maxlength' => 8192]
+        );
         $mform->setType($this->role . '_agent_sharepoint_items_by_url', PARAM_TEXT);
-        $mform->hideIf($this->role . '_agent_sharepoint_items_by_url',
-            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
-        $mform->addElement('static', $this->role . '_agent_sharepoint_items_by_url_help', '',
-            get_string('sharepoint_items_by_url_help', 'local_copilot'));
-        $mform->hideIf($this->role . '_agent_sharepoint_items_by_url_help',
-            $this->role . '_agent_capability_sharepoint_onedrive', 'unchecked');
+        $mform->hideIf(
+            $this->role . '_agent_sharepoint_items_by_url',
+            $this->role . '_agent_capability_sharepoint_onedrive',
+            'unchecked'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_sharepoint_items_by_url_help',
+            '',
+            get_string('sharepoint_items_by_url_help', 'local_copilot')
+        );
+        $mform->hideIf(
+            $this->role . '_agent_sharepoint_items_by_url_help',
+            $this->role . '_agent_capability_sharepoint_onedrive',
+            'unchecked'
+        );
 
         // Web search.
-        $mform->addElement('advcheckbox', $this->role . '_agent_capability_web_search',
-            get_string('enable_web_search', 'local_copilot'), null, ['group' => 1], [0, 1]);
+        $mform->addElement(
+            'advcheckbox',
+            $this->role . '_agent_capability_web_search',
+            get_string('enable_web_search', 'local_copilot'),
+            null,
+            ['group' => 1],
+            [0, 1]
+        );
         $mform->setDefault($this->role . '_agent_capability_web_search', 0);
 
         // Scoped web search.
-        $mform->addElement('textarea', $this->role . '_agent_scoped_web_search_sites',
-            get_string('scoped_web_search_sites', 'local_copilot'), ['rows' => 4, 'cols' => 80, 'maxlength' => 2048]);
+        $mform->addElement(
+            'textarea',
+            $this->role . '_agent_scoped_web_search_sites',
+            get_string('scoped_web_search_sites', 'local_copilot'),
+            ['rows' => 4, 'cols' => 80, 'maxlength' => 2048]
+        );
         $mform->setType($this->role . '_agent_scoped_web_search_sites', PARAM_TEXT);
-        $mform->hideIf($this->role . '_agent_scoped_web_search_sites', $this->role . '_agent_capability_web_search',
-            'unchecked');
-        $mform->addElement('static', $this->role . '_agent_scoped_web_search_sites_help', '',
-            get_string('scoped_web_search_sites_help', 'local_copilot'));
-        $mform->hideIf($this->role . '_agent_scoped_web_search_sites_help',
-            $this->role . '_agent_capability_web_search', 'unchecked');
+        $mform->hideIf(
+            $this->role . '_agent_scoped_web_search_sites',
+            $this->role . '_agent_capability_web_search',
+            'unchecked'
+        );
+        $mform->addElement(
+            'static',
+            $this->role . '_agent_scoped_web_search_sites_help',
+            '',
+            get_string('scoped_web_search_sites_help', 'local_copilot')
+        );
+        $mform->hideIf(
+            $this->role . '_agent_scoped_web_search_sites_help',
+            $this->role . '_agent_capability_web_search',
+            'unchecked'
+        );
 
         // Buttons.
         $this->add_action_buttons();
@@ -337,13 +582,21 @@ class agent_configuration_form extends moodleform {
         // Link to download manifest file.
         if (utils::is_agent_configured($this->role)) {
             $downloadurl = new moodle_url('/local/copilot/configure_agent.php', ['role' => $this->role, 'action' => 'download']);
-            $mform->addElement('static', $this->role . '_download_manifest_link', '',
-                html_writer::link($downloadurl, get_string('download_manifest', 'local_copilot'), ['class' => 'btn btn-primary']));
+            $mform->addElement(
+                'static',
+                $this->role . '_download_manifest_link',
+                '',
+                html_writer::link($downloadurl, get_string('download_manifest', 'local_copilot'), ['class' => 'btn btn-primary'])
+            );
         }
 
         // Reminder to configure the app in Teams developer portal.
-        $mform->addElement('static', $this->role . '_configure_app_link', '',
-            get_string('configure_app_in_teams_dev_portal', 'local_copilot'));
+        $mform->addElement(
+            'static',
+            $this->role . '_configure_app_link',
+            '',
+            get_string('configure_app_in_teams_dev_portal', 'local_copilot')
+        );
     }
 
     /**
@@ -410,8 +663,10 @@ class agent_configuration_form extends moodleform {
         }
 
         // Validate Copilot connectors connection IDs.
-        if ($data[$this->role . '_agent_capability_copilot_connectors'] &&
-            !empty($data[$this->role . '_agent_copilot_connectors_connection_ids'])) {
+        if (
+            $data[$this->role . '_agent_capability_copilot_connectors'] &&
+            !empty($data[$this->role . '_agent_copilot_connectors_connection_ids'])
+        ) {
             $connectionids = explode("\n", $data[$this->role . '_agent_copilot_connectors_connection_ids']);
             $connectioniderrors = [];
             foreach ($connectionids as $line => $id) {
@@ -426,34 +681,54 @@ class agent_configuration_form extends moodleform {
                     }
                     foreach ($itemcontent as $key => $value) {
                         if (!in_array($key, utils::COPILOT_CONNECTOR_ID_ATTRIBUTES)) {
-                            $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_property', 'local_copilot',
-                                ['name' => $key, 'line' => $line + 1]);
+                            $connectioniderrors[] =
+                                get_string(
+                                    'error_invalid_copilot_connector_id_property',
+                                    'local_copilot',
+                                    ['name' => $key, 'line' => $line + 1]
+                                );
                             continue;
                         }
 
                         switch ($key) {
                             case 'connection_id':
                                 if (!$value) {
-                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $connectioniderrors[] =
+                                        get_string(
+                                            'error_invalid_copilot_connector_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 }
                                 break;
                             case 'additional_search_term':
                                 if (!is_string($value)) {
-                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $connectioniderrors[] =
+                                        get_string(
+                                            'error_invalid_copilot_connector_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 }
                                 break;
                             case 'items_by_external_id':
                                 if (!is_array($value)) {
-                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $connectioniderrors[] =
+                                        get_string(
+                                            'error_invalid_copilot_connector_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 } else {
                                     foreach ($value as $valueitem) {
                                         foreach ($valueitem as $itemkey => $externalid) {
                                             if ($itemkey !== 'item_id' || !utils::is_guid($externalid)) {
-                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
-                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                                $connectioniderrors[] =
+                                                    get_string(
+                                                        'error_invalid_copilot_connector_id_value',
+                                                        'local_copilot',
+                                                        ['name' => $key, 'line' => $line + 1]
+                                                    );
                                                 continue 2;
                                             }
                                         }
@@ -462,14 +737,22 @@ class agent_configuration_form extends moodleform {
                                 break;
                             case 'items_by_path':
                                 if (!is_array($value)) {
-                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $connectioniderrors[] =
+                                        get_string(
+                                            'error_invalid_copilot_connector_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 } else {
                                     foreach ($value as $valueitem) {
                                         foreach ($valueitem as $itemkey => $path) {
                                             if ($itemkey !== 'path' || !$path) {
-                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
-                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                                $connectioniderrors[] =
+                                                    get_string(
+                                                        'error_invalid_copilot_connector_id_value',
+                                                        'local_copilot',
+                                                        ['name' => $key, 'line' => $line + 1]
+                                                    );
                                                 continue 2;
                                             }
                                         }
@@ -478,14 +761,22 @@ class agent_configuration_form extends moodleform {
                                 break;
                             case 'items_by_container_name':
                                 if (!is_array($value)) {
-                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $connectioniderrors[] =
+                                        get_string(
+                                            'error_invalid_copilot_connector_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 } else {
                                     foreach ($value as $valueitem) {
                                         foreach ($valueitem as $itemkey => $containername) {
                                             if ($itemkey !== 'container_name' || !$containername) {
-                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
-                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                                $connectioniderrors[] =
+                                                    get_string(
+                                                        'error_invalid_copilot_connector_id_value',
+                                                        'local_copilot',
+                                                        ['name' => $key, 'line' => $line + 1]
+                                                    );
                                                 continue 2;
                                             }
                                         }
@@ -494,15 +785,26 @@ class agent_configuration_form extends moodleform {
                                 break;
                             case 'items_by_container_url':
                                 if (!is_array($value)) {
-                                    $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $connectioniderrors[] =
+                                        get_string(
+                                            'error_invalid_copilot_connector_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 } else {
                                     foreach ($value as $valueitem) {
                                         foreach ($valueitem as $itemkey => $containerurl) {
-                                            if ($itemkey !== 'container_url' || !$containerurl || !filter_var($containerurl,
-                                                    FILTER_VALIDATE_URL)) {
-                                                $connectioniderrors[] = get_string('error_invalid_copilot_connector_id_value',
-                                                    'local_copilot', ['name' => $key, 'line' => $line + 1]);
+                                            if (
+                                                $itemkey !== 'container_url' ||
+                                                !$containerurl ||
+                                                !filter_var($containerurl, FILTER_VALIDATE_URL)
+                                            ) {
+                                                $connectioniderrors[] =
+                                                    get_string(
+                                                        'error_invalid_copilot_connector_id_value',
+                                                        'local_copilot',
+                                                        ['name' => $key, 'line' => $line + 1]
+                                                    );
                                                 continue 2;
                                             }
                                         }
@@ -520,8 +822,10 @@ class agent_configuration_form extends moodleform {
         }
 
         // Validate OneDrive and SharePoint items by IDs.
-        if ($data[$this->role . '_agent_capability_sharepoint_onedrive'] &&
-            !empty($data[$this->role . '_agent_sharepoint_items_by_sharepoint_ids'])) {
+        if (
+            $data[$this->role . '_agent_capability_sharepoint_onedrive'] &&
+            !empty($data[$this->role . '_agent_sharepoint_items_by_sharepoint_ids'])
+        ) {
             $items = explode("\n", $data[$this->role . '_agent_sharepoint_items_by_sharepoint_ids']);
             $sharepointiderrors = [];
             foreach ($items as $line => $item) {
@@ -536,34 +840,54 @@ class agent_configuration_form extends moodleform {
                     }
                     foreach ($itemcontent as $key => $value) {
                         if (!in_array($key, utils::SHAREPOINT_ID_PROPERTIES)) {
-                            $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_property', 'local_copilot',
-                                ['name' => $key, 'line' => $line + 1]);
+                            $sharepointiderrors[] =
+                                get_string(
+                                    'error_invalid_sharepoint_id_property',
+                                    'local_copilot',
+                                    ['name' => $key, 'line' => $line + 1]
+                                );
                             continue;
                         }
 
                         switch ($key) {
                             case 'search_associated_sites':
                                 if (!is_bool($value)) {
-                                    $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $sharepointiderrors[] =
+                                        get_string(
+                                            'error_invalid_sharepoint_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 }
                                 break;
                             case 'part_type':
                                 if ($value !== 'OneNotePart') {
-                                    $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $sharepointiderrors[] =
+                                        get_string(
+                                            'error_invalid_sharepoint_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 }
                                 break;
                             default:
                                 // For other keys, we expect a GUID value.
                                 if (!utils::is_guid($value)) {
-                                    $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
-                                        ['name' => $key, 'line' => $line + 1]);
+                                    $sharepointiderrors[] =
+                                        get_string(
+                                            'error_invalid_sharepoint_id_value',
+                                            'local_copilot',
+                                            ['name' => $key, 'line' => $line + 1]
+                                        );
                                 }
                         }
                         if (!utils::is_guid($value)) {
-                            $sharepointiderrors[] = get_string('error_invalid_sharepoint_id_value', 'local_copilot',
-                                ['name' => $key, 'line' => $line + 1]);
+                            $sharepointiderrors[] =
+                                get_string(
+                                    'error_invalid_sharepoint_id_value',
+                                    'local_copilot',
+                                    ['name' => $key, 'line' => $line + 1]
+                                );
                         }
                     }
                 }
@@ -575,8 +899,10 @@ class agent_configuration_form extends moodleform {
         }
 
         // Validate items by URL.
-        if ($data[$this->role . '_agent_capability_sharepoint_onedrive'] &&
-            !empty($data[$this->role . '_agent_sharepoint_items_by_url'])) {
+        if (
+            $data[$this->role . '_agent_capability_sharepoint_onedrive'] &&
+            !empty($data[$this->role . '_agent_sharepoint_items_by_url'])
+        ) {
             $items = explode("\n", $data[$this->role . '_agent_sharepoint_items_by_url']);
             $sharepointurlerrors = [];
             foreach ($items as $line => $item) {
@@ -585,13 +911,13 @@ class agent_configuration_form extends moodleform {
                     continue; // Skip empty lines.
                 }
                 if (!filter_var($item, FILTER_VALIDATE_URL)) {
-                    $sharepointurlerrors[] = get_string('error_invalid_sharepoint_item_url', 'local_copilot',
-                        ['line' => $line + 1]);
+                    $sharepointurlerrors[] =
+                        get_string('error_invalid_sharepoint_item_url', 'local_copilot', ['line' => $line + 1]);
                 } else {
                     $validationresult = utils::is_sharepoint_onedrive_url($item);
                     if (!$validationresult['is_valid']) {
-                        $sharepointurlerrors[] = get_string('error_not_sharepoint_onedrive_url', 'local_copilot',
-                            ['url' => $item, 'line' => $line + 1]);
+                        $sharepointurlerrors[] =
+                            get_string('error_not_sharepoint_onedrive_url', 'local_copilot', ['url' => $item, 'line' => $line + 1]);
                     }
                 }
             }
@@ -605,14 +931,14 @@ class agent_configuration_form extends moodleform {
         if ($data[$this->role . '_agent_capability_web_search'] && !empty($data[$this->role . '_agent_scoped_web_search_sites'])) {
             $sites = explode("\n", $data[$this->role . '_agent_scoped_web_search_sites']);
             if (count($sites) > 4) {
-                $errors[$this->role . '_agent_scoped_web_search_sites'] = get_string('error_too_many_scoped_web_search_sites',
-                    'local_copilot');
+                $errors[$this->role . '_agent_scoped_web_search_sites'] =
+                    get_string('error_too_many_scoped_web_search_sites', 'local_copilot');
             } else {
                 foreach ($sites as $site) {
                     $site = trim($site);
                     if (!empty($site) && !filter_var($site, FILTER_VALIDATE_URL)) {
-                        $errors[$this->role . '_agent_scoped_web_search_sites'] = get_string('error_invalid_scoped_web_search_site',
-                            'local_copilot');
+                        $errors[$this->role . '_agent_scoped_web_search_sites'] =
+                            get_string('error_invalid_scoped_web_search_site', 'local_copilot');
                         break;
                     } else {
                         $parsedurl = parse_url($site);

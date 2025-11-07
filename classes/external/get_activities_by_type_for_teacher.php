@@ -52,12 +52,18 @@ class get_activities_by_type_for_teacher extends external_api {
      */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
-            'activity_type' => new external_value(PARAM_TEXT,
-                'The code name or display name of the activity type, e.g. forum, assignment, quiz, etc. Use singular form.'),
+            'activity_type' => new external_value(
+                PARAM_TEXT,
+                'The code name or display name of the activity type, e.g. forum, assignment, quiz, etc. Use singular form.'
+            ),
             'course_id' => new external_value(PARAM_INT, 'Moodle course id', VALUE_DEFAULT, 0),
             'limit' => new external_value(PARAM_INT, 'Number of activities to return per request', VALUE_DEFAULT, 10),
-            'offset' => new external_value(PARAM_INT, 'Starting point for fetching the next batch of activities', VALUE_DEFAULT,
-                0),
+            'offset' => new external_value(
+                PARAM_INT,
+                'Starting point for fetching the next batch of activities',
+                VALUE_DEFAULT,
+                0
+            ),
         ]);
     }
 
@@ -101,8 +107,10 @@ class get_activities_by_type_for_teacher extends external_api {
         }
 
         // Validate parameters.
-        $params = self::validate_parameters(self::execute_parameters(),
-            ['activity_type' => $activitytype, 'course_id' => $courseid, 'limit' => $limit, 'offset' => $offset]);
+        $params = self::validate_parameters(
+            self::execute_parameters(),
+            ['activity_type' => $activitytype, 'course_id' => $courseid, 'limit' => $limit, 'offset' => $offset]
+        );
         $activitytype = $params['activity_type'];
         if ($activitytype === 'assignment') {
             $activitytype = 'assign';

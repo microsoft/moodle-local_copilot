@@ -86,8 +86,14 @@ class create_announcement_for_teacher extends external_api {
      * @return array|null
      * @uses die
      */
-    public static function execute(int $announcementcourseid, string $announcementsubject, string $announcementmessage,
-        ?int $announcementpinned = null, ?string $announcementtimestart = null, ?string $announcementtimeend = null): ?array {
+    public static function execute(
+        int $announcementcourseid,
+        string $announcementsubject,
+        string $announcementmessage,
+        ?int $announcementpinned = null,
+        ?string $announcementtimestart = null,
+        ?string $announcementtimeend = null
+    ): ?array {
         global $DB;
 
         // Convert date strings to Unix timestamps.

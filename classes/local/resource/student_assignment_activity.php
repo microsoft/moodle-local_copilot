@@ -49,15 +49,24 @@ class student_assignment_activity implements resource_type {
      */
     public static function get_return_structure(): array {
         return [
-            'completed' => new external_value(PARAM_BOOL,
-                'If completion tracking is enabled in the assignment activity, whether the student has completed the activity.'),
-            'completion_datetime' => new external_value(PARAM_INT, 'If completion tracking is enabled in the assignment activity,' .
-                ' and the student has completed the activity, the completion date time in unix timestamp.'),
+            'completed' => new external_value(
+                PARAM_BOOL,
+                'If completion tracking is enabled in the assignment activity, whether the student has completed the activity.'
+            ),
+            'completion_datetime' => new external_value(
+                PARAM_INT,
+                'If completion tracking is enabled in the assignment activity, and the student has completed the activity, ' .
+                'the completion date time in unix timestamp.'
+            ),
             'submitted' => new external_value(PARAM_BOOL, 'Whether the student has submitted the assignment.'),
-            'submission_datetime' => new external_value(PARAM_INT,
-                'If the student has submitted the assignment, the submission date time in unix timestamp.'),
-            'activity_grade' => new external_value(PARAM_TEXT,
-                'If the student has received a grade for the assignment activity, the grade; otherwise \'-1\'.'),
+            'submission_datetime' => new external_value(
+                PARAM_INT,
+                'If the student has submitted the assignment, the submission date time in unix timestamp.'
+            ),
+            'activity_grade' => new external_value(
+                PARAM_TEXT,
+                'If the student has received a grade for the assignment activity, the grade; otherwise \'-1\'.'
+            ),
         ];
     }
 
@@ -86,15 +95,22 @@ class student_assignment_activity implements resource_type {
             $submitted = true;
             $submitteddatetime = $submissionstatus['data']['lastattempt']['submission']['timemodified'];
             if (grade_is_user_graded_in_activity($cm, $assignmentactivity->userid)) {
-                $grade = grade_get_grades($assignmentactivity->courseid, 'mod', 'assign',
-                    $assignmentactivity->id, $assignmentactivity->userid);
+                $grade = grade_get_grades(
+                    $assignmentactivity->courseid,
+                    'mod',
+                    'assign',
+                    $assignmentactivity->id,
+                    $assignmentactivity->userid
+                );
                 $finalgrade = $grade->items[0]->grades[$assignmentactivity->userid]->grade;
             }
         }
 
         // Get the activity completion status.
-        $completionstatus = $DB->get_record('course_modules_completion',
-            ['coursemoduleid' => $cm->id, 'userid' => $assignmentactivity->userid]);
+        $completionstatus = $DB->get_record(
+            'course_modules_completion',
+            ['coursemoduleid' => $cm->id, 'userid' => $assignmentactivity->userid]
+        );
 
         if (!$completionstatus) {
             // If there is no completion status, assume not completed.

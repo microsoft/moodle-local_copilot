@@ -107,9 +107,20 @@ if ($form->is_cancelled()) {
             $originalfilecontenthash = $file->get_contenthash();
         }
 
-        file_save_draft_area_files($data->$fieldname, $context->id, 'local_copilot', 'manifest_setting_' . $role . '_' . $icon, 0,
-            ['subdirs' => 0, 'accepted_types' => ['.png'], 'maxbytes' => utils::MAX_ICON_SIZE,
-                'areamaxbytes' => utils::MAX_ICON_SIZE, 'maxfiles' => 1]);
+        file_save_draft_area_files(
+            $data->$fieldname,
+            $context->id,
+            'local_copilot',
+            'manifest_setting_' . $role . '_' . $icon,
+            0,
+            [
+                'subdirs' => 0,
+                'accepted_types' => ['.png'],
+                'maxbytes' => utils::MAX_ICON_SIZE,
+                'areamaxbytes' => utils::MAX_ICON_SIZE,
+                'maxfiles' => 1,
+            ]
+        );
 
         $files = $fs->get_area_files($context->id, 'local_copilot', 'manifest_setting_' . $role . '_' . $icon);
 
@@ -151,8 +162,10 @@ if ($form->is_cancelled()) {
         set_config('app_version', manifest_generator::get_next_app_version($originalappversion), 'local_copilot');
     }
 
-    redirect(new moodle_url('/local/copilot/configure_agent.php', ['role' => $role]),
-        get_string('agent_config_saved', 'local_copilot'));
+    redirect(
+        new moodle_url('/local/copilot/configure_agent.php', ['role' => $role]),
+        get_string('agent_config_saved', 'local_copilot')
+    );
 }
 
 echo $OUTPUT->header();

@@ -50,12 +50,16 @@ class assign_submission implements resource_type {
             */
             'student_user_id' => new external_value(PARAM_INT, 'ID of the student who submitted the assignment.'),
             'submitted' => new external_value(PARAM_TEXT, 'Whether the assignment is submitted by the student.'),
-            'submission_datetime' => new external_value(PARAM_INT,
-                'If a submission has been made, the submission date time in unix timestamp.'),
+            'submission_datetime' => new external_value(
+                PARAM_INT,
+                'If a submission has been made, the submission date time in unix timestamp.'
+            ),
             'activity_grade' => new external_value(PARAM_TEXT, 'The grade of the submission.'),
             'completed' => new external_value(PARAM_BOOL, 'Whether the assignment activity is completed by the student.'),
-            'completion_datetime' => new external_value(PARAM_INT,
-                'If the student has completed the assignment activity, the completion date time in unix timestamp.'),
+            'completion_datetime' => new external_value(
+                PARAM_INT,
+                'If the student has completed the assignment activity, the completion date time in unix timestamp.'
+            ),
         ];
     }
 
@@ -82,15 +86,22 @@ class assign_submission implements resource_type {
         if ($submissionstatus['data']['lastattempt']['submission']['status'] == 'submitted') {
             $submissiondatetime = $submissionstatus['data']['lastattempt']['submission']['timemodified'];
             if (grade_is_user_graded_in_activity($cm, $record->userid)) {
-                $grade = grade_get_grades($record->courseid, 'mod', 'assign',
-                    $record->id, $record->userid);
+                $grade = grade_get_grades(
+                    $record->courseid,
+                    'mod',
+                    'assign',
+                    $record->id,
+                    $record->userid
+                );
                 $finalgrade = $grade->items[0]->grades[$record->userid]->grade;
             }
         }
 
         // Get the activity completion status.
-        $completionstatus = $DB->get_record('course_modules_completion',
-            ['coursemoduleid' => $cm->id, 'userid' => $record->userid]);
+        $completionstatus = $DB->get_record(
+            'course_modules_completion',
+            ['coursemoduleid' => $cm->id, 'userid' => $record->userid]
+        );
 
         if (!$completionstatus) {
             $completionstatus = new stdClass();
