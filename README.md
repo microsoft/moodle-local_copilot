@@ -88,12 +88,16 @@ The features provided by the declarative agents may be extended in future releas
 ### 2. Register OAuth Client on Microsoft Teams Developer Portal
 
 1. Go to [Microsoft Teams Developer Portal](https://dev.teams.microsoft.com), login as a Teams admin user when asked
-2. In the **Tools** menu, go to **OAuth client registration**
+2. From the top banner, turn off **New Developer Portal** if it's on. The settings we need are not available in the new portal yet
+
+![Turn off new developer portal](pix/screenshot_turn_off_new_developer_portal.png)
+
+3. In the **Tools** menu, go to **OAuth client registration**
 
 ![Teams developer portal](pix/screenshot_teams_developer_portal.png)
 
-3. Click **New OAuth client registration** button or **Register client** button. You will need to create two OAuth client registrations, for teacher and student agents respectively
-4. Fill in OAuth client details on the page:
+4. Click **New OAuth client registration** button or **Register client** button. You will need to create two OAuth client registrations, for teacher and student agents respectively
+5. Fill in OAuth client details on the page:
     - **Registration name**: a name of your choice
     - **Base URL**: URL of the Moodle site
     - **Restrict usage by org**: My organization only
@@ -105,11 +109,12 @@ The features provided by the declarative agents may be extended in future releas
     - **Refresh endpoint**: `https://url.to.moodle/local/oauth2/refresh_token.php`
     - **Scope**: Copy value from Moodle. Note scopes are separated by commas on this page
     - **Enable Proof Key for Code Exchange (PKCE)**: unchecked
-5. After saving the changes, an **OAuth client registration ID** will be created. Note its value
+    - **Client password authentication method**: Request body parameters (default) 
+6. After saving the changes, an **OAuth client registration ID** will be created. Note its value
 
 ![Teams OAuth client registration](pix/screenshot_teams_oauth_client_registration_id.png)
 
-6. Repeat the steps to create OAuth client registration ID for student
+7. Repeat the steps to create OAuth client registration ID for student
 
 ### 3. Copilot Plugin Basic Configuration in Moodle
 
@@ -156,9 +161,11 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 ### From the M365 Admin Center
   
 1. Log in to the [Microsoft 365 Admin Center](https://admin.microsoft.com)
-2. Navigate to `Settings` , select `Integrate apps`, and select `Upload custom apps`
-3. Define which users or groups will have access to the agent, accept permissions and deploy
-4. Learn more at [Manage Office Add-ins through Integrated Apps](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/test-and-deploy-microsoft-365-apps)
+2. Navigate to `Copilot`, and select `Agents`
+3. Click on `Upload custom agent` button
+4. Upload the manifest file downloaded from Moodle
+5. Define which users or groups will have access to the agent, accept permissions and deploy
+6. Learn more at [Manage Office Add-ins through Integrated Apps](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/test-and-deploy-microsoft-365-apps)
 
 ![Upload app in Microsoft 365 admin center](pix/screenshot_upload_custom_app_mac.png)
 
