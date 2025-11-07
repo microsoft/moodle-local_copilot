@@ -268,7 +268,7 @@ class ajax {
             $webservicerestfulconfigurl = new moodle_url('/admin/settings.php', ['section' => 'webservice_restful']);
             $supportdefaultacceptheader = get_config('webservice_restful', 'supportdefaultacceptheader');
             if (!$supportdefaultacceptheader) {
-                if (set_config('webservice_restful', 'supportdefaultacceptheader', 1)) {
+                if (set_config('supportdefaultacceptheader', 1, 'webservice_restful')) {
                     $data->success[] = get_string('settings_notice_restful_webservice_accept_header_support_enabled',
                         'local_copilot');
                 } else {
@@ -285,7 +285,7 @@ class ajax {
             // Verify RESTful web service settings - Default Accept header.
             $defaultacceptheader = get_config('webservice_restful', 'defaultacceptheader');
             if ($defaultacceptheader !== 'json') {
-                if (set_config('webservice_restful', 'defaultacceptheader', 'json')) {
+                if (set_config('defaultacceptheader', 'json', 'webservice_restful')) {
                     $data->success[] = get_string('settings_notice_restful_webservice_default_accept_header_set',
                         'local_copilot');
                 } else {
