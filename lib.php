@@ -51,8 +51,11 @@ function local_copilot_pluginfile($course, $cm, $context, $filearea, $args, $for
             $fileareanames[] = 'manifest_setting_' . $role . '_' . $icon;
         }
     }
-    if (in_array($filearea, $fileareanames) && (in_array($filename, 'color.png', 'outline.png')) &&
-        str_ends_with($filearea, substr($filename, 0, strpos($filename, '.png'))) !== false) {
+    if (
+        in_array($filearea, $fileareanames) &&
+        (in_array($filename, 'color.png', 'outline.png')) &&
+        str_ends_with($filearea, substr($filename, 0, strpos($filename, '.png'))) !== false
+    ) {
         $fullpath = "/{$context->id}/local_copilot/{$filearea}/0/{$filename}";
         if (!$file = $fs->get_file_by_hash(sha1($fullpath))) {
             return false;

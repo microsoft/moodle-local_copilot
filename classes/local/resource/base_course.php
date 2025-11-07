@@ -55,8 +55,10 @@ class base_course implements resource_type {
             'category' => new external_value(PARAM_TEXT, 'Name of the direct parent category of the course.'),
             'visibility' => new external_value(PARAM_BOOL, 'Whether the course is visible to students.'),
             'start_datetime' => new external_value(PARAM_INT, 'Start date time of the course in unix timestamp.'),
-            'end_datetime' => new external_value(PARAM_INT,
-                'End date time of the course in unix timestamp. If the course does not have an end date, it is set to 0.'),
+            'end_datetime' => new external_value(
+                PARAM_INT,
+                'End date time of the course in unix timestamp. If the course does not have an end date, it is set to 0.'
+            ),
             'completion_enabled' => new external_value(PARAM_BOOL, 'Whether completion tracking is enabled for the course.'),
             'roles' => new external_value(PARAM_TEXT, 'The name of the roles that the user has in course, separated by commas.'),
         ];
@@ -91,8 +93,14 @@ class base_course implements resource_type {
                 if ($file->is_directory()) {
                     continue;
                 }
-                $courseimageurl = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
-                    $file->get_filearea(), null, $file->get_filepath(), $file->get_filename());
+                $courseimageurl = moodle_url::make_pluginfile_url(
+                    $file->get_contextid(),
+                    $file->get_component(),
+                    $file->get_filearea(),
+                    null,
+                    $file->get_filepath(),
+                    $file->get_filename()
+                );
                 $courseimageurl = $courseimageurl->out(false);
                 break;
             }

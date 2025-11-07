@@ -37,23 +37,44 @@ if ($hassiteconfig) {
     $ADMIN->add('local_copilot', $settings);
 
     // Feature description.
-    $settings->add(new admin_setting_heading('local_copilot/description', '',
-        get_string('settings_feature_description', 'local_copilot')));
+    $settings->add(
+        new admin_setting_heading(
+            'local_copilot/description',
+            '',
+            get_string('settings_feature_description', 'local_copilot')
+        )
+    );
 
     // Basic settings section.
-    $settings->add(new admin_setting_heading('local_copilot/basic_settings', get_string('settings_basic_settings', 'local_copilot'),
-        get_string('settings_basic_settings_desc', 'local_copilot')));
+    $settings->add(
+        new admin_setting_heading(
+            'local_copilot/basic_settings',
+            get_string('settings_basic_settings', 'local_copilot'),
+            get_string('settings_basic_settings_desc', 'local_copilot')
+        )
+    );
 
     // Pagination limit.
-    $settings->add(new admin_setting_configtext('local_copilot/paginationlimit',
-        get_string('paginationlimit', 'local_copilot'),
-        get_string('paginationlimit_desc', 'local_copilot'), 10, PARAM_INT));
+    $settings->add(
+        new admin_setting_configtext(
+            'local_copilot/paginationlimit',
+            get_string('paginationlimit', 'local_copilot'),
+            get_string('paginationlimit_desc', 'local_copilot'),
+            10,
+            PARAM_INT
+        )
+    );
 
     // Button to check settings.
     $oauthclientconfigurationurl = new moodle_url('/local/oauth2/manage_oauth_clients.php');
-    $settings->add(new local_copilot_admin_setting_check_settings('local_copilot/check_settings',
-        get_string('settings_check_settings', 'local_copilot'),
-        get_string('settings_check_settings_desc', 'local_copilot', $oauthclientconfigurationurl->out()), null));
+    $settings->add(
+        new local_copilot_admin_setting_check_settings(
+            'local_copilot/check_settings',
+            get_string('settings_check_settings', 'local_copilot'),
+            get_string('settings_check_settings_desc', 'local_copilot', $oauthclientconfigurationurl->out()),
+            null
+        )
+    );
 
     if (utils::is_basic_configuration_complete()) {
         // Copilot OAuth client IDs.
@@ -61,38 +82,60 @@ if ($hassiteconfig) {
         if (count($oauthclientoptions) > 1) {
             $oauthclientoptionscopy = $oauthclientoptions;
             unset($oauthclientoptionscopy[0]);
-            $settings->add(new admin_setting_configmultiselect('local_copilot/oauth_client_ids',
-                get_string('settings_oauth_client_ids', 'local_copilot'),
-                get_string('settings_oauth_client_ids_desc', 'local_copilot', $oauthclientconfigurationurl->out()),
-                null,
-                $oauthclientoptionscopy));
+            $settings->add(
+                new admin_setting_configmultiselect(
+                    'local_copilot/oauth_client_ids',
+                    get_string('settings_oauth_client_ids', 'local_copilot'),
+                    get_string('settings_oauth_client_ids_desc', 'local_copilot', $oauthclientconfigurationurl->out()),
+                    null,
+                    $oauthclientoptionscopy
+                )
+            );
         }
 
         // Teacher OAuth client ID.
-        $settings->add(new admin_setting_configselect('local_copilot/teacher_oauth_client_id',
-            get_string('settings_teacher_oauth_client_id', 'local_copilot'),
-            get_string('settings_teacher_oauth_client_id_desc', 'local_copilot', $oauthclientconfigurationurl->out()),
-            null,
-            $oauthclientoptions));
+        $settings->add(
+            new admin_setting_configselect(
+                'local_copilot/teacher_oauth_client_id',
+                get_string('settings_teacher_oauth_client_id', 'local_copilot'),
+                get_string('settings_teacher_oauth_client_id_desc', 'local_copilot', $oauthclientconfigurationurl->out()),
+                null,
+                $oauthclientoptions
+            )
+        );
 
         // Student OAuth client ID.
-        $settings->add(new admin_setting_configselect('local_copilot/student_oauth_client_id',
-            get_string('settings_student_oauth_client_id', 'local_copilot'),
-            get_string('settings_student_oauth_client_id_desc', 'local_copilot', $oauthclientconfigurationurl->out()),
-            null,
-            $oauthclientoptions));
+        $settings->add(
+            new admin_setting_configselect(
+                'local_copilot/student_oauth_client_id',
+                get_string('settings_student_oauth_client_id', 'local_copilot'),
+                get_string('settings_student_oauth_client_id_desc', 'local_copilot', $oauthclientconfigurationurl->out()),
+                null,
+                $oauthclientoptions
+            )
+        );
 
         if (get_config('local_copilot', 'teacher_oauth_client_id')) {
             // Teacher agent page.
-            $ADMIN->add('local_copilot', new admin_externalpage('local_copilot/configure_teacher_agent',
-                get_string('settings_configure_teacher_agent', 'local_copilot'),
-                new moodle_url('/local/copilot/configure_agent.php', ['role' => 'teacher'])));
+            $ADMIN->add(
+                'local_copilot',
+                new admin_externalpage(
+                    'local_copilot/configure_teacher_agent',
+                    get_string('settings_configure_teacher_agent', 'local_copilot'),
+                    new moodle_url('/local/copilot/configure_agent.php', ['role' => 'teacher'])
+                )
+            );
         }
         if (get_config('local_copilot', 'student_oauth_client_id')) {
             // Student agent page.
-            $ADMIN->add('local_copilot', new admin_externalpage('local_copilot/configure_student_agent',
-                get_string('settings_configure_student_agent', 'local_copilot'),
-                new moodle_url('/local/copilot/configure_agent.php', ['role' => 'student'])));
+            $ADMIN->add(
+                'local_copilot',
+                new admin_externalpage(
+                    'local_copilot/configure_student_agent',
+                    get_string('settings_configure_student_agent', 'local_copilot'),
+                    new moodle_url('/local/copilot/configure_agent.php', ['role' => 'student'])
+                )
+            );
         }
     }
 }

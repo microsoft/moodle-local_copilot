@@ -52,10 +52,18 @@ class get_self_enrolment_instances_for_student extends external_api {
      */
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
-            'limit' => new external_value(PARAM_INT, 'Number of self enrolment instances to return per request', VALUE_DEFAULT,
-                10),
-            'offset' => new external_value(PARAM_INT, 'Starting point for fetching the next batch of self enrolment instances',
-                VALUE_DEFAULT, 0),
+            'limit' => new external_value(
+                PARAM_INT,
+                'Number of self enrolment instances to return per request',
+                VALUE_DEFAULT,
+                10
+            ),
+            'offset' => new external_value(
+                PARAM_INT,
+                'Starting point for fetching the next batch of self enrolment instances',
+                VALUE_DEFAULT,
+                0
+            ),
         ]);
     }
 
@@ -99,7 +107,8 @@ class get_self_enrolment_instances_for_student extends external_api {
                     foreach ($enrolmentmethods as $enrolmentmethod) {
                         if ($enrolmentmethod['type'] == 'self' && $enrolmentmethod['status'] == 'true') {
                             $enrolmentmethodsdata[] = self_enrolment_method::extract_self_enrolment_method_data(
-                                $enrolmentmethod);
+                                $enrolmentmethod
+                            );
                         }
                     }
                 }

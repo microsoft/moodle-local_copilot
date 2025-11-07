@@ -82,8 +82,11 @@ class local_copilot_admin_setting_check_settings extends admin_setting {
         $html = '';
 
         // Check settings buttons.
-        $html .= html_writer::tag('button', get_string('settings_check_settings', 'local_copilot'),
-            ['class' => 'btn btn-primary local_copilot_check_settings', 'id' => 'check_settings']);
+        $html .= html_writer::tag(
+            'button',
+            get_string('settings_check_settings', 'local_copilot'),
+            ['class' => 'btn btn-primary local_copilot_check_settings', 'id' => 'check_settings']
+        );
 
         // Check settings results.
         $html .= html_writer::tag('div', '', ['id' => 'check-settings-results']);

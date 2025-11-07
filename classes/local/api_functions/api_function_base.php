@@ -132,7 +132,7 @@ class api_function_base {
                     'security' => [
                         [
                             'OAuth2' => [
-                                $role . '.' .$this->scopesuffix,
+                                $role . '.' . $this->scopesuffix,
                             ],
                         ],
                     ],

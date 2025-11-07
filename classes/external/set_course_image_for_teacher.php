@@ -109,8 +109,10 @@ class set_course_image_for_teacher extends external_api {
 
         // Add header capture.
         $headers = [];
-        curl_setopt($ch, CURLOPT_HEADERFUNCTION,
-            function($curl, $header) use (&$headers) {
+        curl_setopt(
+            $ch,
+            CURLOPT_HEADERFUNCTION,
+            function ($curl, $header) use (&$headers) {
                 $len = strlen($header);
                 $header = explode(':', $header, 2);
                 if (count($header) < 2) {

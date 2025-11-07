@@ -269,34 +269,46 @@ class ajax {
             $supportdefaultacceptheader = get_config('webservice_restful', 'supportdefaultacceptheader');
             if (!$supportdefaultacceptheader) {
                 if (set_config('webservice_restful', 'supportdefaultacceptheader', 1)) {
-                    $data->success[] = get_string('settings_notice_restful_webservice_accept_header_support_enabled',
-                        'local_copilot');
+                    $data->success[] = get_string(
+                        'settings_notice_restful_webservice_accept_header_support_enabled',
+                        'local_copilot'
+                    );
                 } else {
                     $data->errormessages[] = get_string(
-                        'settings_notice_error_restful_webservice_accept_header_support_not_enabled', 'local_copilot',
-                        $webservicerestfulconfigurl->out());
+                        'settings_notice_error_restful_webservice_accept_header_support_not_enabled',
+                        'local_copilot',
+                        $webservicerestfulconfigurl->out()
+                    );
                     $success = false;
                 }
             } else {
-                $data->info[] = get_string('settings_notice_restful_webservice_accept_header_support_already_enabled',
-                    'local_copilot');
+                $data->info[] = get_string(
+                    'settings_notice_restful_webservice_accept_header_support_already_enabled',
+                    'local_copilot'
+                );
             }
 
             // Verify RESTful web service settings - Default Accept header.
             $defaultacceptheader = get_config('webservice_restful', 'defaultacceptheader');
             if ($defaultacceptheader !== 'json') {
                 if (set_config('webservice_restful', 'defaultacceptheader', 'json')) {
-                    $data->success[] = get_string('settings_notice_restful_webservice_default_accept_header_set',
-                        'local_copilot');
+                    $data->success[] = get_string(
+                        'settings_notice_restful_webservice_default_accept_header_set',
+                        'local_copilot'
+                    );
                 } else {
                     $data->errormessages[] = get_string(
-                        'settings_notice_error_restful_webservice_default_accept_header_not_set', 'local_copilot',
-                        $webservicerestfulconfigurl->out());
+                        'settings_notice_error_restful_webservice_default_accept_header_not_set',
+                        'local_copilot',
+                        $webservicerestfulconfigurl->out()
+                    );
                     $success = false;
                 }
             } else {
-                $data->info[] = get_string('settings_notice_restful_webservice_default_accept_header_already_set',
-                    'local_copilot');
+                $data->info[] = get_string(
+                    'settings_notice_restful_webservice_default_accept_header_already_set',
+                    'local_copilot'
+                );
             }
         }
 
@@ -322,8 +334,10 @@ class ajax {
             $data->info[] = get_string('settings_notice_authenticated_user_already_has_create_token_capability', 'local_copilot');
         } else {
             if (assign_capability('moodle/webservice:createtoken', CAP_ALLOW, $CFG->defaultuserroleid, $sysmtecontext->id)) {
-                $data->success[] = get_string('settings_notice_authenticated_user_assigned_create_token_capability',
-                    'local_copilot');
+                $data->success[] = get_string(
+                    'settings_notice_authenticated_user_assigned_create_token_capability',
+                    'local_copilot'
+                );
             } else {
                 $data->errormessages[] = get_string('settings_notice_error_assigning_create_token_capability', 'local_copilot');
                 $success = false;
@@ -340,8 +354,10 @@ class ajax {
             $capabilityinfo = get_capability_info($capability);
             if ($capabilityinfo) {
                 if (assign_capability($capability, CAP_ALLOW, $CFG->defaultuserroleid, $sysmtecontext->id)) {
-                    $data->success[] = get_string('settings_notice_authenticated_user_assigned_use_restful_capability',
-                        'local_copilot');
+                    $data->success[] = get_string(
+                        'settings_notice_authenticated_user_assigned_use_restful_capability',
+                        'local_copilot'
+                    );
                 } else {
                     $data->errormessages[] = get_string('settings_notice_error_assigning_use_restful_capability', 'local_copilot');
                     $success = false;
@@ -355,12 +371,18 @@ class ajax {
         // Confirm that there are OAuth clients configured.
         $oauthclientsconfigurationurl = new moodle_url('/local/oauth2/manage_oauth_clients.php');
         if ($DB->count_records('local_oauth2_client') === 0) {
-            $data->errormessages[] = get_string('settings_notice_error_no_oauth_clients', 'local_copilot',
-                $oauthclientsconfigurationurl->out());
+            $data->errormessages[] = get_string(
+                'settings_notice_error_no_oauth_clients',
+                'local_copilot',
+                $oauthclientsconfigurationurl->out()
+            );
             $success = false;
         } else {
-            $data->info[] = get_string('settings_notice_oauth_clients_exist', 'local_copilot',
-                $oauthclientsconfigurationurl->out());
+            $data->info[] = get_string(
+                'settings_notice_oauth_clients_exist',
+                'local_copilot',
+                $oauthclientsconfigurationurl->out()
+            );
         }
 
         // Remove stale sessions.

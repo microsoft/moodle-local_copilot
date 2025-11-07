@@ -56,12 +56,18 @@ class teacher_assignment_activity implements resource_type {
                 )
             ),
             'submissions_count' => new external_value(PARAM_INT, 'The number of submissions for the assignment activity.'),
-            'graded_submissions_count' => new external_value(PARAM_INT,
-                'The number of graded submissions for the assignment activity.'),
-            'average_grade' => new external_value(PARAM_TEXT,
-                'Average grade for the assignment activity, or \'n/a\' if no grades have been given.'),
-            'completed_users_count' => new external_value(PARAM_INT,
-                'The number of users who have completed the assignment activity.'),
+            'graded_submissions_count' => new external_value(
+                PARAM_INT,
+                'The number of graded submissions for the assignment activity.'
+            ),
+            'average_grade' => new external_value(
+                PARAM_TEXT,
+                'Average grade for the assignment activity, or \'n/a\' if no grades have been given.'
+            ),
+            'completed_users_count' => new external_value(
+                PARAM_INT,
+                'The number of users who have completed the assignment activity.'
+            ),
 
         ];
     }
@@ -75,8 +81,12 @@ class teacher_assignment_activity implements resource_type {
      * @param context_course $coursecontext
      * @return array
      */
-    public static function extract_teacher_assignment_activity_data(stdClass $assignmentactivity, stdClass $coursemodule,
-        stdClass $coursedata, context_course $coursecontext): array {
+    public static function extract_teacher_assignment_activity_data(
+        stdClass $assignmentactivity,
+        stdClass $coursemodule,
+        stdClass $coursedata,
+        context_course $coursecontext
+    ): array {
         global $DB;
 
         // Get enrolled users in the course.
@@ -103,8 +113,15 @@ class teacher_assignment_activity implements resource_type {
         $averagegrade = 'n/a';
         $sumgrades = 0;
 
-        if ($gradeitem = grade_item::fetch(['itemtype' => 'mod', 'iteminstance' => $coursemodule->instance,
-            'itemmodule' => 'assign'])) {
+        if (
+            $gradeitem = grade_item::fetch(
+                [
+                    'itemtype' => 'mod',
+                    'iteminstance' => $coursemodule->instance,
+                    'itemmodule' => 'assign',
+                ]
+            )
+        ) {
             $sql = 'SELECT userid, finalgrade
                       FROM {grade_grades}
                      WHERE itemid = :itemid

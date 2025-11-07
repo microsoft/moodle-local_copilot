@@ -44,11 +44,15 @@ class student_course implements resource_type {
      */
     public static function get_return_structure(): array {
         return [
-            'grade' => new external_value(PARAM_TEXT,
-                'Grade of the student in the course. If the student has not received a grade, it is set to \'-1\'.'),
+            'grade' => new external_value(
+                PARAM_TEXT,
+                'Grade of the student in the course. If the student has not received a grade, it is set to \'-1\'.'
+            ),
             'completed' => new external_value(PARAM_BOOL, 'Whether the student has completed the course.'),
-            'completion_datetime' => new external_value(PARAM_INT,
-                'If the student has completed the course, the completion date time in unix timestamp.'),
+            'completion_datetime' => new external_value(
+                PARAM_INT,
+                'If the student has completed the course, the completion date time in unix timestamp.'
+            ),
         ];
     }
 
@@ -74,8 +78,13 @@ class student_course implements resource_type {
         // Get user course completion status.
         $completed = false;
         $completiondatetime = 0;
-        if ($timecompleted = $DB->get_field('course_completions', 'timecompleted',
-            ['course' => $course->id, 'userid' => $userid])) {
+        if (
+            $timecompleted = $DB->get_field(
+                'course_completions',
+                'timecompleted',
+                ['course' => $course->id, 'userid' => $userid]
+            )
+        ) {
             if ($timecompleted) {
                 $completed = true;
                 $completiondatetime = $timecompleted;
