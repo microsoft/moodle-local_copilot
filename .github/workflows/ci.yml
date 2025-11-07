@@ -1,4 +1,7 @@
 name: Moodle Plugin CI for local_copilot
+permissions:
+  contents: read
+  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
