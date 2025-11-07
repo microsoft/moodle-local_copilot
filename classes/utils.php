@@ -227,8 +227,14 @@ class utils {
             foreach ($icons as $icon) {
                 $fieldname = $role . '_agent_' . $icon . '_icon';
                 $draftitemid = file_get_submitted_draft_itemid($fieldname);
-                $file = $fs->get_file($context->id, 'local_copilot', 'manifest_setting_' . $role . '_' . $icon, 0, '/',
-                    $icon . '.png');
+                $file = $fs->get_file(
+                    $context->id,
+                    'local_copilot',
+                    'manifest_setting_' . $role . '_' . $icon,
+                    0,
+                    '/',
+                    $icon . '.png'
+                );
 
                 if (!$file) {
                     $defaultimagepath = $CFG->dirroot . '/local/copilot/manifest_resource/icons/' . $icon . '.png';
@@ -241,15 +247,34 @@ class utils {
                         'filepath' => '/',
                         'filename' => $icon . '.png',
                     ];
-                    if (!$fs->file_exists($context->id, 'local_copilot', 'manifest_setting_' . $role . '_' . $icon, 0, '/',
-                        $icon . '.png')) {
+                    if (
+                        !$fs->file_exists(
+                            $context->id,
+                            'local_copilot',
+                            'manifest_setting_' . $role . '_' . $icon,
+                            0,
+                            '/',
+                            $icon . '.png'
+                        )
+                    ) {
                         $fs->create_file_from_pathname($filerecord, $defaultimagepath);
                     }
                 }
 
-                file_prepare_draft_area($draftitemid, $context->id, 'local_copilot', 'manifest_setting_' . $role . '_' . $icon,
-                    0, ['subdirs' => 0, 'accepted_types' => ['.png'], 'maxbytes' => $maxfilesize, 'areamaxbytes' => $maxfilesize,
-                        'maxfiles' => 1]);
+                file_prepare_draft_area(
+                    $draftitemid,
+                    $context->id,
+                    'local_copilot',
+                    'manifest_setting_' . $role . '_' . $icon,
+                    0,
+                    [
+                        'subdirs' => 0,
+                        'accepted_types' => ['.png'],
+                        'maxbytes' => $maxfilesize,
+                        'areamaxbytes' => $maxfilesize,
+                        'maxfiles' => 1,
+                    ]
+                );
 
                 $formdata[$fieldname] = $draftitemid;
             }
@@ -370,7 +395,7 @@ class utils {
         $onedrivepatterns = [
             '/^.*\.onedrive\.live\.com$/',
             '/^onedrive\.live\.com$/',
-            '/^.*-my\.sharepoint\.com$/',  // OneDrive for Business.
+            '/^.*-my\.sharepoint\.com$/', // OneDrive for Business.
         ];
 
         foreach ($onedrivepatterns as $pattern) {
@@ -398,7 +423,7 @@ class utils {
         // SharePoint patterns.
         $sharepointpatterns = [
             '/^.*\.sharepoint\.com$/',
-            '/^.*\.sharepoint-df\.com$/',  // Dedicated environments.
+            '/^.*\.sharepoint-df\.com$/', // Dedicated environments.
             '/^sharepoint\..*\.com$/',
         ];
 

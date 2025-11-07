@@ -55,11 +55,19 @@ class observers {
         }
 
         // Insert the token into external_tokens table in Moodle core.
-        $copilotexternalserviceid = $DB->get_field('external_services', 'id',
-            ['component' => 'local_copilot', 'shortname' => 'copilot_webservices'], MUST_EXIST);
+        $copilotexternalserviceid = $DB->get_field(
+            'external_services',
+            'id',
+            ['component' => 'local_copilot', 'shortname' => 'copilot_webservices'],
+            MUST_EXIST
+        );
 
-        if ($externaltoken = $DB->get_record('external_tokens',
-            ['userid' => $userid, 'externalserviceid' => $copilotexternalserviceid])) {
+        if (
+            $externaltoken = $DB->get_record(
+                'external_tokens',
+                ['userid' => $userid, 'externalserviceid' => $copilotexternalserviceid]
+            )
+        ) {
             // Update an existing token.
             $externaltoken->token = $token;
             $externaltoken->validuntil = $validuntil;

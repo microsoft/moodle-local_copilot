@@ -55,8 +55,12 @@ class create_assignment_for_teacher extends external_api {
             'assignment_name' => new external_value(PARAM_TEXT, 'Title/name of the activity', VALUE_REQUIRED),
             'section_id' => new external_value(PARAM_INT, 'Section/topic id', VALUE_REQUIRED),
             'assignment_description' => new external_value(PARAM_RAW, 'Description of the activity', VALUE_DEFAULT, ''),
-            'allowsubmissionsfromdate' => new external_value(PARAM_TEXT, 'Allow submissions from date in MM/DD/YYYY format',
-                VALUE_DEFAULT, ''),
+            'allowsubmissionsfromdate' => new external_value(
+                PARAM_TEXT,
+                'Allow submissions from date in MM/DD/YYYY format',
+                VALUE_DEFAULT,
+                ''
+            ),
             'due_date' => new external_value(PARAM_TEXT, 'Due date in MM/DD/YYYY format', VALUE_DEFAULT, ''),
             'assignment_instructions' => new external_value(PARAM_RAW, 'Cut off date', VALUE_DEFAULT, ''),
         ]);
@@ -88,9 +92,15 @@ class create_assignment_for_teacher extends external_api {
      * @return array|null
      * @uses die
      */
-    public static function execute(int $assignmentcourseid, string $assignmentname, int $sectionid,
-        ?string $assignmentdescription = null, ?string $allowsubmissionsfromdate = null, ?string $assignmentduedate = null,
-        ?string $assignmentinstructions = null): ?array {
+    public static function execute(
+        int $assignmentcourseid,
+        string $assignmentname,
+        int $sectionid,
+        ?string $assignmentdescription = null,
+        ?string $allowsubmissionsfromdate = null,
+        ?string $assignmentduedate = null,
+        ?string $assignmentinstructions = null
+    ): ?array {
         global $DB;
 
         // Convert date strings to Unix timestamps.

@@ -52,10 +52,14 @@ class self_enrolment_method implements resource_type {
             'category' => new external_value(PARAM_TEXT, 'Name of the direct parent category of the course.'),
             'self_enrolment_method_id' => new external_value(PARAM_INT, 'ID of the self enrolment method.'),
             'self_enrolment_method_name' => new external_value(PARAM_TEXT, 'Name of the self enrolment method.'),
-            'self_enrolment_method_type' => new external_value(PARAM_TEXT,
-                'Self enrolment method type. Can be either self or guest.'),
-            'self_enrolment_method_status' => new external_value(PARAM_TEXT,
-                'Boolean true if the user can self enrol, false if the user can\'t, or a string if there is an error.'),
+            'self_enrolment_method_type' => new external_value(
+                PARAM_TEXT,
+                'Self enrolment method type. Can be either self or guest.'
+            ),
+            'self_enrolment_method_status' => new external_value(
+                PARAM_TEXT,
+                'Boolean true if the user can self enrol, false if the user can\'t, or a string if there is an error.'
+            ),
         ];
     }
 
@@ -82,8 +86,14 @@ class self_enrolment_method implements resource_type {
                 if ($file->is_directory()) {
                     continue;
                 }
-                $courseimageurl = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(),
-                    $file->get_filearea(), null, $file->get_filepath(), $file->get_filename());
+                $courseimageurl = moodle_url::make_pluginfile_url(
+                    $file->get_contextid(),
+                    $file->get_component(),
+                    $file->get_filearea(),
+                    null,
+                    $file->get_filepath(),
+                    $file->get_filename()
+                );
                 $courseimageurl = $courseimageurl->out(false);
                 break;
             }
