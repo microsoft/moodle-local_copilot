@@ -52,8 +52,10 @@ class base_activity implements resource_type {
             'activity_name' => new external_value(PARAM_TEXT, 'Name of the activity.'),
             'activity_id' => new external_value(PARAM_INT, 'ID of the activity.'),
             'activity_link' => new external_value(PARAM_URL, 'Link to the activity.'),
-            'activity_type' => new external_value(PARAM_TEXT,
-                'Activity type, also referred as module name. For example, forum, assignment, quiz, etc.'),
+            'activity_type' => new external_value(
+                PARAM_TEXT,
+                'Activity type, also referred as module name. For example, forum, assignment, quiz, etc.'
+            ),
             'activity_description' => new external_value(PARAM_RAW, 'Description of the activity in HTML format.'),
             'completion_enabled' => new external_value(PARAM_BOOL, 'Whether completion tracking is enabled in the activity.'),
             'visibility' => new external_value(PARAM_BOOL, 'Whether the activity is visible to students.'),
@@ -92,37 +94,58 @@ class base_activity implements resource_type {
                     $availabilityinformation = $info->get_full_information($modinfo);
 
                     // Replace placeholders with actual values.
-                    if (is_object($availabilityinformation) && get_class($availabilityinformation) ===
-                        'core_availability_multiple_messages') {
-                        $processeditems = array_map(function($item) use ($modinfo, $DB) {
-                            $item = preg_replace_callback('/<AVAILABILITY_CMNAME_(\d+)\/>/', function($matches) use ($modinfo) {
-                                $cm = $modinfo->cms[$matches[1]];
+                    if (
+                        is_object($availabilityinformation) &&
+                        get_class($availabilityinformation) === 'core_availability_multiple_messages'
+                    ) {
+                        $processeditems = array_map(function ($item) use ($modinfo, $DB) {
+                            $item = preg_replace_callback(
+                                '/<AVAILABILITY_CMNAME_(\d+)\/>/',
+                                function ($matches) use ($modinfo) {
+                                    $cm = $modinfo->cms[$matches[1]];
 
-                                return $cm->name;
-                            }, $item);
+                                    return $cm->name;
+                                },
+                                $item
+                            );
 
-                            $item = preg_replace_callback('/<AVAILABILITY_CALLBACK type="grade">(\d+)<\/AVAILABILITY_CALLBACK>/',
-                                function($matches) use ($modinfo) {
+                            $item = preg_replace_callback(
+                                '/<AVAILABILITY_CALLBACK type="grade">(\d+)<\/AVAILABILITY_CALLBACK>/',
+                                function ($matches) use ($modinfo) {
                                     $gradeitem = grade_item::fetch(['id' => $matches[1]]);
 
                                     return $gradeitem->itemname;
-                                }, $item);
+                                },
+                                $item
+                            );
 
-                            $item = preg_replace_callback('/<AVAILABILITY_DATE>(\d+)<\/AVAILABILITY_DATE>/', function($matches) {
-                                return userdate($matches[1]);
-                            }, $item);
+                            $item = preg_replace_callback(
+                                '/<AVAILABILITY_DATE>(\d+)<\/AVAILABILITY_DATE>/',
+                                function ($matches) {
+                                    return userdate($matches[1]);
+                                },
+                                $item
+                            );
 
-                            $item = preg_replace_callback('/<AVAILABILITY_USER_(\d+)\/>/', function($matches) use ($DB) {
-                                $user = $DB->get_record('user', ['id' => $matches[1]], 'firstname, lastname');
+                            $item = preg_replace_callback(
+                                '/<AVAILABILITY_USER_(\d+)\/>/',
+                                function ($matches) use ($DB) {
+                                    $user = $DB->get_record('user', ['id' => $matches[1]], 'firstname, lastname');
 
-                                return fullname($user);
-                            }, $item);
+                                    return fullname($user);
+                                },
+                                $item
+                            );
 
-                            $item = preg_replace_callback('/<AVAILABILITY_GROUP_(\d+)\/>/', function($matches) use ($DB) {
-                                $group = $DB->get_record('groups', ['id' => $matches[1]], 'name');
+                            $item = preg_replace_callback(
+                                '/<AVAILABILITY_GROUP_(\d+)\/>/',
+                                function ($matches) use ($DB) {
+                                    $group = $DB->get_record('groups', ['id' => $matches[1]], 'name');
 
-                                return $group->name;
-                            }, $item);
+                                    return $group->name;
+                                },
+                                $item
+                            );
 
                             return "<p>$item</p>";
                         }, $availabilityinformation->items);
@@ -130,39 +153,53 @@ class base_activity implements resource_type {
                         $operator = $availabilityinformation->andoperator ? ' AND ' : ' OR ';
                         $availabilityinformation = "Not available unless: " . implode($operator, $processeditems);
                     } else {
-                        $availabilityinformation = preg_replace_callback('/<AVAILABILITY_CMNAME_(\d+)\/>/',
-                            function($matches) use ($modinfo) {
+                        $availabilityinformation = preg_replace_callback(
+                            '/<AVAILABILITY_CMNAME_(\d+)\/>/',
+                            function ($matches) use ($modinfo) {
                                 $cm = $modinfo->cms[$matches[1]];
 
                                 return $cm->name;
-                            }, $availabilityinformation);
+                            },
+                            $availabilityinformation
+                        );
 
-                        $availabilityinformation =
-                            preg_replace_callback('/<AVAILABILITY_CALLBACK type="grade">(\d+)<\/AVAILABILITY_CALLBACK>/',
-                                function($matches) use ($modinfo) {
-                                    $gradeitem = grade_item::fetch(['id' => $matches[1]]);
+                        $availabilityinformation = preg_replace_callback(
+                            '/<AVAILABILITY_CALLBACK type="grade">(\d+)<\/AVAILABILITY_CALLBACK>/',
+                            function ($matches) use ($modinfo) {
+                                $gradeitem = grade_item::fetch(['id' => $matches[1]]);
 
-                                    return $gradeitem->itemname;
-                                }, $availabilityinformation);
+                                return $gradeitem->itemname;
+                            },
+                            $availabilityinformation
+                        );
 
-                        $availabilityinformation = preg_replace_callback('/<AVAILABILITY_DATE>(\d+)<\/AVAILABILITY_DATE>/',
-                            function($matches) {
+                        $availabilityinformation = preg_replace_callback(
+                            '/<AVAILABILITY_DATE>(\d+)<\/AVAILABILITY_DATE>/',
+                            function ($matches) {
                                 return userdate($matches[1]);
-                            }, $availabilityinformation);
+                            },
+                            $availabilityinformation
+                        );
 
-                        $availabilityinformation = preg_replace_callback('/<AVAILABILITY_USER_(\d+)\/>/',
-                            function($matches) use ($DB) {
+                        $availabilityinformation = preg_replace_callback(
+                            '/<AVAILABILITY_USER_(\d+)\/>/',
+                            function ($matches) use ($DB) {
                                 $user = $DB->get_record('user', ['id' => $matches[1]], 'firstname, lastname');
 
                                 return fullname($user);
-                            }, $availabilityinformation);
+                            },
+                            $availabilityinformation
+                        );
 
-                        $availabilityinformation = preg_replace_callback('/<AVAILABILITY_GROUP_(\d+)\/>/',
-                            function($matches) use ($DB) {
+                        $availabilityinformation = preg_replace_callback(
+                            '/<AVAILABILITY_GROUP_(\d+)\/>/',
+                            function ($matches) use ($DB) {
                                 $group = $DB->get_record('groups', ['id' => $matches[1]], 'name');
 
                                 return $group->name;
-                            }, $availabilityinformation);
+                            },
+                            $availabilityinformation
+                        );
 
                         if (strpos($availabilityinformation, 'Not available unless:') === false) {
                             $availabilityinformation = "Not available unless: <p>$availabilityinformation</p>";

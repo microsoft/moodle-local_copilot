@@ -67,11 +67,12 @@ class get_course_students_for_teacher extends external_api {
                 'student_id' => new external_value(PARAM_INT, 'Moodle user ID of the student.'),
                 'student_username' => new external_value(PARAM_TEXT, 'Username of the student.'),
                 'student_link' => new external_value(PARAM_URL, 'Link to the student profile page.'),
-                'student_roles' => new external_value(PARAM_TEXT,
-                    'The name of the roles that the student has in course, separated by commas.'),
+                'student_roles' => new external_value(
+                    PARAM_TEXT,
+                    'The name of the roles that the student has in course, separated by commas.'
+                ),
                 'has_more' => new external_value(PARAM_BOOL, 'Flag indicating whether there are more students to fetch.'),
             ])
-
         );
     }
 
@@ -94,8 +95,10 @@ class get_course_students_for_teacher extends external_api {
         }
 
         // Validate parameters.
-        $params = self::validate_parameters(self::execute_parameters(),
-            ['course_id' => $courseid, 'limit' => $limit, 'offset' => $offset]);
+        $params = self::validate_parameters(
+            self::execute_parameters(),
+            ['course_id' => $courseid, 'limit' => $limit, 'offset' => $offset]
+        );
         $courseid = $params['course_id'];
         $limit = $params['limit'];
         $limit = (!empty($limit) && is_numeric($limit)) ? $limit : $moodlelimit;

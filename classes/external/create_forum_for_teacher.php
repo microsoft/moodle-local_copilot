@@ -39,7 +39,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->dirroot . '/course/lib.php');
-require_once($CFG->dirroot.'/mod/forum/lib.php');
+require_once($CFG->dirroot . '/mod/forum/lib.php');
 
 /**
  * Web service class definition.
@@ -82,8 +82,12 @@ class create_forum_for_teacher extends external_api {
      * @return array|null
      * @uses die
      */
-    public static function execute(int $forumcourseid, string $forumname, int $sectionid,
-        ?string $forumdescription = null): ?array {
+    public static function execute(
+        int $forumcourseid,
+        string $forumname,
+        int $sectionid,
+        ?string $forumdescription = null
+    ): ?array {
         global $DB;
 
         // Validate parameters.

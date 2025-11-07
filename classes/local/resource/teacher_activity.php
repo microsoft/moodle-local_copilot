@@ -46,10 +46,14 @@ class teacher_activity implements resource_type {
      */
     public static function get_return_structure(): array {
         return [
-            'graded_users_count' => new external_value(PARAM_INT,
-                'The number of users who have received a grade for the activity.'),
-            'average_grade' => new external_value(PARAM_TEXT,
-                'Average grade for the activity, or \'n/a\' if no grades have been given.'),
+            'graded_users_count' => new external_value(
+                PARAM_INT,
+                'The number of users who have received a grade for the activity.'
+            ),
+            'average_grade' => new external_value(
+                PARAM_TEXT,
+                'Average grade for the activity, or \'n/a\' if no grades have been given.'
+            ),
             'completed_users_count' => new external_value(PARAM_INT, 'The number of users who have completed the activity.'),
         ];
     }
@@ -70,8 +74,15 @@ class teacher_activity implements resource_type {
 
         if ($module = $DB->get_field('modules', 'name', ['id' => $coursemodule->module])) {
             // Get graded users and average grade.
-            if ($gradeitem = grade_item::fetch(['itemtype' => 'mod', 'iteminstance' => $coursemodule->instance,
-                'itemmodule' => $module])) {
+            if (
+                $gradeitem = grade_item::fetch(
+                    [
+                        'itemtype' => 'mod',
+                        'iteminstance' => $coursemodule->instance,
+                        'itemmodule' => $module,
+                    ]
+                )
+            ) {
                 $sql = 'SELECT userid, finalgrade
                           FROM {grade_grades}
                          WHERE itemid = :itemid

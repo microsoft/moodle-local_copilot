@@ -45,12 +45,19 @@ class student_activity implements resource_type {
      */
     public static function get_return_structure(): array {
         return [
-            'completed' => new external_value(PARAM_BOOL,
-                'If completion tracking is enabled in the activity, whether the student has completed the activity.'),
-            'completion_datetime' => new external_value(PARAM_INT, 'If completion tracking is enabled in the activity,' .
-                ' and the student has completed the activity, the completion date time in unix timestamp.'),
-            'activity_grade' => new external_value(PARAM_TEXT,
-                'If the student has received a grade for the activity, the grade; otherwise \'-1\'.'),
+            'completed' => new external_value(
+                PARAM_BOOL,
+                'If completion tracking is enabled in the activity, whether the student has completed the activity.'
+            ),
+            'completion_datetime' => new external_value(
+                PARAM_INT,
+                'If completion tracking is enabled in the activity, and the student has completed the activity, ' .
+                'the completion date time in unix timestamp.'
+            ),
+            'activity_grade' => new external_value(
+                PARAM_TEXT,
+                'If the student has received a grade for the activity, the grade; otherwise \'-1\'.'
+            ),
         ];
     }
 
@@ -65,14 +72,21 @@ class student_activity implements resource_type {
         global $DB;
 
         // Get the activity completion status.
-        $completionstatus = $DB->get_record('course_modules_completion',
-            ['coursemoduleid' => $coursemodule->id, 'userid' => $userid]);
+        $completionstatus = $DB->get_record(
+            'course_modules_completion',
+            ['coursemoduleid' => $coursemodule->id, 'userid' => $userid]
+        );
 
         $finalgrade = -1;
 
         if (grade_is_user_graded_in_activity($coursemodule, $userid)) {
-            $grade = grade_get_grades($coursemodule->course, 'mod', $coursemodule->modname,
-                $coursemodule->instance, $userid);
+            $grade = grade_get_grades(
+                $coursemodule->course,
+                'mod',
+                $coursemodule->modname,
+                $coursemodule->instance,
+                $userid
+            );
             if ($grade) {
                 $finalgrade = $grade->items[0]->grades[$userid]->grade;
             }

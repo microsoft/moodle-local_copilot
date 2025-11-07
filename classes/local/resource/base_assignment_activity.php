@@ -52,8 +52,10 @@ class base_assignment_activity implements resource_type {
             'activity_link' => new external_value(PARAM_URL, 'Link to the assignment activity.'),
             'activity_description' => new external_value(PARAM_RAW, 'Description of the assignment activity in HTML format.'),
             'due_date' => new external_value(PARAM_INT, 'Assignment submission due date in unix timestamp.'),
-            'completion_enabled' => new external_value(PARAM_BOOL,
-                'Whether completion tracking is enabled in the assignment activity.'),
+            'completion_enabled' => new external_value(
+                PARAM_BOOL,
+                'Whether completion tracking is enabled in the assignment activity.'
+            ),
             'instructions' => new external_value(PARAM_RAW, 'Assignment activity instructions.'),
             'course_name' => new external_value(PARAM_TEXT, 'The name of the course that the assignment activity is in.'),
             'course_id' => new external_value(PARAM_INT, 'The ID of the course that the assignment activity is in.'),
@@ -71,8 +73,11 @@ class base_assignment_activity implements resource_type {
      * @param stdClass $coursedata
      * @return array
      */
-    public static function extract_assignment_activity_data(stdClass $assignmentactivity, stdClass $cm,
-        stdClass $coursedata): array {
+    public static function extract_assignment_activity_data(
+        stdClass $assignmentactivity,
+        stdClass $cm,
+        stdClass $coursedata
+    ): array {
         global $DB;
 
         $activitylink = new moodle_url('/mod/assign/view.php', ['id' => $cm->id]);
