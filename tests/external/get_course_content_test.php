@@ -41,7 +41,6 @@ require_once($CFG->dirroot . '/local/copilot/tests/base_testcase.php');
  * @category test
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @runTestsInSeparateProcesses
  */
 final class get_course_content_test extends base_test {
     /**
@@ -206,8 +205,12 @@ final class get_course_content_test extends base_test {
         // Find activities in sections.
         $foundactivities = [];
         foreach ($result['sections'] as $section) {
-            foreach ($section['activities'] as $activity) {
-                $foundactivities[$activity['name']] = $activity;
+            if (isset($section['activities'])) {
+                foreach ($section['activities'] as $activity) {
+                    if (isset($activity['name'])) {
+                        $foundactivities[$activity['name']] = $activity;
+                    }
+                }
             }
         }
 
@@ -246,9 +249,11 @@ final class get_course_content_test extends base_test {
         // Hidden activities should not be visible to students.
         $visibleactivities = [];
         foreach ($result['sections'] as $section) {
-            foreach ($section['activities'] as $activity) {
-                if ($activity['id'] == $cm->id) {
-                    $visibleactivities[] = $activity;
+            if (isset($section['activities'])) {
+                foreach ($section['activities'] as $activity) {
+                    if (isset($activity['id']) && $activity['id'] == $cm->id) {
+                        $visibleactivities[] = $activity;
+                    }
                 }
             }
         }
@@ -270,8 +275,9 @@ final class get_course_content_test extends base_test {
         }
 
         // Enable completion for the course.
+        global $DB;
+
         $this->course->enablecompletion = 1;
-        $DB = \database::get();
         $DB->update_record('course', $this->course);
 
         // Create assignment with completion tracking.

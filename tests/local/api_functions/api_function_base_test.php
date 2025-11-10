@@ -47,6 +47,9 @@ final class api_function_base_test extends advanced_testcase {
 
         // Create a concrete implementation for testing.
         $apifunction = new class extends api_function_base {
+            /**
+             * Constructor to set up API properties.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/test_path';
@@ -191,7 +194,7 @@ final class api_function_base_test extends advanced_testcase {
         $parameters = $apifunction->get_parameters();
         $this->assertIsArray($parameters);
         $this->assertCount(2, $parameters);
-        
+
         // Check first parameter.
         $this->assertEquals('id', $parameters[0]['name']);
         $this->assertEquals('query', $parameters[0]['in']);
@@ -261,7 +264,7 @@ final class api_function_base_test extends advanced_testcase {
         $this->assertIsArray($responses);
         $this->assertArrayHasKey('200', $responses);
         $this->assertArrayHasKey('400', $responses);
-        
+
         $successresponse = $responses['200'];
         $this->assertEquals('Successful response', $successresponse['description']);
         $this->assertArrayHasKey('content', $successresponse);
@@ -330,6 +333,11 @@ final class api_function_base_test extends advanced_testcase {
                 $this->operationid = 'minimal';
             }
 
+            /**
+             * Validate required properties are set.
+             *
+             * @return bool True if valid, false otherwise.
+             */
             public function validate() {
                 return !empty($this->path) &&
                        !empty($this->method) &&

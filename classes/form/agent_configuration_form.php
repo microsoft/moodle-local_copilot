@@ -25,6 +25,10 @@
 
 namespace local_copilot\form;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->libdir . '/formslib.php');
+
 use context_user;
 use html_writer;
 use local_copilot\manifest_generator;

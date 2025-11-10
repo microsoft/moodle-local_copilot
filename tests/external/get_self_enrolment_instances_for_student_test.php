@@ -168,7 +168,7 @@ final class get_self_enrolment_instances_for_student_test extends base_test {
         $selfplugin->add_instance($availablecourse, [
             'status' => ENROL_INSTANCE_ENABLED,
             'enrolstartdate' => time() - 3600, // Started 1 hour ago.
-            'enrolenddate' => time() + 86400,  // Ends in 1 day.
+            'enrolenddate' => time() + 86400, // Ends in 1 day.
             'roleid' => $DB->get_field('role', 'id', ['shortname' => 'student']),
         ]);
 
@@ -254,7 +254,7 @@ final class get_self_enrolment_instances_for_student_test extends base_test {
      * @covers \local_copilot\external\get_self_enrolment_instances_for_student::execute_parameters
      * @covers \local_copilot\external\get_self_enrolment_instances_for_student::execute_returns
      */
-    public function test_parameters_and_returns() {
+    public function test_parameters_and_returns(): void {
         $parameters = get_self_enrolment_instances_for_student::execute_parameters();
         $this->assertInstanceOf(\external_function_parameters::class, $parameters);
 

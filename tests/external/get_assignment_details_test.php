@@ -41,7 +41,6 @@ require_once($CFG->dirroot . '/local/copilot/tests/base_testcase.php');
  * @category test
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @runTestsInSeparateProcesses
  */
 final class get_assignment_details_test extends base_test {
     /**
@@ -125,7 +124,7 @@ final class get_assignment_details_test extends base_test {
 
         $this->setUser($this->student);
         $assignmentgenerator->create_submission([
-            'assignid' => $this->assignment->id,
+            'assignment' => $this->assignment->id,
             'userid' => $this->student->id,
             'onlinetext_editor' => [
                 'text' => 'Student submission text',
@@ -166,7 +165,7 @@ final class get_assignment_details_test extends base_test {
 
         $this->setUser($this->student);
         $assignmentgenerator->create_submission([
-            'assignid' => $this->assignment->id,
+            'assignment' => $this->assignment->id,
             'userid' => $this->student->id,
             'onlinetext_editor' => [
                 'text' => 'My submission text',
@@ -197,7 +196,7 @@ final class get_assignment_details_test extends base_test {
 
         $this->setUser($this->student);
         $submission = $assignmentgenerator->create_submission([
-            'assignid' => $this->assignment->id,
+            'assignment' => $this->assignment->id,
             'userid' => $this->student->id,
             'onlinetext_editor' => [
                 'text' => 'Graded submission',
@@ -208,10 +207,10 @@ final class get_assignment_details_test extends base_test {
         // Grade the submission.
         $this->set_user_as_teacher();
         $assignmentgenerator->create_grade([
-            'assignid' => $this->assignment->id,
+            'assignment' => $this->assignment->id,
             'userid' => $this->student->id,
             'grade' => 85,
-            'feedback_text' => 'Good work!',
+            'grader' => $this->teacher->id,
         ]);
 
         $result = get_assignment_details_for_teacher::execute($this->assignment->id);
@@ -244,7 +243,7 @@ final class get_assignment_details_test extends base_test {
 
         $this->setUser($this->student);
         $assignmentgenerator->create_submission([
-            'assignid' => $this->assignment->id,
+            'assignment' => $this->assignment->id,
             'userid' => $this->student->id,
             'onlinetext_editor' => [
                 'text' => 'Student work',
@@ -254,10 +253,10 @@ final class get_assignment_details_test extends base_test {
 
         $this->set_user_as_teacher();
         $assignmentgenerator->create_grade([
-            'assignid' => $this->assignment->id,
+            'assignment' => $this->assignment->id,
             'userid' => $this->student->id,
             'grade' => 92,
-            'feedback_text' => 'Excellent work!',
+            'grader' => $this->teacher->id,
         ]);
 
         $this->set_user_as_student();

@@ -271,7 +271,7 @@ final class get_course_students_for_teacher_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_students_for_teacher::execute
      */
-    public function test_get_course_students_pagination(): void{
+    public function test_get_course_students_pagination(): void {
         // Create many students to test pagination.
         for ($i = 1; $i <= 15; $i++) {
             test_courses::create_student_user($this->course, [

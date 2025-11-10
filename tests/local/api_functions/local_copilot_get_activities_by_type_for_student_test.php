@@ -54,36 +54,48 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_api_function_properties(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get path.
+             *
              * @return string
              */
             public function get_path() {
                 return $this->path;
             }
             /**
+             * Get method.
+             *
              * @return string
              */
             public function get_method() {
                 return $this->method;
             }
             /**
+             * Get summary.
+             *
              * @return string
              */
             public function get_summary() {
                 return $this->summary;
             }
             /**
+             * Get description.
+             *
              * @return string
              */
             public function get_description() {
                 return $this->description;
             }
             /**
+             * Get operation ID.
+             *
              * @return string
              */
             public function get_operation_id() {
                 return $this->operationid;
             }
             /**
+             * Get scope suffix.
+             *
              * @return string
              */
             public function get_scope_suffix() {
@@ -107,6 +119,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_api_function_parameters(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get parameters.
+             *
              * @return array
              */
             public function get_parameters() {
@@ -142,6 +156,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_activity_type_parameter(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get parameters.
+             *
              * @return array
              */
             public function get_parameters() {
@@ -176,6 +192,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_limit_parameter(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get parameters.
+             *
              * @return array
              */
             public function get_parameters() {
@@ -208,6 +226,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_offset_parameter(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get parameters.
+             *
              * @return array
              */
             public function get_parameters() {
@@ -240,6 +260,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_response_definitions(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -291,6 +313,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_completion_properties(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -323,6 +347,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_response_semantics(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get response semantics.
+             *
              * @return array
              */
             public function get_response_semantics() {
@@ -356,6 +382,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_adaptive_card_template(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get response semantics.
+             *
              * @return array
              */
             public function get_response_semantics() {
@@ -390,6 +418,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_confirmation_message(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get confirmation message.
+             *
              * @return array
              */
             public function get_confirmation() {
@@ -479,6 +509,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_course_and_section_context(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -513,6 +545,8 @@ final class local_copilot_get_activities_by_type_for_student_test extends base_t
     public function test_activity_metadata_properties(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {

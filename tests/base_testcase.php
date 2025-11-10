@@ -43,7 +43,6 @@ require_once($CFG->dirroot . '/local/copilot/tests/fixtures/test_courses.php');
  * @category test
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @runTestsInSeparateProcesses
  */
 abstract class base_test extends advanced_testcase {
     /**
@@ -104,7 +103,7 @@ abstract class base_test extends advanced_testcase {
      */
     protected function assert_web_service_result(array $result, array $expectedkeys): void {
         $this->assertIsArray($result);
-        
+
         foreach ($expectedkeys as $key) {
             $this->assertArrayHasKey($key, $result, "Expected key '$key' not found in web service result");
         }

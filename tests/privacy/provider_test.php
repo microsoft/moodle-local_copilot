@@ -43,7 +43,7 @@ use local_copilot\privacy\provider;
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class privacy_provider_test extends provider_testcase {
+final class provider_test extends provider_testcase {
     /**
      * Test get_metadata returns correct metadata.
      *

@@ -54,36 +54,48 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_api_function_properties(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get path.
+             *
              * @return string
              */
             public function get_path() {
                 return $this->path;
             }
             /**
+             * Get method.
+             *
              * @return string
              */
             public function get_method() {
                 return $this->method;
             }
             /**
+             * Get summary.
+             *
              * @return string
              */
             public function get_summary() {
                 return $this->summary;
             }
             /**
+             * Get description.
+             *
              * @return string
              */
             public function get_description() {
                 return $this->description;
             }
             /**
+             * Get operation ID.
+             *
              * @return string
              */
             public function get_operation_id() {
                 return $this->operationid;
             }
             /**
+             * Get scope suffix.
+             *
              * @return string
              */
             public function get_scope_suffix() {
@@ -107,6 +119,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_api_function_parameters(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get parameters.
+             *
              * @return array
              */
             public function get_parameters() {
@@ -135,6 +149,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_response_definitions(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -181,6 +197,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_submissions_structure(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -227,6 +245,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_assignment_statistics_properties(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -260,14 +280,16 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_adaptive_card_template(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get response semantics.
+             *
              * @return array
              */
-            public function get_responsesemantics() {
+            public function get_response_semantics() {
                 return $this->responsesemantics;
             }
         };
 
-        $semantics = $apifunction->get_responsesemantics();
+        $semantics = $apifunction->get_response_semantics();
         $template = $semantics['static_template'];
 
         // Check template visibility control.
@@ -298,14 +320,16 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_assignment_details_facts(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get response semantics.
+             *
              * @return array
              */
-            public function get_responsesemantics() {
+            public function get_response_semantics() {
                 return $this->responsesemantics;
             }
         };
 
-        $semantics = $apifunction->get_responsesemantics();
+        $semantics = $apifunction->get_response_semantics();
         $template = $semantics['static_template'];
 
         // Check container with facts.
@@ -350,14 +374,16 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_response_semantics(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get response semantics.
+             *
              * @return array
              */
-            public function get_responsesemantics() {
+            public function get_response_semantics() {
                 return $this->responsesemantics;
             }
         };
 
-        $semantics = $apifunction->get_responsesemantics();
+        $semantics = $apifunction->get_response_semantics();
         $this->assertIsArray($semantics);
         $this->assertArrayHasKey('data_path', $semantics);
         $this->assertEquals('$', $semantics['data_path']);
@@ -403,6 +429,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_confirmation_message(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get confirmation message.
+             *
              * @return array
              */
             public function get_confirmation() {
@@ -478,6 +506,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_course_and_section_context(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -512,6 +542,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_assignment_due_date_and_completion(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {
@@ -540,6 +572,8 @@ final class local_copilot_get_assignment_details_for_teacher_test extends base_t
     public function test_use_card_property(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
             /**
+             * Get responses.
+             *
              * @return array
              */
             public function get_responses() {

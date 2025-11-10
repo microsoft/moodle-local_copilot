@@ -243,7 +243,7 @@ final class create_content_for_teacher_test extends base_test {
      * @covers \local_copilot\external\create_forum_for_teacher::execute_parameters
      * @covers \local_copilot\external\create_forum_for_teacher::execute_returns
      */
-    public function test_forum_parameters_and_returns() {
+    public function test_forum_parameters_and_returns(): void {
         $parameters = create_forum_for_teacher::execute_parameters();
         $this->assert_external_parameters($parameters, ['course_id', 'forum_name', 'section_id']);
 
@@ -321,8 +321,8 @@ final class create_content_for_teacher_test extends base_test {
     public function test_create_announcement_different_sections(): void {
         $this->set_user_as_teacher();
 
-        // Announcements are posted to the news forum, not a specific section
-        // This test verifies the announcement was created successfully
+        // Announcements are posted to the news forum, not a specific section.
+        // This test verifies the announcement was created successfully.
         $result = create_announcement_for_teacher::execute(
             $this->course->id,
             'Section 1 Announcement',
