@@ -27,8 +27,6 @@ namespace local_copilot;
 
 use local_copilot\local\api_functions\local_copilot_get_courses;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Tests for local_copilot_get_courses API function class.
  *
@@ -37,14 +35,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_api_functions_local_copilot_get_courses_test extends base_test {
-
+final class local_copilot_get_courses_test extends base_test {
     /**
      * Test API function instantiation.
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_api_function_instantiation() {
+    public function test_api_function_instantiation(): void {
         $apifunction = new local_copilot_get_courses();
         $this->assertInstanceOf(local_copilot_get_courses::class, $apifunction);
     }
@@ -54,23 +51,65 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_api_function_properties() {
+    public function test_api_function_properties(): void {
         $apifunction = new class extends local_copilot_get_courses {
             // Expose protected properties for testing.
-            public function getPath() { return $this->path; }
-            public function getMethod() { return $this->method; }
-            public function getSummary() { return $this->summary; }
-            public function getDescription() { return $this->description; }
-            public function getOperationId() { return $this->operationid; }
-            public function getScopesuffix() { return $this->scopesuffix; }
+            /**
+             * Expose path for testing.
+             *
+             * @return string
+             */
+            public function get_path() {
+                return $this->path;
+            }
+            /**
+             * Expose method for testing.
+             *
+             * @return string
+             */
+            public function get_method() {
+                return $this->method;
+            }
+            /**
+             * Expose summary for testing.
+             *
+             * @return string
+             */
+            public function get_summary() {
+                return $this->summary;
+            }
+            /**
+             * Expose description for testing.
+             *
+             * @return string
+             */
+            public function get_description() {
+                return $this->description;
+            }
+            /**
+             * Expose operation ID for testing.
+             *
+             * @return string
+             */
+            public function get_operation_id() {
+                return $this->operationid;
+            }
+            /**
+             * Expose scope suffix for testing.
+             *
+             * @return string
+             */
+            public function get_scope_suffix() {
+                return $this->scopesuffix;
+            }
         };
 
-        $this->assertEquals('/local_copilot_get_courses', $apifunction->getPath());
-        $this->assertEquals('get', $apifunction->getMethod());
-        $this->assertStringContainsString('courses', strtolower($apifunction->getSummary()));
-        $this->assertStringContainsString('enrolled', strtolower($apifunction->getDescription()));
-        $this->assertEquals('getCourses', $apifunction->getOperationId());
-        $this->assertEquals('read', $apifunction->getScopeSuffix());
+        $this->assertEquals('/local_copilot_get_courses', $apifunction->get_path());
+        $this->assertEquals('get', $apifunction->get_method());
+        $this->assertStringContainsString('courses', strtolower($apifunction->get_summary()));
+        $this->assertStringContainsString('enrolled', strtolower($apifunction->get_description()));
+        $this->assertEquals('getCourses', $apifunction->get_operation_id());
+        $this->assertEquals('read', $apifunction->get_scope_suffix());
     }
 
     /**
@@ -78,12 +117,19 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_api_function_parameters() {
+    public function test_api_function_parameters(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * Expose parameters for testing.
+             *
+             * @return mixed
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $this->assertIsArray($parameters);
         $this->assertNotEmpty($parameters);
 
@@ -107,12 +153,19 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_limit_parameter() {
+    public function test_limit_parameter(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * Expose parameters for testing.
+             *
+             * @return mixed
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $limitparam = null;
 
         foreach ($parameters as $param) {
@@ -126,7 +179,7 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
         $this->assertEquals('query', $limitparam['in']);
         $this->assertFalse($limitparam['required']); // Should be optional.
         $this->assertEquals('integer', $limitparam['schema']['type']);
-        
+
         if (isset($limitparam['schema']['default'])) {
             $this->assertIsInt($limitparam['schema']['default']);
             $this->assertGreaterThan(0, $limitparam['schema']['default']);
@@ -138,12 +191,19 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_offset_parameter() {
+    public function test_offset_parameter(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * Expose parameters for testing.
+             *
+             * @return mixed
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $offsetparam = null;
 
         foreach ($parameters as $param) {
@@ -157,7 +217,7 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
         $this->assertEquals('query', $offsetparam['in']);
         $this->assertFalse($offsetparam['required']); // Should be optional.
         $this->assertEquals('integer', $offsetparam['schema']['type']);
-        
+
         if (isset($offsetparam['schema']['default'])) {
             $this->assertEquals(0, $offsetparam['schema']['default']);
         }
@@ -168,12 +228,19 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_response_definitions() {
+    public function test_response_definitions(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getResponses() { return $this->responses; }
+            /**
+             * Expose responses for testing.
+             *
+             * @return mixed
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $this->assertIsArray($responses);
 
         // Should have success response.
@@ -189,7 +256,7 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
         $this->assertArrayHasKey('items', $schema);
         $this->assertEquals('object', $schema['items']['type']);
         $this->assertArrayHasKey('properties', $schema['items']);
-        
+
         // Check for expected course properties.
         $properties = $schema['items']['properties'];
         $this->assertArrayHasKey('id', $properties);
@@ -202,19 +269,26 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_security_configuration() {
+    public function test_security_configuration(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getSecurity() { return $this->security; }
+            /**
+             * Expose security for testing.
+             *
+             * @return mixed
+             */
+            public function get_security() {
+                return $this->security;
+            }
         };
 
-        $security = $apifunction->getSecurity();
+        $security = $apifunction->get_security();
         $this->assertIsArray($security);
-        
+
         // Should require OAuth2 authentication.
         $this->assertArrayHasKey('oauth2', $security);
         $this->assertIsArray($security['oauth2']);
         $this->assertNotEmpty($security['oauth2']);
-        
+
         // Should include read scope.
         $hasreadscope = false;
         foreach ($security['oauth2'] as $scope) {
@@ -231,12 +305,19 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_documentation_tags() {
+    public function test_documentation_tags(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getTags() { return $this->tags; }
+            /**
+             * Expose tags for testing.
+             *
+             * @return mixed
+             */
+            public function get_tags() {
+                return $this->tags;
+            }
         };
 
-        $tags = $apifunction->getTags();
+        $tags = $apifunction->get_tags();
         if ($tags !== null) {
             $this->assertIsArray($tags);
             $this->assertContains('courses', $tags);
@@ -248,11 +329,11 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses
      */
-    public function test_role_specific_behavior() {
+    public function test_role_specific_behavior(): void {
         // Test that API function can be configured for different roles.
         $teacherapi = new local_copilot_get_courses();
         $studentapi = new local_copilot_get_courses();
-        
+
         // Both should be the same class but might behave differently based on context.
         $this->assertInstanceOf(local_copilot_get_courses::class, $teacherapi);
         $this->assertInstanceOf(local_copilot_get_courses::class, $studentapi);
@@ -263,18 +344,25 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_parameter_validation() {
+    public function test_parameter_validation(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * Expose parameters for testing.
+             *
+             * @return mixed
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
-        
+        $parameters = $apifunction->get_parameters();
+
         foreach ($parameters as $param) {
             // All parameters should have proper validation rules.
             $this->assertArrayHasKey('schema', $param);
             $schema = $param['schema'];
-            
+
             if ($param['name'] === 'limit') {
                 $this->assertEquals('integer', $schema['type']);
                 if (isset($schema['minimum'])) {
@@ -284,7 +372,7 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
                     $this->assertGreaterThan(0, $schema['maximum']);
                 }
             }
-            
+
             if ($param['name'] === 'offset') {
                 $this->assertEquals('integer', $schema['type']);
                 if (isset($schema['minimum'])) {
@@ -299,19 +387,26 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses::__construct
      */
-    public function test_example_data() {
+    public function test_example_data(): void {
         $apifunction = new class extends local_copilot_get_courses {
-            public function getExamples() { return $this->examples; }
+            /**
+             * Expose examples for testing.
+             *
+             * @return mixed
+             */
+            public function get_examples() {
+                return $this->examples;
+            }
         };
 
-        $examples = $apifunction->getExamples();
+        $examples = $apifunction->get_examples();
         if ($examples !== null) {
             $this->assertIsArray($examples);
-            
+
             if (isset($examples['response'])) {
                 $responseexample = $examples['response']['value'];
                 $this->assertIsArray($responseexample);
-                
+
                 // Each course in example should have expected structure.
                 foreach ($responseexample as $course) {
                     $this->assertArrayHasKey('id', $course);
@@ -328,15 +423,15 @@ class local_api_functions_local_copilot_get_courses_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_courses
      */
-    public function test_manifest_integration() {
+    public function test_manifest_integration(): void {
         // API function should work with both teacher and student manifests.
         $teacherapi = new local_copilot_get_courses();
         $studentapi = new local_copilot_get_courses();
-        
+
         // Should be usable in both contexts.
         $this->assertInstanceOf(local_copilot_get_courses::class, $teacherapi);
         $this->assertInstanceOf(local_copilot_get_courses::class, $studentapi);
-        
+
         // API should have consistent operation ID for both roles.
         $reflection = new \ReflectionClass(local_copilot_get_courses::class);
         $this->assertTrue($reflection->hasProperty('operationid'));

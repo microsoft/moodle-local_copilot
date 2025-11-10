@@ -27,8 +27,6 @@ namespace local_copilot;
 
 use local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Tests for local_copilot_get_assignment_details_for_teacher API function class.
  *
@@ -37,14 +35,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_api_functions_local_copilot_get_assignment_details_for_teacher_test extends base_test {
-
+final class local_copilot_get_assignment_details_for_teacher_test extends base_test {
     /**
      * Test API function instantiation.
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_api_function_instantiation() {
+    public function test_api_function_instantiation(): void {
         $apifunction = new local_copilot_get_assignment_details_for_teacher();
         $this->assertInstanceOf(local_copilot_get_assignment_details_for_teacher::class, $apifunction);
     }
@@ -54,22 +51,52 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_api_function_properties() {
+    public function test_api_function_properties(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getPath() { return $this->path; }
-            public function getMethod() { return $this->method; }
-            public function getSummary() { return $this->summary; }
-            public function getDescription() { return $this->description; }
-            public function getOperationId() { return $this->operationid; }
-            public function getScopeSuffix() { return $this->scopesuffix; }
+            /**
+             * @return string
+             */
+            public function get_path() {
+                return $this->path;
+            }
+            /**
+             * @return string
+             */
+            public function get_method() {
+                return $this->method;
+            }
+            /**
+             * @return string
+             */
+            public function get_summary() {
+                return $this->summary;
+            }
+            /**
+             * @return string
+             */
+            public function get_description() {
+                return $this->description;
+            }
+            /**
+             * @return string
+             */
+            public function get_operation_id() {
+                return $this->operationid;
+            }
+            /**
+             * @return string
+             */
+            public function get_scope_suffix() {
+                return $this->scopesuffix;
+            }
         };
 
-        $this->assertEquals('/local_copilot_get_assignment_details_for_teacher', $apifunction->getPath());
-        $this->assertEquals('get', $apifunction->getMethod());
-        $this->assertStringContainsString('assignment', strtolower($apifunction->getSummary()));
-        $this->assertStringContainsString('teacher', strtolower($apifunction->getDescription()));
-        $this->assertEquals('getAssignmentDetailsForTeacher', $apifunction->getOperationId());
-        $this->assertEquals('read', $apifunction->getScopeSuffix());
+        $this->assertEquals('/local_copilot_get_assignment_details_for_teacher', $apifunction->get_path());
+        $this->assertEquals('get', $apifunction->get_method());
+        $this->assertStringContainsString('assignment', strtolower($apifunction->get_summary()));
+        $this->assertStringContainsString('teacher', strtolower($apifunction->get_description()));
+        $this->assertEquals('getAssignmentDetailsForTeacher', $apifunction->get_operation_id());
+        $this->assertEquals('read', $apifunction->get_scope_suffix());
     }
 
     /**
@@ -77,12 +104,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_api_function_parameters() {
+    public function test_api_function_parameters(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * @return array
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $this->assertIsArray($parameters);
         $this->assertCount(1, $parameters);
 
@@ -100,12 +132,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_response_definitions() {
+    public function test_response_definitions(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $this->assertIsArray($responses);
 
         // Should have success response.
@@ -141,12 +178,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_submissions_structure() {
+    public function test_submissions_structure(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['properties'];
 
         // Check submissions array structure.
@@ -182,12 +224,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_assignment_statistics_properties() {
+    public function test_assignment_statistics_properties(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['properties'];
 
         // Check statistics properties.
@@ -210,12 +257,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_adaptive_card_template() {
+    public function test_adaptive_card_template(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponseSemantics() { return $this->responsesemantics; }
+            /**
+             * @return array
+             */
+            public function get_responsesemantics() {
+                return $this->responsesemantics;
+            }
         };
 
-        $semantics = $apifunction->getResponseSemantics();
+        $semantics = $apifunction->get_responsesemantics();
         $template = $semantics['static_template'];
 
         // Check template visibility control.
@@ -243,12 +295,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_assignment_details_facts() {
+    public function test_assignment_details_facts(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponseSemantics() { return $this->responsesemantics; }
+            /**
+             * @return array
+             */
+            public function get_responsesemantics() {
+                return $this->responsesemantics;
+            }
         };
 
-        $semantics = $apifunction->getResponseSemantics();
+        $semantics = $apifunction->get_responsesemantics();
         $template = $semantics['static_template'];
 
         // Check container with facts.
@@ -290,12 +347,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_response_semantics() {
+    public function test_response_semantics(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponseSemantics() { return $this->responsesemantics; }
+            /**
+             * @return array
+             */
+            public function get_responsesemantics() {
+                return $this->responsesemantics;
+            }
         };
 
-        $semantics = $apifunction->getResponseSemantics();
+        $semantics = $apifunction->get_responsesemantics();
         $this->assertIsArray($semantics);
         $this->assertArrayHasKey('data_path', $semantics);
         $this->assertEquals('$', $semantics['data_path']);
@@ -315,7 +377,7 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_assignment_details_instructions() {
+    public function test_assignment_details_instructions(): void {
         $apifunction = new local_copilot_get_assignment_details_for_teacher();
         $instructions = $apifunction->get_instructions();
 
@@ -338,12 +400,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_confirmation_message() {
+    public function test_confirmation_message(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getConfirmation() { return $this->confirmation; }
+            /**
+             * @return array
+             */
+            public function get_confirmation() {
+                return $this->confirmation;
+            }
         };
 
-        $confirmation = $apifunction->getConfirmation();
+        $confirmation = $apifunction->get_confirmation();
         $this->assertIsArray($confirmation);
         $this->assertEquals('AdaptiveCard', $confirmation['type']);
         $this->assertEquals('Get assignment details', $confirmation['title']);
@@ -355,7 +422,7 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_sort_order() {
+    public function test_sort_order(): void {
         $apifunction = new local_copilot_get_assignment_details_for_teacher();
         $sortorder = $apifunction->get_sortorder();
 
@@ -368,7 +435,7 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::check_applicable_role_type
      */
-    public function test_role_type_validation() {
+    public function test_role_type_validation(): void {
         // Should be applicable for teachers only.
         $this->assertTrue(local_copilot_get_assignment_details_for_teacher::check_applicable_role_type('teacher'));
 
@@ -385,7 +452,7 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher
      */
-    public function test_pagination_support() {
+    public function test_pagination_support(): void {
         $apifunction = new local_copilot_get_assignment_details_for_teacher();
 
         // Assignment detail operations don't need pagination.
@@ -397,7 +464,7 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher
      */
-    public function test_enabled_by_default() {
+    public function test_enabled_by_default(): void {
         $apifunction = new local_copilot_get_assignment_details_for_teacher();
 
         $this->assertTrue($apifunction->is_enabled());
@@ -408,12 +475,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_course_and_section_context() {
+    public function test_course_and_section_context(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['properties'];
 
         // Check course context properties.
@@ -437,12 +509,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_assignment_due_date_and_completion() {
+    public function test_assignment_due_date_and_completion(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['properties'];
 
         // Check due date property.
@@ -460,12 +537,17 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher::__construct
      */
-    public function test_use_card_property() {
+    public function test_use_card_property(): void {
         $apifunction = new class extends local_copilot_get_assignment_details_for_teacher {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['properties'];
 
         // Check use_card property for conditional card rendering.
@@ -479,7 +561,7 @@ class local_api_functions_local_copilot_get_assignment_details_for_teacher_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_assignment_details_for_teacher
      */
-    public function test_api_plugin_function_content() {
+    public function test_api_plugin_function_content(): void {
         $apifunction = new local_copilot_get_assignment_details_for_teacher();
         $content = $apifunction->get_api_plugin_function_content();
 

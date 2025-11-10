@@ -42,15 +42,13 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @runTestsInSeparateProcesses
  */
-class external_get_courses_test extends \externallib_advanced_testcase {
-
+final class get_courses_test extends \externallib_advanced_testcase {
     /**
      * Test get_courses execute function.
      *
      * @covers \local_copilot\external\get_courses::execute
      */
-    public function test_execute() {
-        global $DB;
+    public function test_execute(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -61,7 +59,7 @@ class external_get_courses_test extends \externallib_advanced_testcase {
             'summary' => 'First test course',
         ]);
         $course2 = $this->getDataGenerator()->create_course([
-            'fullname' => 'Test Course 2', 
+            'fullname' => 'Test Course 2',
             'shortname' => 'TC2',
             'summary' => 'Second test course',
         ]);
@@ -75,10 +73,10 @@ class external_get_courses_test extends \externallib_advanced_testcase {
 
         // Test with default parameters.
         $result = get_courses::execute();
-        
+
         $this->assertIsArray($result);
         $this->assertCount(2, $result);
-        
+
         // Check course structure.
         foreach ($result as $course) {
             $this->assertArrayHasKey('id', $course);
@@ -94,7 +92,7 @@ class external_get_courses_test extends \externallib_advanced_testcase {
      *
      * @covers \local_copilot\external\get_courses::execute
      */
-    public function test_execute_with_pagination() {
+    public function test_execute_with_pagination(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -136,9 +134,9 @@ class external_get_courses_test extends \externallib_advanced_testcase {
      *
      * @covers \local_copilot\external\get_courses::execute
      */
-    public function test_execute_no_enrollments() {
+    public function test_execute_no_enrollments(): void {
         $this->resetAfterTest();
-        
+
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
 
@@ -153,17 +151,17 @@ class external_get_courses_test extends \externallib_advanced_testcase {
      * @covers \local_copilot\external\get_courses::execute_parameters
      * @covers \local_copilot\external\get_courses::execute_returns
      */
-    public function test_parameters_and_returns() {
+    public function test_parameters_and_returns(): void {
         $this->resetAfterTest();
 
         // Test parameters structure.
         $parameters = get_courses::execute_parameters();
         $this->assertInstanceOf(\external_function_parameters::class, $parameters);
-        
+
         $params = $parameters->keys;
         $this->assertArrayHasKey('limit', $params);
         $this->assertArrayHasKey('offset', $params);
-        
+
         // Test returns structure.
         $returns = get_courses::execute_returns();
         $this->assertInstanceOf(\external_multiple_structure::class, $returns);
@@ -174,7 +172,7 @@ class external_get_courses_test extends \externallib_advanced_testcase {
      *
      * @covers \local_copilot\external\get_courses::execute
      */
-    public function test_execute_with_config_limit() {
+    public function test_execute_with_config_limit(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -195,7 +193,7 @@ class external_get_courses_test extends \externallib_advanced_testcase {
 
         // Test with default limit (should use config).
         $result = get_courses::execute();
-        
+
         // Should respect pagination configuration.
         $this->assertLessThanOrEqual(5, count($result));
     }

@@ -27,8 +27,6 @@ namespace local_copilot;
 
 use local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Tests for local_copilot_get_activities_by_type_for_student API function class.
  *
@@ -37,14 +35,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_api_functions_local_copilot_get_activities_by_type_for_student_test extends base_test {
-
+final class local_copilot_get_activities_by_type_for_student_test extends base_test {
     /**
      * Test API function instantiation.
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_api_function_instantiation() {
+    public function test_api_function_instantiation(): void {
         $apifunction = new local_copilot_get_activities_by_type_for_student();
         $this->assertInstanceOf(local_copilot_get_activities_by_type_for_student::class, $apifunction);
     }
@@ -54,22 +51,52 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_api_function_properties() {
+    public function test_api_function_properties(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getPath() { return $this->path; }
-            public function getMethod() { return $this->method; }
-            public function getSummary() { return $this->summary; }
-            public function getDescription() { return $this->description; }
-            public function getOperationId() { return $this->operationid; }
-            public function getScopeSuffix() { return $this->scopesuffix; }
+            /**
+             * @return string
+             */
+            public function get_path() {
+                return $this->path;
+            }
+            /**
+             * @return string
+             */
+            public function get_method() {
+                return $this->method;
+            }
+            /**
+             * @return string
+             */
+            public function get_summary() {
+                return $this->summary;
+            }
+            /**
+             * @return string
+             */
+            public function get_description() {
+                return $this->description;
+            }
+            /**
+             * @return string
+             */
+            public function get_operation_id() {
+                return $this->operationid;
+            }
+            /**
+             * @return string
+             */
+            public function get_scope_suffix() {
+                return $this->scopesuffix;
+            }
         };
 
-        $this->assertEquals('/local_copilot_get_activities_by_type_for_student', $apifunction->getPath());
-        $this->assertEquals('get', $apifunction->getMethod());
-        $this->assertStringContainsString('activities', strtolower($apifunction->getSummary()));
-        $this->assertStringContainsString('student', strtolower($apifunction->getDescription()));
-        $this->assertEquals('getActivitiesByTypeForStudent', $apifunction->getOperationId());
-        $this->assertEquals('read', $apifunction->getScopeSuffix());
+        $this->assertEquals('/local_copilot_get_activities_by_type_for_student', $apifunction->get_path());
+        $this->assertEquals('get', $apifunction->get_method());
+        $this->assertStringContainsString('activities', strtolower($apifunction->get_summary()));
+        $this->assertStringContainsString('student', strtolower($apifunction->get_description()));
+        $this->assertEquals('getActivitiesByTypeForStudent', $apifunction->get_operation_id());
+        $this->assertEquals('read', $apifunction->get_scope_suffix());
     }
 
     /**
@@ -77,12 +104,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_api_function_parameters() {
+    public function test_api_function_parameters(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * @return array
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $this->assertIsArray($parameters);
         $this->assertCount(3, $parameters);
 
@@ -107,12 +139,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_activity_type_parameter() {
+    public function test_activity_type_parameter(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * @return array
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $activitytypeparam = null;
 
         foreach ($parameters as $param) {
@@ -136,12 +173,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_limit_parameter() {
+    public function test_limit_parameter(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * @return array
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $limitparam = null;
 
         foreach ($parameters as $param) {
@@ -163,12 +205,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_offset_parameter() {
+    public function test_offset_parameter(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * @return array
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $offsetparam = null;
 
         foreach ($parameters as $param) {
@@ -190,12 +237,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_response_definitions() {
+    public function test_response_definitions(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $this->assertIsArray($responses);
 
         // Should have success response.
@@ -236,12 +288,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_completion_properties() {
+    public function test_completion_properties(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['items']['properties'];
 
         // Check completion-related properties.
@@ -263,12 +320,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_response_semantics() {
+    public function test_response_semantics(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getResponseSemantics() { return $this->responsesemantics; }
+            /**
+             * @return array
+             */
+            public function get_response_semantics() {
+                return $this->responsesemantics;
+            }
         };
 
-        $semantics = $apifunction->getResponseSemantics();
+        $semantics = $apifunction->get_response_semantics();
         $this->assertIsArray($semantics);
         $this->assertArrayHasKey('data_path', $semantics);
         $this->assertEquals('$', $semantics['data_path']);
@@ -291,12 +353,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_adaptive_card_template() {
+    public function test_adaptive_card_template(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getResponseSemantics() { return $this->responsesemantics; }
+            /**
+             * @return array
+             */
+            public function get_response_semantics() {
+                return $this->responsesemantics;
+            }
         };
 
-        $semantics = $apifunction->getResponseSemantics();
+        $semantics = $apifunction->get_response_semantics();
         $template = $semantics['static_template'];
 
         // Check body structure.
@@ -320,12 +387,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_confirmation_message() {
+    public function test_confirmation_message(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getConfirmation() { return $this->confirmation; }
+            /**
+             * @return array
+             */
+            public function get_confirmation() {
+                return $this->confirmation;
+            }
         };
 
-        $confirmation = $apifunction->getConfirmation();
+        $confirmation = $apifunction->get_confirmation();
         $this->assertIsArray($confirmation);
         $this->assertEquals('AdaptiveCard', $confirmation['type']);
         $this->assertEquals('Get activities', $confirmation['title']);
@@ -337,7 +409,7 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_instructions() {
+    public function test_instructions(): void {
         $apifunction = new local_copilot_get_activities_by_type_for_student();
         $instructions = $apifunction->get_instructions();
 
@@ -352,7 +424,7 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_sort_order() {
+    public function test_sort_order(): void {
         $apifunction = new local_copilot_get_activities_by_type_for_student();
         $sortorder = $apifunction->get_sortorder();
 
@@ -365,7 +437,7 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::check_applicable_role_type
      */
-    public function test_role_type_validation() {
+    public function test_role_type_validation(): void {
         // Should be applicable for students only.
         $this->assertTrue(local_copilot_get_activities_by_type_for_student::check_applicable_role_type('student'));
 
@@ -382,7 +454,7 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student
      */
-    public function test_pagination_support() {
+    public function test_pagination_support(): void {
         $apifunction = new local_copilot_get_activities_by_type_for_student();
 
         $this->assertTrue($apifunction->support_pagination());
@@ -393,7 +465,7 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student
      */
-    public function test_enabled_by_default() {
+    public function test_enabled_by_default(): void {
         $apifunction = new local_copilot_get_activities_by_type_for_student();
 
         $this->assertTrue($apifunction->is_enabled());
@@ -404,12 +476,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_course_and_section_context() {
+    public function test_course_and_section_context(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['items']['properties'];
 
         // Check course context properties.
@@ -433,12 +510,17 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student::__construct
      */
-    public function test_activity_metadata_properties() {
+    public function test_activity_metadata_properties(): void {
         $apifunction = new class extends local_copilot_get_activities_by_type_for_student {
-            public function getResponses() { return $this->responses; }
+            /**
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $properties = $responses['200']['content']['application/json']['schema']['items']['properties'];
 
         // Check availability and instructions.
@@ -459,7 +541,7 @@ class local_api_functions_local_copilot_get_activities_by_type_for_student_test 
      *
      * @covers \local_copilot\local\api_functions\local_copilot_get_activities_by_type_for_student
      */
-    public function test_api_plugin_function_content() {
+    public function test_api_plugin_function_content(): void {
         $apifunction = new local_copilot_get_activities_by_type_for_student();
         $content = $apifunction->get_api_plugin_function_content();
 

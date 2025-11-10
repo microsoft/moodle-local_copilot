@@ -25,9 +25,8 @@
 
 namespace local_copilot;
 
+use advanced_testcase;
 use local_copilot\local\api_functions\api_function_base;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Tests for api_function_base class.
@@ -37,14 +36,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_api_functions_api_function_base_test extends \advanced_testcase {
-
+final class api_function_base_test extends advanced_testcase {
     /**
      * Test that api_function_base can be instantiated.
      *
      * @covers \local_copilot\local\api_functions\api_function_base::__construct
      */
-    public function test_base_class_instantiation() {
+    public function test_base_class_instantiation(): void {
         $this->resetAfterTest();
 
         // Create a concrete implementation for testing.
@@ -67,10 +65,13 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_base_class_properties() {
+    public function test_base_class_properties(): void {
         $this->resetAfterTest();
 
         $apifunction = new class extends api_function_base {
+            /**
+             * Constructor to set up API properties.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/test_endpoint';
@@ -82,20 +83,62 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
             }
 
             // Expose protected properties for testing.
-            public function getPath() { return $this->path; }
-            public function getMethod() { return $this->method; }
-            public function getSummary() { return $this->summary; }
-            public function getDescription() { return $this->description; }
-            public function getOperationId() { return $this->operationid; }
-            public function getScopeSuffix() { return $this->scopesuffix; }
+            /**
+             * Get API path.
+             *
+             * @return string API path.
+             */
+            public function get_path() {
+                return $this->path;
+            }
+            /**
+             * Get HTTP method.
+             *
+             * @return string HTTP method.
+             */
+            public function get_method() {
+                return $this->method;
+            }
+            /**
+             * Get summary.
+             *
+             * @return string Summary.
+             */
+            public function get_summary() {
+                return $this->summary;
+            }
+            /**
+             * Get description.
+             *
+             * @return string Description.
+             */
+            public function get_description() {
+                return $this->description;
+            }
+            /**
+             * Get operation ID.
+             *
+             * @return string Operation ID.
+             */
+            public function get_operation_id() {
+                return $this->operationid;
+            }
+            /**
+             * Get scope suffix.
+             *
+             * @return string Scope suffix.
+             */
+            public function get_scope_suffix() {
+                return $this->scopesuffix;
+            }
         };
 
-        $this->assertEquals('/test_endpoint', $apifunction->getPath());
-        $this->assertEquals('post', $apifunction->getMethod());
-        $this->assertEquals('Test API endpoint', $apifunction->getSummary());
-        $this->assertEquals('This is a test API endpoint for unit testing', $apifunction->getDescription());
-        $this->assertEquals('testEndpoint', $apifunction->getOperationId());
-        $this->assertEquals('write', $apifunction->getScopeSuffix());
+        $this->assertEquals('/test_endpoint', $apifunction->get_path());
+        $this->assertEquals('post', $apifunction->get_method());
+        $this->assertEquals('Test API endpoint', $apifunction->get_summary());
+        $this->assertEquals('This is a test API endpoint for unit testing', $apifunction->get_description());
+        $this->assertEquals('testEndpoint', $apifunction->get_operation_id());
+        $this->assertEquals('write', $apifunction->get_scope_suffix());
     }
 
     /**
@@ -103,10 +146,13 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_base_class_with_parameters() {
+    public function test_base_class_with_parameters(): void {
         $this->resetAfterTest();
 
         $apifunction = new class extends api_function_base {
+            /**
+             * Constructor to set up API with parameters.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/test_with_params';
@@ -132,10 +178,17 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
                 ];
             }
 
-            public function getParameters() { return $this->parameters; }
+            /**
+             * Get parameter definitions.
+             *
+             * @return array Parameter definitions.
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $this->assertIsArray($parameters);
         $this->assertCount(2, $parameters);
         
@@ -156,10 +209,13 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_base_class_with_responses() {
+    public function test_base_class_with_responses(): void {
         $this->resetAfterTest();
 
         $apifunction = new class extends api_function_base {
+            /**
+             * Constructor to set up API with responses.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/test_responses';
@@ -191,10 +247,17 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
                 ];
             }
 
-            public function getResponses() { return $this->responses; }
+            /**
+             * Get response definitions.
+             *
+             * @return array Response definitions.
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $this->assertIsArray($responses);
         $this->assertArrayHasKey('200', $responses);
         $this->assertArrayHasKey('400', $responses);
@@ -210,13 +273,18 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_http_method_values() {
+    public function test_http_method_values(): void {
         $this->resetAfterTest();
 
         $validmethods = ['get', 'post', 'put', 'delete', 'patch'];
 
         foreach ($validmethods as $method) {
-            $apifunction = new class($method) extends api_function_base {
+            $apifunction = new class ($method) extends api_function_base {
+                /**
+                 * Constructor to set up API with specified method.
+                 *
+                 * @param string $testmethod HTTP method to test.
+                 */
                 public function __construct($testmethod) {
                     parent::__construct();
                     $this->path = "/test_$testmethod";
@@ -226,10 +294,17 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
                     $this->operationid = "test" . ucfirst($testmethod);
                 }
 
-                public function getMethod() { return $this->method; }
+                /**
+                 * Get HTTP method.
+                 *
+                 * @return string HTTP method.
+                 */
+                public function get_method() {
+                    return $this->method;
+                }
             };
 
-            $this->assertEquals($method, $apifunction->getMethod());
+            $this->assertEquals($method, $apifunction->get_method());
         }
     }
 
@@ -238,11 +313,14 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_subclass_requirements() {
+    public function test_subclass_requirements(): void {
         $this->resetAfterTest();
 
         // Test a minimal valid subclass.
         $apifunction = new class extends api_function_base {
+            /**
+             * Constructor to set up minimal API.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/minimal';
@@ -253,10 +331,10 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
             }
 
             public function validate() {
-                return !empty($this->path) && 
-                       !empty($this->method) && 
-                       !empty($this->summary) && 
-                       !empty($this->description) && 
+                return !empty($this->path) &&
+                       !empty($this->method) &&
+                       !empty($this->summary) &&
+                       !empty($this->description) &&
                        !empty($this->operationid);
             }
         };
@@ -269,10 +347,13 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_security_configuration() {
+    public function test_security_configuration(): void {
         $this->resetAfterTest();
 
         $apifunction = new class extends api_function_base {
+            /**
+             * Constructor to set up secured API.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/secure_endpoint';
@@ -286,10 +367,17 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
                 ];
             }
 
-            public function getSecurity() { return $this->security; }
+            /**
+             * Get security configuration.
+             *
+             * @return array Security data.
+             */
+            public function get_security() {
+                return $this->security;
+            }
         };
 
-        $security = $apifunction->getSecurity();
+        $security = $apifunction->get_security();
         $this->assertIsArray($security);
         $this->assertArrayHasKey('oauth2', $security);
         $this->assertContains('copilot.write', $security['oauth2']);
@@ -300,10 +388,13 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_api_documentation_data() {
+    public function test_api_documentation_data(): void {
         $this->resetAfterTest();
 
         $apifunction = new class extends api_function_base {
+            /**
+             * Constructor to set up documented API.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/documented_api';
@@ -327,16 +418,31 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
                 ];
             }
 
-            public function getTags() { return $this->tags; }
-            public function getExamples() { return $this->examples; }
+            /**
+             * Get tags for API documentation.
+             *
+             * @return array Tags data.
+             */
+            public function get_tags() {
+                return $this->tags;
+            }
+
+            /**
+             * Get examples for API documentation.
+             *
+             * @return array Examples data.
+             */
+            public function get_examples() {
+                return $this->examples;
+            }
         };
 
-        $tags = $apifunction->getTags();
+        $tags = $apifunction->get_tags();
         $this->assertIsArray($tags);
         $this->assertContains('courses', $tags);
         $this->assertContains('copilot', $tags);
 
-        $examples = $apifunction->getExamples();
+        $examples = $apifunction->get_examples();
         $this->assertIsArray($examples);
         $this->assertArrayHasKey('request', $examples);
         $this->assertArrayHasKey('response', $examples);
@@ -347,13 +453,19 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
      *
      * @covers \local_copilot\local\api_functions\api_function_base
      */
-    public function test_inheritance() {
+    public function test_inheritance(): void {
         $this->resetAfterTest();
 
         // Test that subclasses can extend base functionality.
         $extendedapi = new class extends api_function_base {
+            /**
+             * @var array Custom data for extended functionality.
+             */
             private $customdata = [];
 
+            /**
+             * Constructor to set up extended API.
+             */
             public function __construct() {
                 parent::__construct();
                 $this->path = '/extended_api';
@@ -363,26 +475,41 @@ class local_api_functions_api_function_base_test extends \advanced_testcase {
                 $this->operationid = 'extendedApi';
             }
 
-            public function setCustomData($data) {
+            /**
+             * Set custom data.
+             *
+             * @param array $data Custom data to set.
+             */
+            public function set_custom_data($data) {
                 $this->customdata = $data;
             }
 
-            public function getCustomData() {
+            /**
+             * Get custom data.
+             *
+             * @return array Custom data.
+             */
+            public function get_custom_data() {
                 return $this->customdata;
             }
 
-            public function processData() {
+            /**
+             * Custom method to demonstrate extended functionality.
+             *
+             * @return array Processed data.
+             */
+            public function process_data() {
                 return array_map('strtoupper', $this->customdata);
             }
         };
 
         // Test custom functionality.
         $testdata = ['apple', 'banana', 'cherry'];
-        $extendedapi->setCustomData($testdata);
-        
-        $this->assertEquals($testdata, $extendedapi->getCustomData());
-        
-        $processed = $extendedapi->processData();
+        $extendedapi->set_custom_data($testdata);
+
+        $this->assertEquals($testdata, $extendedapi->get_custom_data());
+
+        $processed = $extendedapi->process_data();
         $this->assertEquals(['APPLE', 'BANANA', 'CHERRY'], $processed);
     }
 }

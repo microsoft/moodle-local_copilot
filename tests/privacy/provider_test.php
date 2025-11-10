@@ -26,14 +26,14 @@
 namespace local_copilot;
 
 use core_privacy\local\metadata\collection;
+use core_privacy\local\metadata\null_provider;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\contextlist;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
+use core_privacy\tests\provider_testcase;
 use local_copilot\privacy\provider;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Tests for privacy provider.
@@ -43,14 +43,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class privacy_provider_test extends \core_privacy\tests\provider_testcase {
-
+final class privacy_provider_test extends provider_testcase {
     /**
      * Test get_metadata returns correct metadata.
      *
      * @covers \local_copilot\privacy\provider::get_metadata
      */
-    public function test_get_metadata() {
+    public function test_get_metadata(): void {
         $collection = new collection('local_copilot');
         $newcollection = provider::get_metadata($collection);
 
@@ -63,7 +62,7 @@ class privacy_provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \local_copilot\privacy\provider::get_contexts_for_userid
      */
-    public function test_get_contexts_for_userid() {
+    public function test_get_contexts_for_userid(): void {
         $this->resetAfterTest();
 
         $user = $this->getDataGenerator()->create_user();
@@ -78,12 +77,12 @@ class privacy_provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \local_copilot\privacy\provider::export_user_data
      */
-    public function test_export_user_data() {
+    public function test_export_user_data(): void {
         $this->resetAfterTest();
 
         $user = $this->getDataGenerator()->create_user();
         $contextlist = new approved_contextlist($user, 'local_copilot', []);
-        
+
         provider::export_user_data($contextlist);
 
         // Since the plugin doesn't store user data, nothing should be exported.
@@ -96,12 +95,12 @@ class privacy_provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \local_copilot\privacy\provider::delete_data_for_all_users_in_context
      */
-    public function test_delete_data_for_all_users_in_context() {
+    public function test_delete_data_for_all_users_in_context(): void {
         $this->resetAfterTest();
 
         // This should not throw any exceptions since no user data is stored.
         provider::delete_data_for_all_users_in_context(\context_system::instance());
-        
+
         // Test passes if no exception is thrown.
         $this->assertTrue(true);
     }
@@ -111,15 +110,15 @@ class privacy_provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \local_copilot\privacy\provider::delete_data_for_user
      */
-    public function test_delete_data_for_user() {
+    public function test_delete_data_for_user(): void {
         $this->resetAfterTest();
 
         $user = $this->getDataGenerator()->create_user();
         $contextlist = new approved_contextlist($user, 'local_copilot', []);
-        
+
         // This should not throw any exceptions since no user data is stored.
         provider::delete_data_for_user($contextlist);
-        
+
         // Test passes if no exception is thrown.
         $this->assertTrue(true);
     }
@@ -129,7 +128,7 @@ class privacy_provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \local_copilot\privacy\provider::get_users_in_context
      */
-    public function test_get_users_in_context() {
+    public function test_get_users_in_context(): void {
         $this->resetAfterTest();
 
         $userlist = new userlist(\context_system::instance(), 'local_copilot');
@@ -143,21 +142,21 @@ class privacy_provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \local_copilot\privacy\provider::delete_data_for_users
      */
-    public function test_delete_data_for_users() {
+    public function test_delete_data_for_users(): void {
         $this->resetAfterTest();
 
         $user1 = $this->getDataGenerator()->create_user();
         $user2 = $this->getDataGenerator()->create_user();
-        
+
         $approveduserlist = new approved_userlist(
-            \context_system::instance(), 
-            'local_copilot', 
+            \context_system::instance(),
+            'local_copilot',
             [$user1->id, $user2->id]
         );
-        
+
         // This should not throw any exceptions since no user data is stored.
         provider::delete_data_for_users($approveduserlist);
-        
+
         // Test passes if no exception is thrown.
         $this->assertTrue(true);
     }
@@ -167,11 +166,11 @@ class privacy_provider_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \local_copilot\privacy\provider
      */
-    public function test_plugin_stores_no_user_data() {
+    public function test_plugin_stores_no_user_data(): void {
         // Test that the provider implements the null_provider interface
         // indicating it doesn't store user data.
         $this->assertInstanceOf(
-            \core_privacy\local\metadata\null_provider::class,
+            null_provider::class,
             new provider()
         );
     }

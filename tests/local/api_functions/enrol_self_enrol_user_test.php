@@ -27,8 +27,6 @@ namespace local_copilot;
 
 use local_copilot\local\api_functions\enrol_self_enrol_user;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Tests for enrol_self_enrol_user API function class.
  *
@@ -37,14 +35,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_api_functions_enrol_self_enrol_user_test extends base_test {
-
+final class enrol_self_enrol_user_test extends base_test {
     /**
      * Test API function instantiation.
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_api_function_instantiation() {
+    public function test_api_function_instantiation(): void {
         $apifunction = new enrol_self_enrol_user();
         $this->assertInstanceOf(enrol_self_enrol_user::class, $apifunction);
     }
@@ -54,22 +51,64 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_api_function_properties() {
+    public function test_api_function_properties(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getPath() { return $this->path; }
-            public function getMethod() { return $this->method; }
-            public function getSummary() { return $this->summary; }
-            public function getDescription() { return $this->description; }
-            public function getOperationId() { return $this->operationid; }
-            public function getScopeSuffix() { return $this->scopesuffix; }
+            /**
+             * Expose path property for testing.
+             *
+             * @return string
+             */
+            public function get_path() {
+                return $this->path;
+            }
+            /**
+             * Expose method property for testing.
+             *
+             * @return string
+             */
+            public function get_method() {
+                return $this->method;
+            }
+            /**
+             * Expose summary for testing.
+             *
+             * @return string
+             */
+            public function get_summary() {
+                return $this->summary;
+            }
+            /**
+             * Expose description for testing.
+             *
+             * @return string
+             */
+            public function get_description() {
+                return $this->description;
+            }
+            /**
+             * Expose operation ID for testing.
+             *
+             * @return string
+             */
+            public function get_operation_id() {
+                return $this->operationid;
+            }
+            /**
+             * Expose scope suffix for testing.
+             *
+             * @return string
+             */
+            public function get_scope_suffix() {
+                return $this->scopesuffix;
+            }
         };
 
-        $this->assertEquals('/enrol_self_enrol_user', $apifunction->getPath());
-        $this->assertEquals('post', $apifunction->getMethod());
-        $this->assertStringContainsString('enrol', strtolower($apifunction->getSummary()));
-        $this->assertStringContainsString('self enrolment', strtolower($apifunction->getDescription()));
-        $this->assertEquals('enrolSelfEnrolUser', $apifunction->getOperationId());
-        $this->assertEquals('write', $apifunction->getScopeSuffix());
+        $this->assertEquals('/enrol_self_enrol_user', $apifunction->get_path());
+        $this->assertEquals('post', $apifunction->get_method());
+        $this->assertStringContainsString('enrol', strtolower($apifunction->get_summary()));
+        $this->assertStringContainsString('self enrolment', strtolower($apifunction->get_description()));
+        $this->assertEquals('enrolSelfEnrolUser', $apifunction->get_operation_id());
+        $this->assertEquals('write', $apifunction->get_scope_suffix());
     }
 
     /**
@@ -77,12 +116,19 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_api_function_request_body() {
+    public function test_api_function_request_body(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getRequestBody() { return $this->requestbody; }
+            /**
+             * Expose request body for testing.
+             *
+             * @return array
+             */
+            public function get_request_body() {
+                return $this->requestbody;
+            }
         };
 
-        $requestbody = $apifunction->getRequestBody();
+        $requestbody = $apifunction->get_request_body();
         $this->assertIsArray($requestbody);
         $this->assertArrayHasKey('content', $requestbody);
         $this->assertArrayHasKey('application/json', $requestbody['content']);
@@ -102,12 +148,19 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_api_function_parameters() {
+    public function test_api_function_parameters(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getParameters() { return $this->parameters; }
+            /**
+             * Expose parameters for testing.
+             *
+             * @return array
+             */
+            public function get_parameters() {
+                return $this->parameters;
+            }
         };
 
-        $parameters = $apifunction->getParameters();
+        $parameters = $apifunction->get_parameters();
         $this->assertIsArray($parameters);
         $this->assertEmpty($parameters);
     }
@@ -117,12 +170,19 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_response_definitions() {
+    public function test_response_definitions(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getResponses() { return $this->responses; }
+            /**
+             * Expose responses for testing.
+             *
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $this->assertIsArray($responses);
 
         // Should have success response.
@@ -157,13 +217,13 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user
      */
-    public function test_security_configuration() {
+    public function test_security_configuration(): void {
         $apifunction = new enrol_self_enrol_user();
-        
+
         // Test manifest integration for security scopes.
         $pathcontent = $apifunction->get_open_api_specification_path_content('student');
         $this->assertIsArray($pathcontent);
-        
+
         $endpoint = $pathcontent['/enrol_self_enrol_user']['post'];
         $this->assertArrayHasKey('security', $endpoint);
         $security = $endpoint['security'][0];
@@ -176,17 +236,24 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_response_semantics() {
+    public function test_response_semantics(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getResponseSemantics() { return $this->responsesemantics; }
+            /**
+             * Expose response semantics for testing.
+             *
+             * @return array
+             */
+            public function get_response_semantics() {
+                return $this->responsesemantics;
+            }
         };
 
-        $semantics = $apifunction->getResponseSemantics();
+        $semantics = $apifunction->get_response_semantics();
         $this->assertIsArray($semantics);
         $this->assertArrayHasKey('data_path', $semantics);
         $this->assertEquals('$', $semantics['data_path']);
         $this->assertArrayHasKey('static_template', $semantics);
-        
+
         $template = $semantics['static_template'];
         $this->assertEquals('AdaptiveCard', $template['type']);
         $this->assertArrayHasKey('body', $template);
@@ -198,12 +265,19 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_confirmation_message() {
+    public function test_confirmation_message(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getConfirmation() { return $this->confirmation; }
+            /**
+             * Expose confirmation for testing.
+             *
+             * @return array
+             */
+            public function get_confirmation() {
+                return $this->confirmation;
+            }
         };
 
-        $confirmation = $apifunction->getConfirmation();
+        $confirmation = $apifunction->get_confirmation();
         $this->assertIsArray($confirmation);
         $this->assertEquals('AdaptiveCard', $confirmation['type']);
         $this->assertEquals('Course enrolment', $confirmation['title']);
@@ -215,10 +289,10 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_instructions() {
+    public function test_instructions(): void {
         $apifunction = new enrol_self_enrol_user();
         $instructions = $apifunction->get_instructions();
-        
+
         $this->assertIsString($instructions);
         $this->assertStringContainsString('enrolSelfEnrolUser', $instructions);
         $this->assertStringContainsString('getCourseContentForStudent', $instructions);
@@ -229,10 +303,10 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_sort_order() {
+    public function test_sort_order(): void {
         $apifunction = new enrol_self_enrol_user();
         $sortorder = $apifunction->get_sortorder();
-        
+
         $this->assertIsInt($sortorder);
         $this->assertEquals(11, $sortorder);
     }
@@ -242,13 +316,13 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::check_applicable_role_type
      */
-    public function test_role_type_validation() {
+    public function test_role_type_validation(): void {
         // Should be applicable for students only.
         $this->assertTrue(enrol_self_enrol_user::check_applicable_role_type('student'));
-        
+
         // Should not be applicable for teachers.
         $this->assertFalse(enrol_self_enrol_user::check_applicable_role_type('teacher'));
-        
+
         // Should not be applicable for other roles.
         $this->assertFalse(enrol_self_enrol_user::check_applicable_role_type('admin'));
         $this->assertFalse(enrol_self_enrol_user::check_applicable_role_type('invalid'));
@@ -259,29 +333,36 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_warning_structure() {
+    public function test_warning_structure(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getResponses() { return $this->responses; }
+            /**
+             * Expose responses for testing.
+             *
+             * @return array
+             */
+            public function get_responses() {
+                return $this->responses;
+            }
         };
 
-        $responses = $apifunction->getResponses();
+        $responses = $apifunction->get_responses();
         $successresponse = $responses['200'];
         $schema = $successresponse['content']['application/json']['schema'];
         $warnings = $schema['properties']['warnings'];
-        
+
         $this->assertEquals('array', $warnings['type']);
         $this->assertArrayHasKey('items', $warnings);
-        
+
         $warningitem = $warnings['items'];
         $this->assertEquals('object', $warningitem['type']);
         $this->assertArrayHasKey('properties', $warningitem);
-        
+
         $warningprops = $warningitem['properties'];
         $this->assertArrayHasKey('item', $warningprops);
         $this->assertArrayHasKey('itemid', $warningprops);
         $this->assertArrayHasKey('warningcode', $warningprops);
         $this->assertArrayHasKey('message', $warningprops);
-        
+
         $this->assertEquals('string', $warningprops['item']['type']);
         $this->assertEquals('integer', $warningprops['itemid']['type']);
         $this->assertEquals('string', $warningprops['warningcode']['type']);
@@ -293,16 +374,16 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user
      */
-    public function test_api_plugin_function_content() {
+    public function test_api_plugin_function_content(): void {
         $apifunction = new enrol_self_enrol_user();
         $content = $apifunction->get_api_plugin_function_content();
-        
+
         $this->assertIsArray($content);
         $this->assertArrayHasKey('name', $content);
         $this->assertEquals('enrolSelfEnrolUser', $content['name']);
         $this->assertArrayHasKey('description', $content);
         $this->assertArrayHasKey('capabilities', $content);
-        
+
         $capabilities = $content['capabilities'];
         $this->assertArrayHasKey('response_semantics', $capabilities);
         $this->assertArrayHasKey('confirmation', $capabilities);
@@ -313,17 +394,24 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_courseid_validation() {
+    public function test_courseid_validation(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getRequestBody() { return $this->requestbody; }
+            /**
+             * Expose request body for testing.
+             *
+             * @return array
+             */
+            public function get_request_body() {
+                return $this->requestbody;
+            }
         };
 
-        $requestbody = $apifunction->getRequestBody();
+        $requestbody = $apifunction->get_request_body();
         $schema = $requestbody['content']['application/json']['schema'];
-        
+
         // Courseid should be required.
         $this->assertContains('courseid', $schema['required']);
-        
+
         // Courseid should be integer type.
         $courseidprop = $schema['properties']['courseid'];
         $this->assertEquals('integer', $courseidprop['type']);
@@ -336,13 +424,20 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user::__construct
      */
-    public function test_http_method() {
+    public function test_http_method(): void {
         $apifunction = new class extends enrol_self_enrol_user {
-            public function getMethod() { return $this->method; }
+            /**
+             * Expose method property for testing.
+             *
+             * @return string
+             */
+            public function get_method() {
+                return $this->method;
+            }
         };
 
         // Enrolment should be POST operation (state-changing).
-        $this->assertEquals('post', $apifunction->getMethod());
+        $this->assertEquals('post', $apifunction->get_method());
     }
 
     /**
@@ -350,9 +445,9 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user
      */
-    public function test_pagination_support() {
+    public function test_pagination_support(): void {
         $apifunction = new enrol_self_enrol_user();
-        
+
         // Enrolment operations don't need pagination.
         $this->assertFalse($apifunction->support_pagination());
     }
@@ -362,9 +457,9 @@ class local_api_functions_enrol_self_enrol_user_test extends base_test {
      *
      * @covers \local_copilot\local\api_functions\enrol_self_enrol_user
      */
-    public function test_enabled_by_default() {
+    public function test_enabled_by_default(): void {
         $apifunction = new enrol_self_enrol_user();
-        
+
         $this->assertTrue($apifunction->is_enabled());
     }
 }

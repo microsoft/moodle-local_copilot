@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/local/copilot/tests/base_test.php');
+require_once($CFG->dirroot . '/local/copilot/tests/base_testcase.php');
 
 /**
  * Tests for content creation external functions.
@@ -44,17 +44,16 @@ require_once($CFG->dirroot . '/local/copilot/tests/base_test.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @runTestsInSeparateProcesses
  */
-class external_create_content_test extends base_test {
-
+final class create_content_for_teacher_test extends base_test {
     /**
      * Test create_announcement_for_teacher.
      *
      * @covers \local_copilot\external\create_announcement_for_teacher::execute
      */
-    public function test_create_announcement_success() {
+    public function test_create_announcement_success(): void {
         global $DB;
 
-        $this->setUserAsTeacher();
+        $this->set_user_as_teacher();
 
         $result = create_announcement_for_teacher::execute(
             $this->course->id,
@@ -91,10 +90,10 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_forum_for_teacher::execute
      */
-    public function test_create_forum_success() {
+    public function test_create_forum_success(): void {
         global $DB;
 
-        $this->setUserAsTeacher();
+        $this->set_user_as_teacher();
 
         $result = create_forum_for_teacher::execute(
             $this->course->id,
@@ -124,8 +123,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\set_course_image_for_teacher::execute
      */
-    public function test_set_course_image_success() {
-        $this->setUserAsTeacher();
+    public function test_set_course_image_success(): void {
+        $this->set_user_as_teacher();
 
         // Use a sample image URL.
         $imageurl = 'https://example.com/course-image.jpg';
@@ -135,7 +134,7 @@ class external_create_content_test extends base_test {
         $this->assertIsArray($result);
         $this->assertArrayHasKey('success', $result);
         $this->assertTrue($result['success']);
-        
+
         // In a real implementation, this would actually download and set the image.
         // For testing, we just verify the function completes without error.
     }
@@ -145,8 +144,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_announcement_for_teacher::execute
      */
-    public function test_create_announcement_no_capability() {
-        $this->setUserAsStudent();
+    public function test_create_announcement_no_capability(): void {
+        $this->set_user_as_student();
 
         $this->expectOutputRegex('/403/');
         create_announcement_for_teacher::execute(
@@ -164,8 +163,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_forum_for_teacher::execute
      */
-    public function test_create_forum_no_capability() {
-        $this->setUserAsStudent();
+    public function test_create_forum_no_capability(): void {
+        $this->set_user_as_student();
 
         $this->expectOutputRegex('/403/');
         create_forum_for_teacher::execute(
@@ -181,8 +180,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\set_course_image_for_teacher::execute
      */
-    public function test_set_course_image_no_capability() {
-        $this->setUserAsStudent();
+    public function test_set_course_image_no_capability(): void {
+        $this->set_user_as_student();
 
         $this->expectException(\required_capability_exception::class);
         set_course_image_for_teacher::execute($this->course->id, 'https://example.com/image.jpg');
@@ -193,7 +192,7 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_announcement_for_teacher::execute
      */
-    public function test_create_announcement_invalid_course() {
+    public function test_create_announcement_invalid_course(): void {
         $this->setAdminUser();
 
         $this->expectOutputRegex('/404/');
@@ -212,7 +211,7 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_forum_for_teacher::execute
      */
-    public function test_create_forum_invalid_course() {
+    public function test_create_forum_invalid_course(): void {
         $this->setAdminUser();
 
         $this->expectOutputRegex('/404/');
@@ -230,12 +229,12 @@ class external_create_content_test extends base_test {
      * @covers \local_copilot\external\create_announcement_for_teacher::execute_parameters
      * @covers \local_copilot\external\create_announcement_for_teacher::execute_returns
      */
-    public function test_announcement_parameters_and_returns() {
+    public function test_announcement_parameters_and_returns(): void {
         $parameters = create_announcement_for_teacher::execute_parameters();
-        $this->assertExternalParameters($parameters, ['course_id', 'announcement_subject', 'announcement_message']);
+        $this->assert_external_parameters($parameters, ['course_id', 'announcement_subject', 'announcement_message']);
 
         $returns = create_announcement_for_teacher::execute_returns();
-        $this->assertExternalReturns($returns, 'single');
+        $this->assert_external_returns($returns, 'single');
     }
 
     /**
@@ -246,10 +245,10 @@ class external_create_content_test extends base_test {
      */
     public function test_forum_parameters_and_returns() {
         $parameters = create_forum_for_teacher::execute_parameters();
-        $this->assertExternalParameters($parameters, ['course_id', 'forum_name', 'section_id']);
+        $this->assert_external_parameters($parameters, ['course_id', 'forum_name', 'section_id']);
 
         $returns = create_forum_for_teacher::execute_returns();
-        $this->assertExternalReturns($returns, 'single');
+        $this->assert_external_returns($returns, 'single');
     }
 
     /**
@@ -258,12 +257,12 @@ class external_create_content_test extends base_test {
      * @covers \local_copilot\external\set_course_image_for_teacher::execute_parameters
      * @covers \local_copilot\external\set_course_image_for_teacher::execute_returns
      */
-    public function test_course_image_parameters_and_returns() {
+    public function test_course_image_parameters_and_returns(): void {
         $parameters = set_course_image_for_teacher::execute_parameters();
-        $this->assertExternalParameters($parameters, ['courseid', 'imageurl']);
-        
+        $this->assert_external_parameters($parameters, ['courseid', 'imageurl']);
+
         $returns = set_course_image_for_teacher::execute_returns();
-        $this->assertExternalReturns($returns, 'single');
+        $this->assert_external_returns($returns, 'single');
     }
 
     /**
@@ -271,8 +270,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_announcement_for_teacher::execute
      */
-    public function test_create_announcement_empty_subject() {
-        $this->setUserAsTeacher();
+    public function test_create_announcement_empty_subject(): void {
+        $this->set_user_as_teacher();
 
         $this->expectException(\invalid_parameter_exception::class);
         create_announcement_for_teacher::execute(
@@ -290,8 +289,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_forum_for_teacher::execute
      */
-    public function test_create_forum_empty_name() {
-        $this->setUserAsTeacher();
+    public function test_create_forum_empty_name(): void {
+        $this->set_user_as_teacher();
 
         $this->expectException(\invalid_parameter_exception::class);
         create_forum_for_teacher::execute(
@@ -307,8 +306,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\set_course_image_for_teacher::execute
      */
-    public function test_set_course_image_invalid_url() {
-        $this->setUserAsTeacher();
+    public function test_set_course_image_invalid_url(): void {
+        $this->set_user_as_teacher();
 
         $this->expectException(\invalid_parameter_exception::class);
         set_course_image_for_teacher::execute($this->course->id, 'not-a-valid-url');
@@ -319,10 +318,8 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_announcement_for_teacher::execute
      */
-    public function test_create_announcement_different_sections() {
-        global $DB;
-
-        $this->setUserAsTeacher();
+    public function test_create_announcement_different_sections(): void {
+        $this->set_user_as_teacher();
 
         // Announcements are posted to the news forum, not a specific section
         // This test verifies the announcement was created successfully
@@ -346,10 +343,10 @@ class external_create_content_test extends base_test {
      *
      * @covers \local_copilot\external\create_forum_for_teacher::execute
      */
-    public function test_create_forum_with_options() {
+    public function test_create_forum_with_options(): void {
         global $DB;
 
-        $this->setUserAsTeacher();
+        $this->set_user_as_teacher();
 
         $result = create_forum_for_teacher::execute(
             $this->course->id,

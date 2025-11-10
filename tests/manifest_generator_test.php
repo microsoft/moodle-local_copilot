@@ -25,9 +25,7 @@
 
 namespace local_copilot;
 
-use local_copilot\manifest_generator;
-
-defined('MOODLE_INTERNAL') || die();
+use advanced_testcase;
 
 /**
  * Tests for manifest generator.
@@ -37,14 +35,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class manifest_generator_test extends \advanced_testcase {
-
+final class manifest_generator_test extends advanced_testcase {
     /**
      * Test manifest generation for teacher role.
      *
      * @covers \local_copilot\manifest_generator::generate
      */
-    public function test_generate_teacher_manifest() {
+    public function test_generate_teacher_manifest(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -61,12 +58,12 @@ class manifest_generator_test extends \advanced_testcase {
         $this->assertArrayHasKey('name', $manifest);
         $this->assertArrayHasKey('id', $manifest);
         $this->assertArrayHasKey('copilotAgents', $manifest);
-        
+
         // Test copilot agents structure.
         $this->assertArrayHasKey('agents', $manifest['copilotAgents']);
         $this->assertIsArray($manifest['copilotAgents']['agents']);
         $this->assertCount(1, $manifest['copilotAgents']['agents']);
-        
+
         $agent = $manifest['copilotAgents']['agents'][0];
         $this->assertArrayHasKey('id', $agent);
         $this->assertArrayHasKey('name', $agent);
@@ -78,7 +75,7 @@ class manifest_generator_test extends \advanced_testcase {
      *
      * @covers \local_copilot\manifest_generator::generate
      */
-    public function test_generate_student_manifest() {
+    public function test_generate_student_manifest(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -91,7 +88,7 @@ class manifest_generator_test extends \advanced_testcase {
 
         $this->assertIsArray($manifest);
         $this->assertArrayHasKey('copilotAgents', $manifest);
-        
+
         $agent = $manifest['copilotAgents']['agents'][0];
         $this->assertArrayHasKey('id', $agent);
         $this->assertEquals('student_test_id', $agent['id']);
@@ -102,12 +99,12 @@ class manifest_generator_test extends \advanced_testcase {
      *
      * @covers \local_copilot\manifest_generator::generate
      */
-    public function test_generate_manifest_missing_config() {
+    public function test_generate_manifest_missing_config(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
         $generator = new manifest_generator(manifest_generator::ROLE_TYPE_TEACHER);
-        
+
         $this->expectException(\coding_exception::class);
         $generator->generate();
     }
@@ -117,7 +114,7 @@ class manifest_generator_test extends \advanced_testcase {
      *
      * @covers \local_copilot\manifest_generator::validate_manifest
      */
-    public function test_validate_manifest() {
+    public function test_validate_manifest(): void {
         $this->resetAfterTest();
 
         $validmanifest = [
@@ -131,9 +128,9 @@ class manifest_generator_test extends \advanced_testcase {
                         'id' => 'agent-id',
                         'name' => 'Test Agent',
                         'description' => 'Test Description',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         $generator = new manifest_generator(manifest_generator::ROLE_TYPE_TEACHER);
@@ -146,7 +143,7 @@ class manifest_generator_test extends \advanced_testcase {
      *
      * @covers \local_copilot\manifest_generator
      */
-    public function test_role_constants() {
+    public function test_role_constants(): void {
         $this->assertEquals('teacher', manifest_generator::ROLE_TYPE_TEACHER);
         $this->assertEquals('student', manifest_generator::ROLE_TYPE_STUDENT);
     }
@@ -156,7 +153,7 @@ class manifest_generator_test extends \advanced_testcase {
      *
      * @covers \local_copilot\manifest_generator::generate
      */
-    public function test_manifest_icons() {
+    public function test_manifest_icons(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -168,11 +165,11 @@ class manifest_generator_test extends \advanced_testcase {
 
         $this->assertArrayHasKey('icons', $manifest);
         $this->assertIsArray($manifest['icons']);
-        
+
         // Should have color and outline icons.
-        $iconTypes = array_column($manifest['icons'], 'purpose');
-        $this->assertContains('color', $iconTypes);
-        $this->assertContains('outline', $iconTypes);
+        $icontypes = array_column($manifest['icons'], 'purpose');
+        $this->assertContains('color', $icontypes);
+        $this->assertContains('outline', $icontypes);
     }
 
     /**
@@ -180,13 +177,13 @@ class manifest_generator_test extends \advanced_testcase {
      *
      * @covers \local_copilot\manifest_generator::generate
      */
-    public function test_manifest_capabilities() {
+    public function test_manifest_capabilities(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
         $role = manifest_generator::ROLE_TYPE_TEACHER;
         $this->set_required_config($role);
-        
+
         // Set some capability configurations.
         set_config($role . '_agent_capability_web_search', 1, 'local_copilot');
         set_config($role . '_agent_capability_image_generator', 1, 'local_copilot');
@@ -196,14 +193,14 @@ class manifest_generator_test extends \advanced_testcase {
 
         $agent = $manifest['copilotAgents']['agents'][0];
         $this->assertArrayHasKey('capabilities', $agent);
-        
+
         $capabilities = $agent['capabilities'];
         $this->assertIsArray($capabilities);
-        
+
         // Check for expected capabilities.
-        $capabilityTypes = array_column($capabilities, 'name');
-        $this->assertContains('WebSearch', $capabilityTypes);
-        $this->assertContains('GraphicArt', $capabilityTypes);
+        $capabilitytypes = array_column($capabilities, 'name');
+        $this->assertContains('WebSearch', $capabilitytypes);
+        $this->assertContains('GraphicArt', $capabilitytypes);
     }
 
     /**
@@ -215,7 +212,7 @@ class manifest_generator_test extends \advanced_testcase {
         foreach (utils::APP_ROLE_CONFIGURATIONS as $config) {
             set_config($role . '_' . $config, $role . '_test_' . $config, 'local_copilot');
         }
-        
+
         // Set specific values for known configs.
         set_config($role . '_agent_app_external_id', $role . '_test_id', 'local_copilot');
         set_config($role . '_agent_display_name', ucfirst($role) . ' Agent', 'local_copilot');

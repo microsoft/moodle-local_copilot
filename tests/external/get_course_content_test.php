@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/local/copilot/tests/base_test.php');
+require_once($CFG->dirroot . '/local/copilot/tests/base_testcase.php');
 
 /**
  * Tests for get_course_content external functions.
@@ -43,19 +43,18 @@ require_once($CFG->dirroot . '/local/copilot/tests/base_test.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @runTestsInSeparateProcesses
  */
-class external_get_course_content_test extends base_test {
-
+final class get_course_content_test extends base_test {
     /**
      * Test get_course_content_for_teacher function.
      *
      * @covers \local_copilot\external\get_course_content_for_teacher::execute
      */
-    public function test_get_course_content_for_teacher() {
+    public function test_get_course_content_for_teacher(): void {
         // Create some activities in the course.
-        $assignment = $this->createTestAssignment();
-        $forum = $this->createTestForum();
-        
-        $this->setUserAsTeacher();
+        $assignment = $this->create_test_assignment();
+        $forum = $this->create_test_forum();
+
+        $this->set_user_as_teacher();
 
         $result = get_course_content_for_teacher::execute($this->course->id);
 
@@ -65,11 +64,11 @@ class external_get_course_content_test extends base_test {
         $this->assertArrayHasKey('sections', $result);
         $this->assertEquals($this->course->id, $result['id']);
         $this->assertEquals($this->course->fullname, $result['fullname']);
-        
+
         // Check sections structure.
         $this->assertIsArray($result['sections']);
         $this->assertNotEmpty($result['sections']);
-        
+
         // Each section should have activities.
         foreach ($result['sections'] as $section) {
             $this->assertArrayHasKey('id', $section);
@@ -84,12 +83,12 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_student::execute
      */
-    public function test_get_course_content_for_student() {
+    public function test_get_course_content_for_student(): void {
         // Create some activities in the course.
-        $assignment = $this->createTestAssignment();
-        $forum = $this->createTestForum();
-        
-        $this->setUserAsStudent();
+        $assignment = $this->create_test_assignment();
+        $forum = $this->create_test_forum();
+
+        $this->set_user_as_student();
 
         $result = get_course_content_for_student::execute($this->course->id);
 
@@ -98,7 +97,7 @@ class external_get_course_content_test extends base_test {
         $this->assertArrayHasKey('fullname', $result);
         $this->assertArrayHasKey('sections', $result);
         $this->assertEquals($this->course->id, $result['id']);
-        
+
         // Student should see sections and activities (filtered for their permissions).
         $this->assertIsArray($result['sections']);
     }
@@ -108,8 +107,8 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_teacher::execute
      */
-    public function test_get_course_content_teacher_invalid_course() {
-        $this->setUserAsTeacher();
+    public function test_get_course_content_teacher_invalid_course(): void {
+        $this->set_user_as_teacher();
 
         $this->expectException(\dml_missing_record_exception::class);
         get_course_content_for_teacher::execute(99999);
@@ -120,8 +119,8 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_student::execute
      */
-    public function test_get_course_content_student_invalid_course() {
-        $this->setUserAsStudent();
+    public function test_get_course_content_student_invalid_course(): void {
+        $this->set_user_as_student();
 
         $this->expectException(\dml_missing_record_exception::class);
         get_course_content_for_student::execute(99999);
@@ -132,10 +131,10 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_teacher::execute
      */
-    public function test_get_course_content_teacher_not_enrolled() {
+    public function test_get_course_content_teacher_not_enrolled(): void {
         // Create a new course without enrolling the teacher.
         $newcourse = $this->getDataGenerator()->create_course();
-        $this->setUserAsTeacher();
+        $this->set_user_as_teacher();
 
         $this->expectException(\required_capability_exception::class);
         get_course_content_for_teacher::execute($newcourse->id);
@@ -146,10 +145,10 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_student::execute
      */
-    public function test_get_course_content_student_not_enrolled() {
+    public function test_get_course_content_student_not_enrolled(): void {
         // Create a new course without enrolling the student.
         $newcourse = $this->getDataGenerator()->create_course();
-        $this->setUserAsStudent();
+        $this->set_user_as_student();
 
         $this->expectException(\required_capability_exception::class);
         get_course_content_for_student::execute($newcourse->id);
@@ -161,12 +160,12 @@ class external_get_course_content_test extends base_test {
      * @covers \local_copilot\external\get_course_content_for_teacher::execute_parameters
      * @covers \local_copilot\external\get_course_content_for_teacher::execute_returns
      */
-    public function test_teacher_parameters_and_returns() {
+    public function test_teacher_parameters_and_returns(): void {
         $parameters = get_course_content_for_teacher::execute_parameters();
-        $this->assertExternalParameters($parameters, ['courseid']);
-        
+        $this->assert_external_parameters($parameters, ['courseid']);
+
         $returns = get_course_content_for_teacher::execute_returns();
-        $this->assertExternalReturns($returns, 'single');
+        $this->assert_external_returns($returns, 'single');
     }
 
     /**
@@ -175,12 +174,12 @@ class external_get_course_content_test extends base_test {
      * @covers \local_copilot\external\get_course_content_for_student::execute_parameters
      * @covers \local_copilot\external\get_course_content_for_student::execute_returns
      */
-    public function test_student_parameters_and_returns() {
+    public function test_student_parameters_and_returns(): void {
         $parameters = get_course_content_for_student::execute_parameters();
-        $this->assertExternalParameters($parameters, ['courseid']);
-        
+        $this->assert_external_parameters($parameters, ['courseid']);
+
         $returns = get_course_content_for_student::execute_returns();
-        $this->assertExternalReturns($returns, 'single');
+        $this->assert_external_returns($returns, 'single');
     }
 
     /**
@@ -188,19 +187,19 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_teacher::execute
      */
-    public function test_course_content_includes_activities() {
+    public function test_course_content_includes_activities(): void {
         // Create activities with specific properties.
-        $assignment = $this->createTestAssignment([
+        $assignment = $this->create_test_assignment([
             'name' => 'Test Assignment Activity',
             'intro' => 'Assignment description',
         ]);
-        
-        $forum = $this->createTestForum([
+
+        $forum = $this->create_test_forum([
             'name' => 'Test Forum Activity',
             'intro' => 'Forum description',
         ]);
-        
-        $this->setUserAsTeacher();
+
+        $this->set_user_as_teacher();
 
         $result = get_course_content_for_teacher::execute($this->course->id);
 
@@ -215,7 +214,7 @@ class external_get_course_content_test extends base_test {
         // Should find our created activities.
         $this->assertArrayHasKey('Test Assignment Activity', $foundactivities);
         $this->assertArrayHasKey('Test Forum Activity', $foundactivities);
-        
+
         // Check activity structure.
         foreach ($foundactivities as $activity) {
             $this->assertArrayHasKey('id', $activity);
@@ -230,17 +229,17 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_student::execute
      */
-    public function test_course_content_hidden_activities_student() {
+    public function test_course_content_hidden_activities_student(): void {
         global $DB;
-        
+
         // Create an assignment and hide it.
-        $assignment = $this->createTestAssignment();
-        
+        $assignment = $this->create_test_assignment();
+
         // Hide the course module.
         $cm = get_coursemodule_from_instance('assign', $assignment->id);
         $DB->update_record('course_modules', ['id' => $cm->id, 'visible' => 0]);
-        
-        $this->setUserAsStudent();
+
+        $this->set_user_as_student();
 
         $result = get_course_content_for_student::execute($this->course->id);
 
@@ -253,7 +252,7 @@ class external_get_course_content_test extends base_test {
                 }
             }
         }
-        
+
         // Student should not see hidden activities.
         $this->assertEmpty($visibleactivities);
     }
@@ -263,24 +262,24 @@ class external_get_course_content_test extends base_test {
      *
      * @covers \local_copilot\external\get_course_content_for_student::execute
      */
-    public function test_course_content_with_completion() {
+    public function test_course_content_with_completion(): void {
         global $CFG;
-        
+
         if (!$CFG->enablecompletion) {
             $this->markTestSkipped('Completion tracking not enabled');
         }
-        
+
         // Enable completion for the course.
         $this->course->enablecompletion = 1;
         $DB = \database::get();
         $DB->update_record('course', $this->course);
-        
+
         // Create assignment with completion tracking.
-        $assignment = $this->createTestAssignment([
+        $assignment = $this->create_test_assignment([
             'completion' => COMPLETION_TRACKING_MANUAL,
         ]);
-        
-        $this->setUserAsStudent();
+
+        $this->set_user_as_student();
 
         $result = get_course_content_for_student::execute($this->course->id);
 

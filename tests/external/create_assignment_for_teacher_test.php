@@ -42,14 +42,13 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @runTestsInSeparateProcesses
  */
-class external_create_assignment_test extends \externallib_advanced_testcase {
-
+final class create_assignment_for_teacher_test extends \externallib_advanced_testcase {
     /**
      * Test create assignment with valid parameters.
      *
      * @covers \local_copilot\external\create_assignment_for_teacher::execute
      */
-    public function test_create_assignment_success() {
+    public function test_create_assignment_success(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -94,8 +93,7 @@ class external_create_assignment_test extends \externallib_advanced_testcase {
      *
      * @covers \local_copilot\external\create_assignment_for_teacher::execute
      */
-    public function test_create_assignment_no_capability() {
-        global $DB;
+    public function test_create_assignment_no_capability(): void {
         $this->resetAfterTest();
 
         // Create test course and user without editing capabilities.
@@ -123,7 +121,7 @@ class external_create_assignment_test extends \externallib_advanced_testcase {
      *
      * @covers \local_copilot\external\create_assignment_for_teacher::execute
      */
-    public function test_create_assignment_invalid_course() {
+    public function test_create_assignment_invalid_course(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -146,7 +144,7 @@ class external_create_assignment_test extends \externallib_advanced_testcase {
      * @covers \local_copilot\external\create_assignment_for_teacher::execute_parameters
      * @covers \local_copilot\external\create_assignment_for_teacher::execute_returns
      */
-    public function test_parameters_and_returns() {
+    public function test_parameters_and_returns(): void {
         $this->resetAfterTest();
 
         // Test parameters structure.
@@ -177,14 +175,14 @@ class external_create_assignment_test extends \externallib_advanced_testcase {
      *
      * @covers \local_copilot\external\create_assignment_for_teacher::execute
      */
-    public function test_create_assignment_with_options() {
+    public function test_create_assignment_with_options(): void {
         global $DB;
         $this->resetAfterTest();
 
         // Create test course with multiple sections and unique shortname.
         $course = $this->getDataGenerator()->create_course([
             'numsections' => 3,
-            'shortname' => 'TESTASSIGN' . time() . rand(1000, 9999)
+            'shortname' => 'TESTASSIGN' . time() . rand(1000, 9999),
         ]);
         $teacher = $this->getDataGenerator()->create_user();
 
@@ -227,7 +225,7 @@ class external_create_assignment_test extends \externallib_advanced_testcase {
      *
      * @covers \local_copilot\external\create_assignment_for_teacher::execute
      */
-    public function test_create_assignment_invalid_date() {
+    public function test_create_assignment_invalid_date(): void {
         global $DB;
         $this->resetAfterTest();
 

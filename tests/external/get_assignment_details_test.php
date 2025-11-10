@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
-require_once($CFG->dirroot . '/local/copilot/tests/base_test.php');
+require_once($CFG->dirroot . '/local/copilot/tests/base_testcase.php');
 
 /**
  * Tests for assignment details external functions.
@@ -43,8 +43,7 @@ require_once($CFG->dirroot . '/local/copilot/tests/base_test.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @runTestsInSeparateProcesses
  */
-class external_assignment_details_test extends base_test {
-
+final class get_assignment_details_test extends base_test {
     /**
      * @var \stdClass Test assignment.
      */
@@ -55,8 +54,8 @@ class external_assignment_details_test extends base_test {
      */
     protected function setUp(): void {
         parent::setUp();
-        
-        $this->assignment = $this->createTestAssignment([
+
+        $this->assignment = $this->create_test_assignment([
             'name' => 'Test Assignment Details',
             'intro' => 'Assignment for testing details',
             'grade' => 100,
@@ -69,8 +68,8 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute
      */
-    public function test_get_assignment_details_teacher() {
-        $this->setUserAsTeacher();
+    public function test_get_assignment_details_teacher(): void {
+        $this->set_user_as_teacher();
 
         $result = get_assignment_details_for_teacher::execute($this->assignment->id);
 
@@ -81,7 +80,7 @@ class external_assignment_details_test extends base_test {
         $this->assertArrayHasKey('grade', $result);
         $this->assertArrayHasKey('duedate', $result);
         $this->assertArrayHasKey('submissions', $result);
-        
+
         $this->assertEquals($this->assignment->id, $result['id']);
         $this->assertEquals('Test Assignment Details', $result['name']);
         $this->assertEquals(100, $result['grade']);
@@ -93,8 +92,8 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_student::execute
      */
-    public function test_get_assignment_details_student() {
-        $this->setUserAsStudent();
+    public function test_get_assignment_details_student(): void {
+        $this->set_user_as_student();
 
         $result = get_assignment_details_for_student::execute($this->assignment->id);
 
@@ -104,10 +103,10 @@ class external_assignment_details_test extends base_test {
         $this->assertArrayHasKey('intro', $result);
         $this->assertArrayHasKey('grade', $result);
         $this->assertArrayHasKey('submission', $result);
-        
+
         $this->assertEquals($this->assignment->id, $result['id']);
         $this->assertEquals('Test Assignment Details', $result['name']);
-        
+
         // Student should see their own submission info.
         if ($result['submission']) {
             $this->assertIsArray($result['submission']);
@@ -120,12 +119,10 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute
      */
-    public function test_teacher_sees_all_submissions() {
-        global $DB;
-        
+    public function test_teacher_sees_all_submissions(): void {
         // Create a submission from the student.
         $assignmentgenerator = $this->getDataGenerator()->get_plugin_generator('mod_assign');
-        
+
         $this->setUser($this->student);
         $assignmentgenerator->create_submission([
             'assignid' => $this->assignment->id,
@@ -133,17 +130,17 @@ class external_assignment_details_test extends base_test {
             'onlinetext_editor' => [
                 'text' => 'Student submission text',
                 'format' => FORMAT_HTML,
-            ]
+            ],
         ]);
-        
-        $this->setUserAsTeacher();
+
+        $this->set_user_as_teacher();
 
         $result = get_assignment_details_for_teacher::execute($this->assignment->id);
 
         $this->assertArrayHasKey('submissions', $result);
         $this->assertIsArray($result['submissions']);
         $this->assertNotEmpty($result['submissions']);
-        
+
         // Find the student's submission.
         $studentsubmission = null;
         foreach ($result['submissions'] as $submission) {
@@ -152,7 +149,7 @@ class external_assignment_details_test extends base_test {
                 break;
             }
         }
-        
+
         $this->assertNotNull($studentsubmission);
         $this->assertArrayHasKey('status', $studentsubmission);
         $this->assertArrayHasKey('timemodified', $studentsubmission);
@@ -163,12 +160,10 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_student::execute
      */
-    public function test_student_sees_own_submission() {
-        global $DB;
-        
+    public function test_student_sees_own_submission(): void {
         // Create a submission from the student.
         $assignmentgenerator = $this->getDataGenerator()->get_plugin_generator('mod_assign');
-        
+
         $this->setUser($this->student);
         $assignmentgenerator->create_submission([
             'assignid' => $this->assignment->id,
@@ -176,13 +171,13 @@ class external_assignment_details_test extends base_test {
             'onlinetext_editor' => [
                 'text' => 'My submission text',
                 'format' => FORMAT_HTML,
-            ]
+            ],
         ]);
-        
+
         $result = get_assignment_details_for_student::execute($this->assignment->id);
 
         $this->assertArrayHasKey('submission', $result);
-        
+
         if ($result['submission']) {
             $this->assertArrayHasKey('status', $result['submission']);
             $this->assertEquals($this->student->id, $result['submission']['userid']);
@@ -194,12 +189,12 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute
      */
-    public function test_assignment_details_with_grades() {
+    public function test_assignment_details_with_grades(): void {
         global $DB;
-        
+
         // Create and grade a submission.
         $assignmentgenerator = $this->getDataGenerator()->get_plugin_generator('mod_assign');
-        
+
         $this->setUser($this->student);
         $submission = $assignmentgenerator->create_submission([
             'assignid' => $this->assignment->id,
@@ -207,22 +202,22 @@ class external_assignment_details_test extends base_test {
             'onlinetext_editor' => [
                 'text' => 'Graded submission',
                 'format' => FORMAT_HTML,
-            ]
+            ],
         ]);
-        
+
         // Grade the submission.
-        $this->setUserAsTeacher();
+        $this->set_user_as_teacher();
         $assignmentgenerator->create_grade([
             'assignid' => $this->assignment->id,
             'userid' => $this->student->id,
             'grade' => 85,
             'feedback_text' => 'Good work!',
         ]);
-        
+
         $result = get_assignment_details_for_teacher::execute($this->assignment->id);
 
         $this->assertArrayHasKey('submissions', $result);
-        
+
         // Find the graded submission.
         $gradedsubmission = null;
         foreach ($result['submissions'] as $submission) {
@@ -231,7 +226,7 @@ class external_assignment_details_test extends base_test {
                 break;
             }
         }
-        
+
         $this->assertNotNull($gradedsubmission);
         if (isset($gradedsubmission['grade'])) {
             $this->assertEquals(85, $gradedsubmission['grade']);
@@ -243,12 +238,10 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_student::execute
      */
-    public function test_student_sees_own_grade() {
-        global $DB;
-        
+    public function test_student_sees_own_grade(): void {
         // Create and grade submission.
         $assignmentgenerator = $this->getDataGenerator()->get_plugin_generator('mod_assign');
-        
+
         $this->setUser($this->student);
         $assignmentgenerator->create_submission([
             'assignid' => $this->assignment->id,
@@ -256,18 +249,18 @@ class external_assignment_details_test extends base_test {
             'onlinetext_editor' => [
                 'text' => 'Student work',
                 'format' => FORMAT_HTML,
-            ]
+            ],
         ]);
-        
-        $this->setUserAsTeacher();
+
+        $this->set_user_as_teacher();
         $assignmentgenerator->create_grade([
             'assignid' => $this->assignment->id,
             'userid' => $this->student->id,
             'grade' => 92,
             'feedback_text' => 'Excellent work!',
         ]);
-        
-        $this->setUserAsStudent();
+
+        $this->set_user_as_student();
         $result = get_assignment_details_for_student::execute($this->assignment->id);
 
         if (isset($result['grade'])) {
@@ -281,8 +274,8 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute
      */
-    public function test_assignment_details_invalid_id() {
-        $this->setUserAsTeacher();
+    public function test_assignment_details_invalid_id(): void {
+        $this->set_user_as_teacher();
 
         $this->expectException(\dml_missing_record_exception::class);
         get_assignment_details_for_teacher::execute(99999);
@@ -293,7 +286,7 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute
      */
-    public function test_assignment_details_no_access() {
+    public function test_assignment_details_no_access(): void {
         // Create user not enrolled in course.
         $otheruser = $this->getDataGenerator()->create_user();
         $this->setUser($otheruser);
@@ -308,12 +301,12 @@ class external_assignment_details_test extends base_test {
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute_parameters
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute_returns
      */
-    public function test_teacher_parameters_and_returns() {
+    public function test_teacher_parameters_and_returns(): void {
         $parameters = get_assignment_details_for_teacher::execute_parameters();
-        $this->assertExternalParameters($parameters, ['assignmentid']);
-        
+        $this->assert_external_parameters($parameters, ['assignmentid']);
+
         $returns = get_assignment_details_for_teacher::execute_returns();
-        $this->assertExternalReturns($returns, 'single');
+        $this->assert_external_returns($returns, 'single');
     }
 
     /**
@@ -322,12 +315,12 @@ class external_assignment_details_test extends base_test {
      * @covers \local_copilot\external\get_assignment_details_for_student::execute_parameters
      * @covers \local_copilot\external\get_assignment_details_for_student::execute_returns
      */
-    public function test_student_parameters_and_returns() {
+    public function test_student_parameters_and_returns(): void {
         $parameters = get_assignment_details_for_student::execute_parameters();
-        $this->assertExternalParameters($parameters, ['assignmentid']);
-        
+        $this->assert_external_parameters($parameters, ['assignmentid']);
+
         $returns = get_assignment_details_for_student::execute_returns();
-        $this->assertExternalReturns($returns, 'single');
+        $this->assert_external_returns($returns, 'single');
     }
 
     /**
@@ -335,22 +328,22 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_student::execute
      */
-    public function test_assignment_details_overdue() {
+    public function test_assignment_details_overdue(): void {
         global $DB;
-        
+
         // Create assignment with past due date.
-        $overdueassignment = $this->createTestAssignment([
+        $overdueassignment = $this->create_test_assignment([
             'name' => 'Overdue Assignment',
             'duedate' => time() - (2 * 24 * 60 * 60), // Due 2 days ago.
         ]);
-        
-        $this->setUserAsStudent();
+
+        $this->set_user_as_student();
 
         $result = get_assignment_details_for_student::execute($overdueassignment->id);
 
         $this->assertArrayHasKey('duedate', $result);
         $this->assertLessThan(time(), $result['duedate']); // Confirms it's in the past.
-        
+
         // Should indicate overdue status.
         if (isset($result['status'])) {
             // Status might indicate overdue condition.
@@ -363,21 +356,19 @@ class external_assignment_details_test extends base_test {
      *
      * @covers \local_copilot\external\get_assignment_details_for_teacher::execute
      */
-    public function test_assignment_details_file_submission() {
-        global $CFG;
-        
+    public function test_assignment_details_file_submission(): void {
         // Create assignment that accepts file submissions.
-        $fileassignment = $this->createTestAssignment([
+        $fileassignment = $this->create_test_assignment([
             'name' => 'File Assignment',
             'submissiontypes' => 'file',
         ]);
-        
-        $this->setUserAsTeacher();
+
+        $this->set_user_as_teacher();
 
         $result = get_assignment_details_for_teacher::execute($fileassignment->id);
 
         $this->assertArrayHasKey('submissiontypes', $result);
-        
+
         // Should indicate file submission type.
         if (isset($result['submissiontypes'])) {
             $this->assertContains('file', $result['submissiontypes']);

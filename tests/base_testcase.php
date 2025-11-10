@@ -25,7 +25,11 @@
 
 namespace local_copilot;
 
+use advanced_testcase;
+use external_function_parameters;
+use external_single_structure;
 use local_copilot\tests\fixtures\test_courses;
+use stdClass;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -41,25 +45,24 @@ require_once($CFG->dirroot . '/local/copilot/tests/fixtures/test_courses.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @runTestsInSeparateProcesses
  */
-abstract class base_test extends \advanced_testcase {
-
+abstract class base_test extends advanced_testcase {
     /**
-     * @var \stdClass Test course.
+     * @var stdClass Test course.
      */
     protected $course;
 
     /**
-     * @var \stdClass Test teacher user.
+     * @var stdClass Test teacher user.
      */
     protected $teacher;
 
     /**
-     * @var \stdClass Test student user.
+     * @var stdClass Test student user.
      */
     protected $student;
 
     /**
-     * @var \stdClass Test OAuth client.
+     * @var stdClass Test OAuth client.
      */
     protected $oauthclient;
 
@@ -69,17 +72,17 @@ abstract class base_test extends \advanced_testcase {
     protected function setUp(): void {
         parent::setUp();
         $this->resetAfterTest();
-        
+
         // Create test course.
         $this->course = test_courses::create_test_course();
-        
+
         // Create test users.
         $this->teacher = test_courses::create_teacher_user($this->course);
         $this->student = test_courses::create_student_user($this->course);
-        
+
         // Set up OAuth client.
         $this->oauthclient = test_courses::create_oauth_client();
-        
+
         // Set up basic Copilot configuration.
         test_courses::setup_copilot_config('teacher');
         test_courses::setup_copilot_config('student');
@@ -99,7 +102,7 @@ abstract class base_test extends \advanced_testcase {
      * @param array $result Web service result.
      * @param array $expectedkeys Expected keys in the result.
      */
-    protected function assertWebServiceResult(array $result, array $expectedkeys): void {
+    protected function assert_web_service_result(array $result, array $expectedkeys): void {
         $this->assertIsArray($result);
         
         foreach ($expectedkeys as $key) {
@@ -110,12 +113,12 @@ abstract class base_test extends \advanced_testcase {
     /**
      * Assert that external function parameters are properly defined.
      *
-     * @param \external_function_parameters $parameters Parameters object.
+     * @param external_function_parameters $parameters Parameters object.
      * @param array $expectedparams Expected parameter names.
      */
-    protected function assertExternalParameters(\external_function_parameters $parameters, array $expectedparams): void {
-        $this->assertInstanceOf(\external_function_parameters::class, $parameters);
-        
+    protected function assert_external_parameters(external_function_parameters $parameters, array $expectedparams): void {
+        $this->assertInstanceOf(external_function_parameters::class, $parameters);
+
         $params = $parameters->keys;
         foreach ($expectedparams as $paramname) {
             $this->assertArrayHasKey($paramname, $params, "Expected parameter '$paramname' not found");
@@ -128,10 +131,10 @@ abstract class base_test extends \advanced_testcase {
      * @param mixed $returns Return structure.
      * @param string $expectedtype Expected type of return structure.
      */
-    protected function assertExternalReturns($returns, string $expectedtype): void {
+    protected function assert_external_returns($returns, string $expectedtype): void {
         switch ($expectedtype) {
             case 'single':
-                $this->assertInstanceOf(\external_single_structure::class, $returns);
+                $this->assertInstanceOf(external_single_structure::class, $returns);
                 break;
             case 'multiple':
                 $this->assertInstanceOf(\external_multiple_structure::class, $returns);
@@ -148,9 +151,9 @@ abstract class base_test extends \advanced_testcase {
      * Create a test assignment in the course.
      *
      * @param array $overrides Assignment properties to override.
-     * @return \stdClass Assignment object.
+     * @return stdClass Assignment object.
      */
-    protected function createTestAssignment(array $overrides = []): \stdClass {
+    protected function create_test_assignment(array $overrides = []): stdClass {
         return test_courses::create_test_assignment($this->course, $overrides);
     }
 
@@ -158,9 +161,9 @@ abstract class base_test extends \advanced_testcase {
      * Create a test forum in the course.
      *
      * @param array $overrides Forum properties to override.
-     * @return \stdClass Forum object.
+     * @return stdClass Forum object.
      */
-    protected function createTestForum(array $overrides = []): \stdClass {
+    protected function create_test_forum(array $overrides = []): stdClass {
         return test_courses::create_test_forum($this->course, $overrides);
     }
 
@@ -169,41 +172,41 @@ abstract class base_test extends \advanced_testcase {
      *
      * @return array OAuth client options.
      */
-    protected function getOAuthClientOptions(): array {
+    protected function get_oauth_client_options(): array {
         return [$this->oauthclient->id => $this->oauthclient->client_id];
     }
 
     /**
      * Set user as teacher.
      */
-    protected function setUserAsTeacher(): void {
+    protected function set_user_as_teacher(): void {
         $this->setUser($this->teacher);
     }
 
     /**
      * Set user as student.
      */
-    protected function setUserAsStudent(): void {
+    protected function set_user_as_student(): void {
         $this->setUser($this->student);
     }
 
     /**
      * Enable web services for testing.
      */
-    protected function enableWebServices(): void {
-        global $CFG, $DB;
-        
+    protected function enable_web_services(): void {
+        global $DB;
+
         set_config('enablewebservices', 1);
         set_config('webserviceprotocols', 'restful');
-        
+
         // Create the Copilot web service if it doesn't exist.
         $webservicemanager = new \webservice();
-        
+
         try {
             $service = $webservicemanager->get_external_service_by_shortname('copilot_webservices');
         } catch (\dml_missing_record_exception $e) {
             // Create the service.
-            $service = new \stdClass();
+            $service = new stdClass();
             $service->name = 'Microsoft 365 Copilot Web Services';
             $service->shortname = 'copilot_webservices';
             $service->enabled = 1;
@@ -213,10 +216,10 @@ abstract class base_test extends \advanced_testcase {
             $service->timemodified = time();
             $service->downloadfiles = 0;
             $service->uploadfiles = 0;
-            
+
             $service->id = $DB->insert_record('external_services', $service);
         }
-        
+
         // Ensure the service is enabled.
         if (!$service->enabled) {
             $service->enabled = 1;
@@ -227,22 +230,22 @@ abstract class base_test extends \advanced_testcase {
     /**
      * Grant web service capabilities to authenticated users.
      */
-    protected function grantWebServiceCapabilities(): void {
-        global $CFG, $DB;
-        
+    protected function grant_web_service_capabilities(): void {
+        global $DB;
+
         $authenticatedrole = $DB->get_record('role', ['shortname' => 'user']);
         if (!$authenticatedrole) {
             return;
         }
-        
+
         set_config('defaultuserroleid', $authenticatedrole->id);
-        
+
         $systemcontext = \context_system::instance();
-        
+
         // Grant required capabilities.
         assign_capability('moodle/webservice:createtoken', CAP_ALLOW, $authenticatedrole->id, $systemcontext);
         assign_capability('webservice/restful:use', CAP_ALLOW, $authenticatedrole->id, $systemcontext);
-        
+
         // Refresh capabilities.
         accesslib_clear_all_caches_for_unit_testing();
     }

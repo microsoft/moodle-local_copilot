@@ -26,7 +26,7 @@ tests/
 │   └── provider_test.php
 ├── fixtures/                          # Test data and helpers
 │   └── test_courses.php
-├── base_test.php                      # Base test class
+├── base_testcase.php                  # Base test class
 ├── utils_test.php                     # Tests for utils.php
 ├── manifest_generator_test.php        # Tests for manifest_generator.php
 ├── observers_test.php                 # Tests for observers.php
@@ -222,7 +222,7 @@ public function test_utility_function() {
 1. **Database errors**: Ensure test database is properly configured
 2. **Missing dependencies**: Check that `local_oauth2` and `webservice_restful` plugins are available
 3. **Permission errors**: Test setup should handle capability assignments automatically
-4. **Configuration issues**: The `base_test` class sets up required configurations
+4. **Configuration issues**: The `base_testcase.php` class sets up required configurations
 
 ### Debugging Tips
 
@@ -235,7 +235,7 @@ public function test_utility_function() {
 
 When adding new tests:
 
-1. Extend the appropriate base class (`base_test` for most cases)
+1. Extend the appropriate base class (`base_test` from `base_testcase.php` for most cases)
 2. Follow existing naming conventions
 3. Include both positive and negative test cases
 4. Test edge cases and error conditions

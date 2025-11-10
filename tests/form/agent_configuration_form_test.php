@@ -25,10 +25,8 @@
 
 namespace local_copilot;
 
+use advanced_testcase;
 use local_copilot\form\agent_configuration_form;
-use local_copilot\manifest_generator;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Tests for agent configuration form.
@@ -38,15 +36,14 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2024 Microsoft
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class form_agent_configuration_test extends \advanced_testcase {
-
+final class agent_configuration_form_test extends advanced_testcase {
     /**
      * Test form creation for teacher role.
      *
      * @covers \local_copilot\form\agent_configuration_form::__construct
      * @covers \local_copilot\form\agent_configuration_form::definition
      */
-    public function test_form_creation_teacher() {
+    public function test_form_creation_teacher(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -54,7 +51,7 @@ class form_agent_configuration_test extends \advanced_testcase {
         $form = new agent_configuration_form(null, $customdata);
 
         $this->assertInstanceOf(agent_configuration_form::class, $form);
-        
+
         // Test that form contains expected elements.
         $mform = $form->get_mform();
         $this->assertTrue($mform->elementExists('role'));
@@ -68,7 +65,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      * @covers \local_copilot\form\agent_configuration_form::__construct
      * @covers \local_copilot\form\agent_configuration_form::definition
      */
-    public function test_form_creation_student() {
+    public function test_form_creation_student(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -76,7 +73,7 @@ class form_agent_configuration_test extends \advanced_testcase {
         $form = new agent_configuration_form(null, $customdata);
 
         $this->assertInstanceOf(agent_configuration_form::class, $form);
-        
+
         // Test that form contains expected elements for student.
         $mform = $form->get_mform();
         $this->assertTrue($mform->elementExists('role'));
@@ -89,7 +86,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      *
      * @covers \local_copilot\form\agent_configuration_form::definition
      */
-    public function test_form_defaults_teacher() {
+    public function test_form_defaults_teacher(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -99,8 +96,10 @@ class form_agent_configuration_test extends \advanced_testcase {
 
         // Check default external ID.
         $element = $mform->getElement('teacher_agent_app_external_id');
-        $this->assertEquals(agent_configuration_form::TEACHER_APP_DEFAULT_EXTERNAL_ID, 
-            $element->getValue());
+        $this->assertEquals(
+            agent_configuration_form::TEACHER_APP_DEFAULT_EXTERNAL_ID,
+            $element->getValue()
+        );
 
         // Check default short name.
         $element = $mform->getElement('teacher_agent_app_short_name');
@@ -112,7 +111,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      *
      * @covers \local_copilot\form\agent_configuration_form::definition
      */
-    public function test_form_defaults_student() {
+    public function test_form_defaults_student(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -122,8 +121,10 @@ class form_agent_configuration_test extends \advanced_testcase {
 
         // Check default external ID.
         $element = $mform->getElement('student_agent_app_external_id');
-        $this->assertEquals(agent_configuration_form::STUDENT_APP_DEFAULT_EXTERNAL_ID, 
-            $element->getValue());
+        $this->assertEquals(
+            agent_configuration_form::STUDENT_APP_DEFAULT_EXTERNAL_ID,
+            $element->getValue()
+        );
 
         // Check default short name.
         $element = $mform->getElement('student_agent_app_short_name');
@@ -135,7 +136,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      *
      * @covers \local_copilot\form\agent_configuration_form::validation
      */
-    public function test_form_validation_valid() {
+    public function test_form_validation_valid(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -160,7 +161,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      *
      * @covers \local_copilot\form\agent_configuration_form::validation
      */
-    public function test_form_validation_invalid_guid() {
+    public function test_form_validation_invalid_guid(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -183,7 +184,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      *
      * @covers \local_copilot\form\agent_configuration_form::validation
      */
-    public function test_form_validation_missing_required() {
+    public function test_form_validation_missing_required(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -198,7 +199,7 @@ class form_agent_configuration_test extends \advanced_testcase {
         // This would typically be handled by Moodle's client-side validation
         // but we can test server-side validation here.
         $errors = $form->validation($data, []);
-        
+
         // The form should handle missing required fields appropriately.
         $this->assertIsArray($errors);
     }
@@ -208,7 +209,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      *
      * @covers \local_copilot\form\agent_configuration_form::definition
      */
-    public function test_oauth_client_dropdown() {
+    public function test_oauth_client_dropdown(): void {
         global $DB;
         $this->resetAfterTest();
         $this->setAdminUser();
@@ -232,7 +233,7 @@ class form_agent_configuration_test extends \advanced_testcase {
      *
      * @covers \local_copilot\form\agent_configuration_form::definition
      */
-    public function test_form_with_existing_config() {
+    public function test_form_with_existing_config(): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -244,7 +245,7 @@ class form_agent_configuration_test extends \advanced_testcase {
 
         $customdata = ['role' => $role];
         $form = new agent_configuration_form(null, $customdata);
-        
+
         // The form should be populated with existing config values.
         $formdata = utils::get_agent_configuration_form_data($role);
         $this->assertEquals('Existing Agent Name', $formdata[$role . '_agent_display_name']);

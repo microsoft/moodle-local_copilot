@@ -25,7 +25,8 @@
 
 namespace local_copilot\tests\fixtures;
 
-defined('MOODLE_INTERNAL') || die();
+use phpunit_util;
+use stdClass;
 
 /**
  * Test fixtures class for local_copilot tests.
@@ -36,17 +37,16 @@ defined('MOODLE_INTERNAL') || die();
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class test_courses {
-
     /**
      * Create a standard test course with common settings.
      *
      * @param array $overrides Additional course properties to override defaults.
-     * @return \stdClass Course object.
+     * @return stdClass Course object.
      */
-    public static function create_test_course(array $overrides = []): \stdClass {
+    public static function create_test_course(array $overrides = []): stdClass {
         global $CFG;
 
-        $generator = \phpunit_util::get_data_generator();
+        $generator = phpunit_util::get_data_generator();
 
         $defaults = [
             'fullname' => 'Test Course for Copilot',
@@ -66,58 +66,58 @@ class test_courses {
     /**
      * Create a teacher user with appropriate role and enrollment.
      *
-     * @param \stdClass $course Course to enrol the teacher in.
+     * @param stdClass $course Course to enrol the teacher in.
      * @param array $useroverrides User properties to override defaults.
-     * @return \stdClass User object.
+     * @return stdClass User object.
      */
-    public static function create_teacher_user(\stdClass $course, array $useroverrides = []): \stdClass {
+    public static function create_teacher_user(stdClass $course, array $useroverrides = []): stdClass {
         global $DB;
-        
-        $generator = \phpunit_util::get_data_generator();
-        
+
+        $generator = phpunit_util::get_data_generator();
+
         $defaults = [
             'firstname' => 'Test',
             'lastname' => 'Teacher',
             'username' => 'testteacher_' . time() . '_' . rand(1000, 9999),
             'email' => 'teacher@copilottest.local',
         ];
-        
+
         $userdata = array_merge($defaults, $useroverrides);
         $user = $generator->create_user($userdata);
-        
+
         // Enrol as editing teacher.
         $teacherrole = $DB->get_record('role', ['shortname' => 'editingteacher']);
         $generator->enrol_user($user->id, $course->id, $teacherrole->id);
-        
+
         return $user;
     }
 
     /**
      * Create a student user with appropriate enrollment.
      *
-     * @param \stdClass $course Course to enrol the student in.
+     * @param stdClass $course Course to enrol the student in.
      * @param array $useroverrides User properties to override defaults.
-     * @return \stdClass User object.
+     * @return stdClass User object.
      */
-    public static function create_student_user(\stdClass $course, array $useroverrides = []): \stdClass {
+    public static function create_student_user(stdClass $course, array $useroverrides = []): stdClass {
         global $DB;
-        
-        $generator = \phpunit_util::get_data_generator();
-        
+
+        $generator = phpunit_util::get_data_generator();
+
         $defaults = [
             'firstname' => 'Test',
             'lastname' => 'Student',
             'username' => 'teststudent_' . time() . '_' . rand(1000, 9999),
             'email' => 'student@copilottest.local',
         ];
-        
+
         $userdata = array_merge($defaults, $useroverrides);
         $user = $generator->create_user($userdata);
-        
+
         // Enrol as student.
         $studentrole = $DB->get_record('role', ['shortname' => 'student']);
         $generator->enrol_user($user->id, $course->id, $studentrole->id);
-        
+
         return $user;
     }
 
@@ -144,14 +144,14 @@ class test_courses {
      *     'show' => true  // Required for OR operator
      * ])
      *
-     * @param \stdClass $course Course to create the assignment in.
+     * @param stdClass $course Course to create the assignment in.
      * @param array $assignoverrides Assignment properties to override defaults.
-     * @return \stdClass Assignment object.
+     * @return stdClass Assignment object.
      */
-    public static function create_test_assignment(\stdClass $course, array $assignoverrides = []): \stdClass {
-        $generator = \phpunit_util::get_data_generator();
+    public static function create_test_assignment(stdClass $course, array $assignoverrides = []): stdClass {
+        $generator = phpunit_util::get_data_generator();
         $assigngenerator = $generator->get_plugin_generator('mod_assign');
-        
+
         $defaults = [
             'course' => $course->id,
             'name' => 'Test Assignment for Copilot',
@@ -161,7 +161,7 @@ class test_courses {
             'duedate' => time() + (7 * 24 * 60 * 60), // Due in 1 week.
             'allowsubmissionsfromdate' => time(),
         ];
-        
+
         $assigndata = array_merge($defaults, $assignoverrides);
         return $assigngenerator->create_instance($assigndata);
     }
@@ -169,14 +169,14 @@ class test_courses {
     /**
      * Create a test forum in the course.
      *
-     * @param \stdClass $course Course to create the forum in.
+     * @param stdClass $course Course to create the forum in.
      * @param array $forumoverrides Forum properties to override defaults.
-     * @return \stdClass Forum object.
+     * @return stdClass Forum object.
      */
-    public static function create_test_forum(\stdClass $course, array $forumoverrides = []): \stdClass {
-        $generator = \phpunit_util::get_data_generator();
+    public static function create_test_forum(stdClass $course, array $forumoverrides = []): stdClass {
+        $generator = phpunit_util::get_data_generator();
         $forumgenerator = $generator->get_plugin_generator('mod_forum');
-        
+
         $defaults = [
             'course' => $course->id,
             'name' => 'Test Forum for Copilot',
@@ -184,7 +184,7 @@ class test_courses {
             'introformat' => FORMAT_HTML,
             'type' => 'general',
         ];
-        
+
         $forumdata = array_merge($defaults, $forumoverrides);
         return $forumgenerator->create_instance($forumdata);
     }
@@ -192,16 +192,16 @@ class test_courses {
     /**
      * Set up OAuth2 client for testing.
      *
-     * @return \stdClass|null OAuth2 client record or null if table doesn't exist.
+     * @return stdClass|null OAuth2 client record or null if table doesn't exist.
      */
-    public static function create_oauth_client(): ?\stdClass {
+    public static function create_oauth_client(): ?stdClass {
         global $DB;
 
         // Check if the OAuth2 client table exists.
         $dbman = $DB->get_manager();
         if (!$dbman->table_exists('local_oauth2_client')) {
             // Return a mock client object if the table doesn't exist.
-            $client = new \stdClass();
+            $client = new stdClass();
             $client->id = 1;
             $client->client_id = 'test-copilot-client-' . time();
             $client->client_secret = 'test-secret-' . rand(100000, 999999);
@@ -214,7 +214,7 @@ class test_courses {
             return $client;
         }
 
-        $client = new \stdClass();
+        $client = new stdClass();
         $client->client_id = 'test-copilot-client-' . time();
         $client->client_secret = 'test-secret-' . rand(100000, 999999);
         $client->redirect_uris = 'https://test.local/redirect';
@@ -239,7 +239,7 @@ class test_courses {
         // Enable web services.
         set_config('enablewebservices', 1);
         set_config('webserviceprotocols', 'restful');
-        
+
         // Set basic agent configurations.
         $configs = [
             'agent_app_external_id' => 'test-' . $role . '-app-id',
@@ -252,14 +252,14 @@ class test_courses {
             'agent_plugin_name' => 'Test Plugin',
             'agent_plugin_description' => 'Test plugin description',
         ];
-        
+
         foreach ($configs as $key => $value) {
             set_config($role . '_' . $key, $value, 'local_copilot');
         }
-        
+
         // Set app version.
         set_config('app_version', '1.0.0', 'local_copilot');
-        
+
         // Set pagination limit.
         set_config('paginationlimit', 10, 'local_copilot');
     }
@@ -275,9 +275,11 @@ class test_courses {
         // Remove test OAuth clients only if table exists.
         $dbman = $DB->get_manager();
         if ($dbman->table_exists('local_oauth2_client')) {
-            $DB->delete_records_select('local_oauth2_client',
+            $DB->delete_records_select(
+                'local_oauth2_client',
                 $DB->sql_like('client_id', ':pattern'),
-                ['pattern' => 'test-copilot-client%']);
+                ['pattern' => 'test-copilot-client%']
+            );
         }
 
         // Remove test configurations.
