@@ -224,7 +224,6 @@ The following limitations apply to the URLs provided:<ul>
 $string['error_invalid_accent_color'] = 'Invalid accent color';
 $string['agent_config_saved'] = 'Agent configuration saved successfully.';
 $string['download_manifest'] = 'Download manifest';
-$string['configure_app_in_teams_dev_portal'] = '<b>After the app is uploaded to Microsoft 365 admin center, please remember to update the application ID in the OAuth client registration in the Teams Developer Portal.</b>';
 $string['error_creating_manifest'] = 'Error occurred while creating manifest';
 $string['error_invalid_color_icon_size'] = 'Invalid color icon size. Color icon must be 192px X 192px.';
 $string['error_invalid_outline_icon_size'] = 'Invalid outline icon size. Outline icon must be 32px X 32px.';

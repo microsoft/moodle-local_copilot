@@ -589,14 +589,6 @@ class agent_configuration_form extends moodleform {
                 html_writer::link($downloadurl, get_string('download_manifest', 'local_copilot'), ['class' => 'btn btn-primary'])
             );
         }
-
-        // Reminder to configure the app in Teams developer portal.
-        $mform->addElement(
-            'static',
-            $this->role . '_configure_app_link',
-            '',
-            get_string('configure_app_in_teams_dev_portal', 'local_copilot')
-        );
     }
 
     /**
