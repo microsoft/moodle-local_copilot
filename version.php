@@ -26,12 +26,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025041400;
+$plugin->version = 2025041401;
 $plugin->requires = 2025041400;
-$plugin->release = '5.0.0';
+$plugin->release = '5.0.1';
 $plugin->component = 'local_copilot';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [
-    'local_oauth2' => 2024100701,
+    'local_oauth2' => 2025041503,
     'webservice_restful' => 2024050604,
 ];
