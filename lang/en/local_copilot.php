@@ -123,7 +123,7 @@ $string['agent_oauth_client_registration_id'] = 'Teams developer portal OAuth cl
 $string['agent_oauth_client_registration_id_steps'] = 'Teams developer portal OAuth client registration steps';
 $string['agent_oauth_client_registration_id_help'] = 'The Moodle OAuth server needs to be registered with the <a href="https://dev.teams.microsoft.com/oauth-configuration" target="_blank">Teams developer portal</a> with following details:
 <ul>
-<li>Registration name: <b>{$a->site_name} local_oauth2 OAuth</b></li>
+<li>Registration name: <b>{$a->site_name} local_oauth2 OAuth {$a->role}</b></li>
 <li>Base URL: <b>{$a->wwwroot}</b></li>
 <li>Restrict usage by org: <b>My organization only</b></li>
 <li>Restrict usage by app: <b>Any Teams app</b></li>

@@ -337,6 +337,7 @@ class agent_configuration_form extends moodleform {
             'token_endpoint' => $tokenendpoint->out(),
             'refresh_endpoint' => $refreshendpoint->out(),
             'scope' => $this->role . '.read, ' . $this->role . '.write',
+            'role' => $this->role,
         ];
         $mform->addElement(
             'static',
