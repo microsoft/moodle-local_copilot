@@ -30,12 +30,11 @@ defined('MOODLE_INTERNAL') || die();
 
 use cm_info;
 use core_availability\info_module;
-use external_value;
+use core_external\external_value;
 use moodle_url;
 use stdClass;
 use grade_item;
 
-require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/gradelib.php');
 
 /**

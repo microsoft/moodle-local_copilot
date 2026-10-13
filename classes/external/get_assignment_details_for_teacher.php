@@ -28,9 +28,9 @@ namespace local_copilot\external;
 
 use context_course;
 use core_external\external_value;
-use external_api;
-use external_function_parameters;
-use external_single_structure;
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_single_structure;
 use local_copilot\local\resource\base_assignment_activity;
 use local_copilot\local\resource\teacher_assignment_activity;
 use stdClass;
@@ -38,7 +38,6 @@ use stdClass;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/format/lib.php');
-require_once($CFG->libdir . '/externallib.php');
 
 /**
  * Web service class definition.
