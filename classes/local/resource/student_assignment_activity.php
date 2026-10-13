@@ -27,11 +27,10 @@ namespace local_copilot\local\resource;
 
 defined('MOODLE_INTERNAL') || die();
 
-use external_value;
+use core_external\external_value;
 use stdClass;
 use mod_assign\external\external_api;
 
-require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/gradelib.php');
 require_once($CFG->dirroot . '/course/format/lib.php');
 require_once($CFG->dirroot . '/mod/assign/externallib.php');

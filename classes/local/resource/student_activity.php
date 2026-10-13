@@ -27,10 +27,9 @@ namespace local_copilot\local\resource;
 
 defined('MOODLE_INTERNAL') || die();
 
-use external_value;
+use core_external\external_value;
 use stdClass;
 
-require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/gradelib.php');
 require_once($CFG->dirroot . '/grade/querylib.php');
 
