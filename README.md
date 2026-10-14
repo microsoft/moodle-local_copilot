@@ -41,8 +41,8 @@ The features provided by the declarative agents may be extended in future releas
 ## Requirements
 
 ### Moodle
-- Moodle 4.5.0 or higher
-- PHP 8.1 or higher
+- Moodle 5.1.0 or higher
+- PHP 8.2 or higher
 - [local_oauth2 plugin](https://moodle.org/plugins/local_oauth2) installed and configured
 - [webservice_restful plugin](https://moodle.org/plugins/webservice_restful) installed and enabled
 - Admin permissions in Moodle
