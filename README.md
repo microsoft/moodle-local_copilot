@@ -41,11 +41,13 @@ The features provided by the declarative agents may be extended in future releas
 ## Requirements
 
 ### Moodle
-- Moodle 5.2.0 or higher
+- Moodle 5.3.0 or higher
 - PHP 8.3 or higher
 - [local_oauth2 plugin](https://moodle.org/plugins/local_oauth2) installed and configured
 - [webservice_restful plugin](https://moodle.org/plugins/webservice_restful) installed and enabled
 - Admin permissions in Moodle
+
+> **Note:** Moodle 5.3 introduces an OAuth 2 server feature in core. This plugin currently still relies on the local_oauth2 plugin as the OAuth 2.0 provider. Support for the core OAuth 2 server is planned for future versions.
 
 ### Microsoft
 - Microsoft 365 tenant with [custom app upload enabled](https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/prepare-your-o365-tenant#enable-custom-teams-apps-and-turn-on-custom-app-uploading)
@@ -241,7 +243,7 @@ The plugin implements a RESTful API with endpoints for both teacher and student 
 - Adaptive Card templates for rich content display in Microsoft 365 Copilot
 
 ## Dependencies
-- [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured. The plugin allows Moodle to act as an OAuth 2.0 provider, enabling secure authentication for the Copilot integration. The plugin is under GNU General Public License v3.0 (GPLv3).
+- [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured. The plugin allows Moodle to act as an OAuth 2.0 provider, enabling secure authentication for the Copilot integration. The plugin is under GNU General Public License v3.0 (GPLv3). Moodle 5.3 introduces an OAuth 2 server feature in core; support for it in this plugin is planned for future versions.
 - [RESTful protocol](https://moodle.org/plugins/webservice_restful) plugin installed and enabled. The plugin adds restful web service support to Moodle, allowing external applications to interact with Moodle data using standard HTTP methods. The plugin is under GNU General Public License v3.0 (GPLv3).
 
 ## Data Privacy and Security
