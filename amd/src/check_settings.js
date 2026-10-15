@@ -17,6 +17,49 @@ define(['jquery'], function($) {
             var checksettingsbtn = main.find('button#check_settings');
 
             /**
+             * Build the message span, keeping only plain text and safe links from the content.
+             *
+             * Messages are language strings which may contain links to admin pages. Any other markup or attribute is
+             * dropped so that content can never inject elements or script into the page.
+             *
+             * @param {string} content
+             * @returns {jQuery}
+             */
+            function rendermessage(content) {
+                var span = $('<span style="inline-block"></span>');
+                var template = document.createElement('template');
+                template.innerHTML = String(content);
+
+                /**
+                 * Append a sanitised copy of the node's children to the target element.
+                 * @param {Node} source
+                 * @param {Element} target
+                 */
+                function copynodes(source, target) {
+                    source.childNodes.forEach(function(node) {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            target.appendChild(document.createTextNode(node.textContent));
+                        } else if (node.nodeType === Node.ELEMENT_NODE) {
+                            var href = node.tagName === 'A' ? (node.getAttribute('href') || '') : '';
+                            if (/^(https?:\/\/|\/)/i.test(href)) {
+                                var link = document.createElement('a');
+                                link.setAttribute('href', href);
+                                link.setAttribute('target', '_blank');
+                                link.setAttribute('rel', 'noopener noreferrer');
+                                copynodes(node, link);
+                                target.appendChild(link);
+                            } else {
+                                copynodes(node, target);
+                            }
+                        }
+                    });
+                }
+
+                copynodes(template.content, span[0]);
+                return span;
+            }
+
+            /**
              * Render an error box with the provided content.
              * @param {string} content
              * @returns {*|jQuery|void}
@@ -24,7 +67,7 @@ define(['jquery'], function($) {
             function rendererrorbox(content) {
                 var box = $('<div></div>').addClass('alert-error alert local_copilot_status_message');
                 box.append(opts.iconerror);
-                box.append('<span style="inline-block">' + content + '</span>');
+                box.append(rendermessage(content));
                 return box;
             }
 
@@ -36,7 +79,7 @@ define(['jquery'], function($) {
             function renderinfobox(content) {
                 var box = $('<div></div>').addClass('alert-info alert local_copilot_status_message');
                 box.append(opts.iconinfo);
-                box.append('<span style="inline-block">' + content + '</span>');
+                box.append(rendermessage(content));
                 return box;
             }
 
@@ -48,7 +91,7 @@ define(['jquery'], function($) {
             function rendersuccessbox(content) {
                 var box = $('<div></div>').addClass('alert-success alert local_copilot_status_message');
                 box.append(opts.iconsuccess);
-                box.append('<span style="inline-block">' + content + '</span>');
+                box.append(rendermessage(content));
                 return box;
             }
 
