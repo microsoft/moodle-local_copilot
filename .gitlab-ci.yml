@@ -48,6 +48,8 @@ stages:
     - git config --global http.sslVerify false      # Only required if the plugin has dependency.
     - moodle-plugin-ci install --db-host db --db-name moodle
     - '{ php -S 0.0.0.0:8000 -t "$CI_PROJECT_DIR/moodle" >/dev/null 2>&1 & }'
+  after_script:
+    - rm -rf "$CI_PROJECT_DIR/moodle" "$CI_PROJECT_DIR/moodledata"
   script:
     echo "Setup complete"
 
