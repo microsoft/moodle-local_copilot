@@ -26,9 +26,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025041402;
+$plugin->version = 2025041403;
 $plugin->requires = 2025041400;
-$plugin->release = '5.0.2';
+$plugin->release = '5.0.3';
 $plugin->component = 'local_copilot';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [
