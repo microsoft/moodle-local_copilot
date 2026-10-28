@@ -122,23 +122,28 @@ class api_function_base {
      * @return array
      */
     public function get_open_api_specification_path_content(string $role): array {
+        $operation = [
+            'summary' => $this->summary,
+            'description' => $this->description,
+            'operationId' => $this->operationid,
+        ];
+        // A GET request must not have a body, because some proxies (e.g. Amazon CloudFront) reject it with a 403 error.
+        if (strtolower($this->method) !== 'get') {
+            $operation['requestBody'] = $this->requestbody;
+        }
+        $operation['security'] = [
+            [
+                'OAuth2' => [
+                    $role . '.' . $this->scopesuffix,
+                ],
+            ],
+        ];
+        $operation['parameters'] = $this->parameters;
+        $operation['responses'] = $this->responses;
+
         return [
             $this->path => [
-                $this->method => [
-                    'summary' => $this->summary,
-                    'description' => $this->description,
-                    'operationId' => $this->operationid,
-                    'requestBody' => $this->requestbody,
-                    'security' => [
-                        [
-                            'OAuth2' => [
-                                $role . '.' . $this->scopesuffix,
-                            ],
-                        ],
-                    ],
-                    'parameters' => $this->parameters,
-                    'responses' => $this->responses,
-                ],
+                $this->method => $operation,
             ],
         ];
     }

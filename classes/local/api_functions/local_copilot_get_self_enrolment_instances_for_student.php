@@ -67,15 +67,6 @@ class local_copilot_get_self_enrolment_instances_for_student extends api_functio
                 ],
             ],
         ];
-        $this->requestbody = [
-            'content' => [
-                'application/json' => [
-                    'schema' => [
-                        'type' => 'object',
-                    ],
-                ],
-            ],
-        ];
         $this->responses = [
             '200' => [
                 'description' => 'Information about courses that the user can self enrol in.',
