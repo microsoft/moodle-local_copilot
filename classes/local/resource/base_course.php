@@ -28,11 +28,10 @@ namespace local_copilot\local\resource;
 defined('MOODLE_INTERNAL') || die();
 
 use context_course;
-use external_value;
+use core_external\external_value;
 use moodle_url;
 use stdClass;
 
-require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->libdir . '/accesslib.php');
 
 /**

@@ -41,11 +41,13 @@ The features provided by the declarative agents may be extended in future releas
 ## Requirements
 
 ### Moodle
-- Moodle 4.5.0 or higher
-- PHP 8.1 or higher
+- Moodle 5.3.0 or higher
+- PHP 8.3 or higher
 - [local_oauth2 plugin](https://moodle.org/plugins/local_oauth2) installed and configured
 - [webservice_restful plugin](https://moodle.org/plugins/webservice_restful) installed and enabled
 - Admin permissions in Moodle
+
+> **Note:** Moodle 5.3 introduces an OAuth 2 server feature in core. This plugin currently still relies on the local_oauth2 plugin as the OAuth 2.0 provider. Support for the core OAuth 2 server is planned for future versions.
 
 ### Microsoft
 - Microsoft 365 tenant with [custom app upload enabled](https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/prepare-your-o365-tenant#enable-custom-teams-apps-and-turn-on-custom-app-uploading)
@@ -59,7 +61,7 @@ The features provided by the declarative agents may be extended in future releas
 ## Plugin Installation
 
 1. Download and install required Moodle plugins (local_oauth2 and webservice_restful) if they are not installed already
-2. Download the plugin local_copilot from [GitHub](https://github.com/microsoft/moodle-local_copilot) or [Moodle plugin directory](https://moodle.org/plugins/local_copilot)
+2. Download the plugin local_copilot from [GitHub](https://github.com/microsoft/moodle-local_copilot) or [Moodle Marketplace](https://marketplace.moodle.com/plugins/local_copilot)
 3. Extract the plugin into the `local/copilot` directory of your Moodle installation
 4. Log in as an administrator and navigate to **Site Administration > Notifications** to complete the installation
 5. Follow the plugin configuration steps outlined below
@@ -75,7 +77,9 @@ The features provided by the declarative agents may be extended in future releas
 2. Click **Add OAuth client** button to create OAuth client for teacher. Following instructions on the page:
     - **Client ID** needs to be a string without space
     - **Redirect URI**: use `https://teams.microsoft.com/api/platform/v1.0/oAuthRedirect`
-    - **Scope**: Use default value provided
+    - **Scope**: Use default value provided for the teacher and student agents
+    - **Require PKCE**: unchecked
+    - **Generate client secret**: checked
     - After saving the changes, a **Client secret** will be generated for the OAuth client
 
 ![Add OAuth client](pix/screenshot_add_oauth_client.png)
@@ -88,33 +92,29 @@ The features provided by the declarative agents may be extended in future releas
 ### 2. Register OAuth Client on Microsoft Teams Developer Portal
 
 1. Go to [Microsoft Teams Developer Portal](https://dev.teams.microsoft.com), login as a Teams admin user when asked
-2. From the top banner, turn off **New Developer Portal** if it's on. The settings we need are not available in the new portal yet
-
-![Turn off new developer portal](pix/screenshot_turn_off_new_developer_portal.png)
-
-3. In the **Tools** menu, go to **OAuth client registration**
+2. In the **Tools** menu, go to **OAuth client registration**
 
 ![Teams developer portal](pix/screenshot_teams_developer_portal.png)
 
-4. Click **New OAuth client registration** button or **Register client** button. You will need to create two OAuth client registrations, for teacher and student agents respectively
-5. Fill in OAuth client details on the page:
+3. Click **New OAuth client registration** button. You will need to create two OAuth client registrations, for teacher and student agents respectively
+4. Fill in OAuth client details on the page:
     - **Registration name**: a name of your choice
     - **Base URL**: URL of the Moodle site
     - **Restrict usage by org**: My organization only
-    - **Restrict usage by app**: Choose "Any Teams app" option for now
+    - **Restrict usage by app**: Choose "Any Teams app" option
     - **Client ID**: Copy value from Moodle
     - **Client secret**: Copy value from Moodle
     - **Authorization endpoint**: `https://url.to.moodle/local/oauth2/login.php`
     - **Token endpoint**: `https://url.to.moodle/local/oauth2/token.php`
     - **Refresh endpoint**: `https://url.to.moodle/local/oauth2/refresh_token.php`
-    - **Scope**: Copy value from Moodle. Note scopes are separated by commas on this page
+    - **Scope**: Copy value from Moodle. Note scopes are separated by commas on this page, rather than spaces as in Moodle
     - **Enable Proof Key for Code Exchange (PKCE)**: unchecked
     - **Client password authentication method**: Request body parameters (default) 
-6. After saving the changes, an **OAuth client registration ID** will be created. Note its value
+5. After saving the changes, an **OAuth client registration ID** will be created. Note its value
 
 ![Teams OAuth client registration](pix/screenshot_teams_oauth_client_registration_id.png)
 
-7. Repeat the steps to create OAuth client registration ID for student
+6. Repeat the steps to create OAuth client registration ID for student
 
 ### 3. Copilot Plugin Basic Configuration in Moodle
 
@@ -125,7 +125,7 @@ The features provided by the declarative agents may be extended in future releas
     - Configure Microsoft 365 Copilot Web Services
     - Set appropriate capabilities for authenticated users
 3. In the **Copilot OAuth clients** selector, select all OAuth clients to be used for Microsoft 365 Copilot integration
-4. You may need to save changes on the page at this stage
+4. You need to save changes on the page at this stage
 5. After changes in the **Copilot OAuth clients** setting are saved, select the OAuth client to be used by teacher and students for authentication in the **Teacher OAuth client ID** and **Student OAuth client ID** settings
 6. Save changes
 
@@ -137,32 +137,34 @@ The features provided by the declarative agents may be extended in future releas
 
 Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copilot > Configure teacher agent app**. Configure the following settings:
 
-- Agent app external ID (use default unless you need multiple teacher apps)
-- Agent app names and descriptions
-- App version (format: major.minor.patch)
-- Accent color (hexadecimal)
-- Agent display name
-- Agent description and instructions
-- Upload color icon (192x192 PNG) and outline icon (32x32 PNG). Default icons are provided
-- Fill the OAuth client registration ID created on Microsoft Teams Developer Portal in the **Teams developer portal OAuth client registration ID** field
-- Provide declarative agent plugin details
+- **External ID** Use default unless you need multiple teacher apps. If you need multiple teacher apps, use a unique GUID for each app
+- **Agent ap short and full names** This is used for Microsoft 365 admins to manage agent apps in the Microsoft 365 Admin Center and Teams Admin Center
+- **App version** format: major.minor.patch. This value is shared between teacher and student apps, and is automatically incremented on setting changes
+- **Agent app short and full descriptions** This is used for Microsoft 365 admins to manage agent apps in the Microsoft 365 Admin Center and Teams Admin Center
+- **Accent color** (hexadecimal)
+- **Agent name** This is used for Microsoft 365 users to identify the agent in Microsoft 365 Copilot and Copilot Chat
+- **Agent description** This is used for Microsoft 365 users to identify the agent in Microsoft 365 Copilot and Copilot Chat
+- **Agent instructions** This is used by Microsoft 365 Copilot to understand the agent's capabilities and how to interact with it
+- **Color icon** (192x192 PNG) and **outline icon** (32x32 PNG). Default icons are provided
+- Fill the "OAuth client registration ID" created on Microsoft Teams Developer Portal in the **Teams developer portal OAuth client registration ID** field
+- **Declarative agent plugin name and description** These are displayed to Microsoft 365 users when they interact with the agent in Microsoft 365 Copilot and Copilot Chat
 - Configure optional agent capabilities and knowledge source
 
-Save the configuration. Download the manifest file (app package zip file).
+**Save the configuration**, and then download the manifest file (app package zip file).
 
-![Downlod manifest file](pix/screenshot_download_manifest_file.png)
+![Download manifest file](pix/screenshot_download_manifest_file.png)
 
 ### 2. Moodle Student agent
 
-Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copilot > Configure student agent app**. Configure similar settings as for the teacher agent, with appropriate values for student users. Save the configuration. Download the manifest file (app package zip file).
+Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copilot > Configure student agent app**. Configure similar settings as for the teacher agent, with appropriate values for student users. **Save the configuration**, and then download the manifest file (app package zip file).
 
 ## Deploying Agents in Microsoft 365
 
 ### From the M365 Admin Center
   
 1. Log in to the [Microsoft 365 Admin Center](https://admin.microsoft.com)
-2. Navigate to `Copilot`, and select `Agents`
-3. Click on `Upload custom agent` button
+2. Navigate to `Agents`, and select `All agents`.
+3. Click on `Add agent` button
 4. Upload the manifest file downloaded from Moodle
 5. Define which users or groups will have access to the agent, accept permissions and deploy
 6. Learn more at [Manage Office Add-ins through Integrated Apps](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/test-and-deploy-microsoft-365-apps)
@@ -228,7 +230,7 @@ Navigate to **Site Administration > Plugins > Local plugins > Microsoft 365 Copi
 ### Support
 
 For support and further information:
-- Check the [Moodle plugin directory page](https://moodle.org/plugins/local_copilot)
+- Check the [Moodle Marketplace page](https://marketplace.moodle.com/plugins/local_copilot)
 - Check the [plugin's GitHub repository](https://github.com/microsoft/moodle-local_copilot)
 
 ## Technical Details
@@ -241,7 +243,7 @@ The plugin implements a RESTful API with endpoints for both teacher and student 
 - Adaptive Card templates for rich content display in Microsoft 365 Copilot
 
 ## Dependencies
-- [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured. The plugin allows Moodle to act as an OAuth 2.0 provider, enabling secure authentication for the Copilot integration. The plugin is under GNU General Public License v3.0 (GPLv3).
+- [Oauth2 Server](https://moodle.org/plugins/local_oauth2) plugin installed and configured. The plugin allows Moodle to act as an OAuth 2.0 provider, enabling secure authentication for the Copilot integration. The plugin is under GNU General Public License v3.0 (GPLv3). Moodle 5.3 introduces an OAuth 2 server feature in core; support for it in this plugin is planned for future versions.
 - [RESTful protocol](https://moodle.org/plugins/webservice_restful) plugin installed and enabled. The plugin adds restful web service support to Moodle, allowing external applications to interact with Moodle data using standard HTTP methods. The plugin is under GNU General Public License v3.0 (GPLv3).
 
 ## Data Privacy and Security
