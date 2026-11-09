@@ -70,7 +70,7 @@ class set_course_image_for_teacher extends external_api {
      * @uses die
      */
     public static function execute(int $courseid, string $imageurl): array {
-        global $DB, $CFG;
+        global $DB;
 
         // Validate parameters.
         $params = self::validate_parameters(self::execute_parameters(), [
@@ -81,133 +81,60 @@ class set_course_image_for_teacher extends external_api {
         $imageurl = $params['image_url'];
 
         if (!$course = $DB->get_record('course', ['id' => $courseid])) {
-            header('HTTP/1.0 404 course not found');
-            die();
+            static::send_error_response('404 course not found');
         }
 
         // Perform security checks.
         $coursecontext = context_course::instance($courseid);
         self::validate_context($coursecontext);
         if (!has_capability('moodle/course:update', $coursecontext)) {
-            header('HTTP/1.0 403 user does not have capability to update course');
-            die();
+            static::send_error_response('403 user does not have capability to update course');
         }
 
-        // Download the image.
-        $ch = curl_init($imageurl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);        // Maximum number of redirects to follow.
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, true);    // Set the Referer header automatically.
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Verify SSL certificates.
-        curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP); // Only allow HTTP and HTTPS.
+        // Download the image using Moodle's curl class, so that the request and every redirect are checked against the
+        // curl security helper (blocked hosts and allowed ports) to prevent server-side request forgery.
+        $curl = static::create_curl();
+        $imagecontent = $curl->get($imageurl, [], [
+            'CURLOPT_FOLLOWLOCATION' => true,
+            'CURLOPT_MAXREDIRS' => 5,
+            'CURLOPT_TIMEOUT' => 30,
+            'CURLOPT_CONNECTTIMEOUT' => 10,
+        ]);
+        $info = $curl->get_info();
+        $httpcode = (int) ($info['http_code'] ?? 0);
 
-        // Add header capture.
-        $headers = [];
-        curl_setopt(
-            $ch,
-            CURLOPT_HEADERFUNCTION,
-            function ($curl, $header) use (&$headers) {
-                $len = strlen($header);
-                $header = explode(':', $header, 2);
-                if (count($header) < 2) {
-                    return $len;
-                }
-                $headers[strtolower(trim($header[0]))][] = trim($header[1]);
-                return $len;
-            }
-        );
-
-        $imagecontent = curl_exec($ch);
-
-        // Check for curl errors.
-        if (curl_errno($ch)) {
-            throw new \Exception('Curl error: ' . curl_error($ch));
+        // Blocked URLs, connection errors and non-200 responses are all reported the same way, without exposing curl error
+        // details to the caller.
+        if ($curl->get_errno() || $httpcode !== 200 || $imagecontent === false || $imagecontent === '') {
+            static::send_error_response('404 Not Found');
         }
 
-        $contenttype = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-        $finalurl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL); // Get the final URL after redirects.
-
-        // Try multiple methods to get content type.
-        if (empty($contenttype)) {
-            // Try from captured headers.
-            $contenttype = $headers['content-type'][0] ?? '';
-        }
-
-        if (empty($contenttype)) {
-            // Try from get_headers.
-            $headers = get_headers($finalurl, 1);
-            $contenttype = $headers['Content-Type'] ?? $headers['content-type'] ?? '';
-        }
-
-        // If still empty, try to detect from content.
-        if (empty($contenttype) && $imagecontent) {
-            $finfo = new finfo(FILEINFO_MIME_TYPE);
-            $contenttype = $finfo->buffer($imagecontent);
-        }
-
-        // Specific check for WebP format from content.
-        if ((empty($contenttype) || $contenttype === 'application/octet-stream') && $imagecontent) {
-            // Get first few bytes.
-            $signature = substr($imagecontent, 0, 8);
-
-            // Check signatures.
-            if (substr($signature, 0, 2) === "\xFF\xD8") {
-                $contenttype = 'image/jpeg';
-            } else if (substr($signature, 0, 8) === "\x89PNG\r\n\x1a\n") {
-                $contenttype = 'image/png';
-            } else if (substr($signature, 0, 3) === 'GIF') {
-                $contenttype = 'image/gif';
-            } else if (substr($signature, 0, 4) === 'RIFF' && substr($imagecontent, 8, 4) === 'WEBP') {
-                $contenttype = 'image/webp';
-            }
-        }
-
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        // Check if the image was downloaded successfully.
-        if ($imagecontent === false || $httpcode !== 200) {
-            header('HTTP/1.0 404 Not Found');
-            die();
-        }
+        // Detect the content type from the downloaded bytes, rather than trusting the remote Content-Type header.
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $contenttype = $finfo->buffer($imagecontent);
 
         // Validate if the content is really an image.
-        if (!in_array($contenttype, ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
-            header('HTTP/1.0 415 Unsupported Media Type');
-            die();
+        $allowedtypes = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif',
+            // Moodle 4.5 does not recognise the .webp extension as a web image, so course overview files with that
+            // extension are not displayed. Save WebP images with a .jpg extension instead; browsers render them by content.
+            'image/webp' => 'jpg',
+        ];
+        if (!array_key_exists($contenttype, $allowedtypes)) {
+            static::send_error_response('415 Unsupported Media Type');
         }
 
         // Define Moodle file storage.
-        require_once($CFG->libdir . '/filelib.php');
         $fs = get_file_storage();
         $files = $fs->get_area_files($coursecontext->id, 'course', 'overviewfiles', 0, 'itemid, filepath, filename', false);
         foreach ($files as $file) {
             $file->delete();
         }
 
-        $extension = pathinfo($imageurl, PATHINFO_EXTENSION);
-        if (empty($extension)) {
-            switch ($contenttype) {
-                case 'image/jpeg':
-                case 'image/webp':
-                    $extension = 'jpg';
-                    break;
-                case 'image/png':
-                    $extension = 'png';
-                    break;
-                case 'image/gif':
-                    $extension = 'gif';
-                    break;
-                default:
-                    header('HTTP/1.0 415 Unsupported Media Type');
-                    die();
-            }
-        }
-        if ($extension === 'webp') {
-            $extension = 'jpg';
-        }
+        // Derive the file extension from the detected content type, never from the caller-supplied URL.
+        $extension = $allowedtypes[$contenttype];
 
         $filename = 'course_image.' . $extension;
 
@@ -228,5 +155,32 @@ class set_course_image_for_teacher extends external_api {
         cache_helper::purge_by_event('changesincourse');
 
         return ['success' => true];
+    }
+
+    /**
+     * Create the curl client used to download the image.
+     *
+     * Moodle's curl class checks the URL and every redirect against the curl security helper (blocked hosts and allowed
+     * ports), unlike a raw curl_init() request.
+     *
+     * @return \curl
+     */
+    protected static function create_curl(): \curl {
+        global $CFG;
+
+        require_once($CFG->libdir . '/filelib.php');
+        return new \curl();
+    }
+
+    /**
+     * Send an HTTP error status to the caller and stop processing the request.
+     *
+     * @param string $status HTTP status code and reason phrase, e.g. "404 Not Found"
+     * @return never
+     * @uses die
+     */
+    protected static function send_error_response(string $status): never {
+        header('HTTP/1.0 ' . $status);
+        die();
     }
 }
